@@ -35,18 +35,25 @@
     /* sidebar */
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 64px;
-    --bg-primary: #1e1e24;
-    --bg-sidebar: #131316;
+    /* --bg-primary: #1e1e24; */
+    /* --bg-sidebar: #131316; */
     --bg-hover: #2b2b36;
     --text-color: #f0f0f5;
     --transition-speed: 0.25s;
   }
 }
 
+/* Apply the variables to your elements */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 /* --- Sidebar Navigation --- */
 .sidebar {
     width: var(--sidebar-width);
-    background-color: var(--bg-panel);
+    background: var(--bg-panel);
     display: flex;
     flex-direction: column;
     padding: 12px;
