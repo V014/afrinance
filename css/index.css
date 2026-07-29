@@ -1,0 +1,95 @@
+:root {
+  /* Tells the browser that the page supports both themes */
+  color-scheme: light dark;
+}
+
+/* Default Light Theme */
+:root {
+  --bg-color: #e4e4e4;
+  --bg-panel: #ffffff;
+  --text-color: #1a1a1a;
+  --card-bg: #f5f5f5;
+  --accent-color: #3DDC84;
+  --border:rgba(255,255,255,0.07);
+  --border-radius: 12px;
+  --control-padding: 13px 16px;
+}
+
+/* System Dark Theme Override */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0C0D0C;
+    --bg-panel: #111412;
+    --text-color: #f0f0f0;
+    --card-bg: #1e1e1e;
+    --accent-color: #3DDC84;
+    --btn-text: #1a1a1a;
+    
+  }
+}
+
+/* Apply the variables to your elements */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Where login form sits */
+.panel {
+    background: var(--bg-panel);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 40px;
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
+}
+
+.card {
+  background-color: var(--card-bg);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  /* width: 100%; */
+  /* height: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-input {
+  padding: 6px;
+}
+
+.default-input {
+  /* width: 100%; */
+  padding: var(--control-padding);
+  background: var(--bg-color);
+  outline: none;
+  transition: border-color 0.2s;
+  /* margin-bottom: 10px; */
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+}
+
+.login-btn {
+    padding-top: 10px;
+}
+
+.default-btn {
+  background-color: var(--accent-color);
+  color: var(--btn-text);
+  border: none;
+  padding: var(--control-padding);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  width: 100%;
+}
