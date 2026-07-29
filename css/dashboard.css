@@ -37,11 +37,38 @@
   }
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 /* Apply the variables to your elements */
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: system-ui, -apple-system, sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- Mobile Floating Toggle Button --- */
+.mobile-menu-btn {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1100;
+    background: var(--bg-sidebar);
+    border: 1px solid var(--bg-hover);
+    color: var(--text-color);
+    font-size: 20px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 /* --- Sidebar Navigation --- */
@@ -51,7 +78,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 12px;
-    transition: width var(--transition-speed) ease;
+    transition: width var(--transition-speed) ease width var(--transition-speed) ease;;
     position: relative;
     border-radius: var(--border-radius);
 }
@@ -90,7 +117,7 @@ body {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0px;
+    gap: 8px;
     padding: 0;
     margin: 0;
 }
@@ -122,4 +149,56 @@ body {
     opacity: 0;
     pointer-events: none;
     display: none;
+}
+
+/* --- Overlay Backdrop for Mobile --- */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.main-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+/*  ==========================================================================
+    MOBILE BREAKPOINT (Vertical / Narrow Screens)
+    ========================================================================== */
+@media (max-width: 768px) {
+/* Show the fixed top-left toggle trigger */
+.mobile-menu-btn {
+display: block;
+}
+
+/* Slide the sidebar completely out of view off the left screen edge */
+.sidebar {
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+transform: translateX(-100%);
+box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+}
+
+/* Slide sidebar into view when active */
+.sidebar.mobile-open {
+transform: translateX(0);
+}
+
+/* Adjust top padding so main content doesn't get covered by the menu button */
+.main-content {
+padding-top: 60px;
+}
 }

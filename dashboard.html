@@ -7,10 +7,19 @@
     <title>Dashboard</title>
 </head>
 <body>
+    <!-- Mobile Toggle Button -->
+    <button class="mobile-menu-btn" id="mobileToggleBtn" aria-label="Toggle Sidebar">☰</button>
+
+    <!-- Backdrop overlay when menu is open on mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Container -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <button class="toggle-btn" id="toggleBtn" aria-label="Toggle Sidebar">☰</button>
+            <!-- Mobile Toggle Button -->
+            <button class="mobile-menu-btn" id="mobileToggleBtn" aria-label="Toggle Sidebar">☰</button>
             <span class="logo-text" style="font-weight: bold;">Afrinance</span>
+            <button class="toggle-btn" id="desktopToggleBtn" aria-label="Close Sidebar">✕</button>
         </div>
         
         <ul class="nav-list">
@@ -64,6 +73,10 @@
             </li>
         </ul>
     </nav>
+    <main class="main-content">
+        <h1>Main Interface</h1>
+        <p>This area grows automatically as the sidebar collapses.</p>
+    </main>
 </body>
 <script src="js/sidebar.js"></script>
 </html>
