@@ -59,6 +59,7 @@ body {
     padding: 12px;
     transition: width var(--transition-speed) ease;
     position: relative;
+    border-radius: var(--border-radius);
 }
 
 /* Collapsed state modifier */
@@ -67,7 +68,7 @@ body {
 }
 
 .sidebar-header {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
@@ -91,14 +92,14 @@ body {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0px;
 }
 
 .nav-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 12px;
+    padding: 10px 0px;
     border-radius: 8px;
     color: var(--text-color);
     text-decoration: none;
