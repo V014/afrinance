@@ -16,10 +16,7 @@
     /* sidebar */
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 64px;
-    --bg-primary: #1e1e24;
-    --bg-sidebar: #131316;
-    --bg-hover: #2b2b36;
-    --text-color: #f0f0f5;
+    --bg-hover: #e4e4e4;
     --transition-speed: 0.25s;
 }
 
@@ -35,10 +32,7 @@
     /* sidebar */
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 64px;
-    /* --bg-primary: #1e1e24; */
-    /* --bg-sidebar: #131316; */
     --bg-hover: #2b2b36;
-    --text-color: #f0f0f5;
     --transition-speed: 0.25s;
   }
 }
@@ -74,6 +68,10 @@ body {
     margin-bottom: 20px;
 }
 
+.logo-text {
+    color: var(--text-color);
+}
+
 .toggle-btn {
     background: none;
     border: none;
@@ -99,8 +97,8 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 0px;
-    border-radius: 8px;
+    padding: var(--control-padding);
+    border-radius: var(--border-radius);
     color: var(--text-color);
     text-decoration: none;
     white-space: nowrap;
