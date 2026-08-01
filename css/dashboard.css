@@ -55,14 +55,14 @@ body {
     position: relative;
 }
 
-/* --- Mobile Floating Toggle Button --- */
+/* --- Mobile Top Bar --- */
+.mobile-topbar {
+    display: none;
+}
+
 .mobile-menu-btn {
     display: none; /* Hidden on desktop */
-    position: fixed;
-    top: 12px;
-    left: 12px;
-    z-index: 1100;
-    background: var(--bg-sidebar);
+    background: var(--bg-panel);
     border: 1px solid var(--bg-hover);
     color: var(--text-color);
     font-size: 20px;
@@ -78,9 +78,10 @@ body {
     display: flex;
     flex-direction: column;
     padding: 12px;
-    transition: width var(--transition-speed) ease width var(--transition-speed) ease;;
+    transition: width var(--transition-speed) ease, transform var(--transition-speed) ease, padding var(--transition-speed) ease;
     position: relative;
     border-radius: var(--border-radius);
+    overflow: hidden;
 }
 
 /* Collapsed state modifier */
@@ -147,8 +148,10 @@ body {
 .sidebar.collapsed .nav-text,
 .sidebar.collapsed .logo-text {
     opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
     pointer-events: none;
-    display: none;
 }
 
 /* --- Overlay Backdrop for Mobile --- */
@@ -164,7 +167,7 @@ body {
 
 .sidebar-overlay.active {
     display: block;
-    opacity: 1;
+    /* opacity: 1; */
 }
 
 .main-content {
@@ -173,32 +176,99 @@ body {
     overflow-y: auto;
 }
 
-/*  ==========================================================================
-    MOBILE BREAKPOINT (Vertical / Narrow Screens)
-    ========================================================================== */
+/* ==========================================
+   DESKTOP STYLES (> 768px)
+   ========================================== */
+@media (min-width: 769px) {
+  /* Hide mobile trigger */
+  .mobile-menu-btn {
+    display: none !important;
+  }
+
+  /* Collapsed state: shrinks to icon-only width */
+  .sidebar.collapsed {
+    width: var(--sidebar-collapsed-width, 64px);
+  }
+
+  /* Hide text when collapsed on desktop */
+  .sidebar.collapsed .nav-text,
+  .sidebar.collapsed .logo-text {
+    display: none;
+  }
+
+  /* Swap icon on desktop: ✕ when expanded, ☰ when collapsed */
+  .sidebar.collapsed #desktopToggleBtn::after {
+    content: "☰";
+  }
+  .sidebar:not(.collapsed) #desktopToggleBtn::after {
+    content: "✕";
+  }
+}
+
+/* ==========================================
+   MOBILE STYLES (<= 768px)
+   ========================================== */
 @media (max-width: 768px) {
-/* Show the fixed top-left toggle trigger */
-.mobile-menu-btn {
-display: block;
-}
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    padding: 0 16px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    z-index: 1100;
+  }
 
-/* Slide the sidebar completely out of view off the left screen edge */
-.sidebar {
-position: fixed;
-top: 0;
-bottom: 0;
-left: 0;
-transform: translateX(-100%);
-box-shadow: 2px 0 12px rgba(0,0,0,0.4);
-}
+  .mobile-topbar-title {
+    margin-left: 12px;
+    font-weight: 600;
+    color: var(--text-color);
+  }
 
-/* Slide sidebar into view when active */
-.sidebar.mobile-open {
-transform: translateX(0);
-}
+  .mobile-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-/* Adjust top padding so main content doesn't get covered by the menu button */
-.main-content {
-padding-top: 60px;
-}
+  .main-content {
+    padding-top: 80px;
+  }
+
+  /* Keep the mobile toggle button visible so it can close the open drawer */
+  .mobile-menu-btn {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Sidebar sits completely off-screen by default */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--sidebar-width, 260px) !important; /* Always full width on mobile */
+    transform: translateX(-100%);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+  }
+
+  /* Slide whole sidebar into view */
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Always show ✕ inside the header button on mobile */
+  #desktopToggleBtn::after {
+    content: "✕";
+  }
+  
+  /* Ensure text is always visible inside the mobile drawer */
+  .nav-text, .logo-text {
+    display: inline-block !important;
+  }
 }

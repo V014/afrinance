@@ -7,8 +7,11 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <!-- Mobile Toggle Button -->
-    <button class="mobile-menu-btn" id="mobileToggleBtn" aria-label="Toggle Sidebar">☰</button>
+    <!-- Mobile top bar -->
+    <div class="mobile-topbar">
+        <button class="mobile-menu-btn" id="mobileToggleBtn" aria-label="Toggle Sidebar">☰</button>
+        <span class="mobile-topbar-title">Afrinance</span>
+    </div>
 
     <!-- Backdrop overlay when menu is open on mobile -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -16,7 +19,8 @@
     <!-- Sidebar Container -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <button class="toggle-btn" id="desktopToggleBtn" aria-label="Close Sidebar">✕</button>
+            <button class="toggle-btn" id="desktopToggleBtn" aria-label="Toggle Sidebar"></button>
+            <!-- <button class="toggle-btn" id="desktopToggleBtn" aria-label="Close Sidebar">✕</button> -->
             <span class="logo-text" style="font-weight: bold;">Afrinance</span>
         </div>
         

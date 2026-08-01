@@ -1,25 +1,53 @@
 const sidebar = document.getElementById('sidebar');
 const mobileToggleBtn = document.getElementById('mobileToggleBtn');
-const desktopToggleBtn = document.getElementById('desktopToggleBtn');
+const headerToggleBtn = document.getElementById('desktopToggleBtn');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-// Function to open mobile sidebar drawer
+// --- MOBILE FUNCTIONS ---
 function openMobileSidebar() {
-    sidebar.classList.add('mobile-open');
-    sidebarOverlay.classList.add('active');
-    // Hide the toggle button when the sidebar is open
-    mobileToggleBtn.style.display = 'none';
+  sidebar.classList.add('mobile-open');
+  sidebarOverlay.classList.add('active');
 }
 
-// Function to close mobile sidebar drawer
 function closeMobileSidebar() {
-    sidebar.classList.remove('mobile-open');
-    sidebarOverlay.classList.remove('active');
-    // Show the toggle button when the sidebar is closed
-    mobileToggleBtn.style.display = 'block';
+  sidebar.classList.remove('mobile-open');
+  sidebarOverlay.classList.remove('active');
 }
 
-// Event Listeners
-mobileToggleBtn.addEventListener('click', openMobileSidebar);
-desktopToggleBtn.addEventListener('click', closeMobileSidebar);
+function toggleMobileSidebar() {
+  if (sidebar.classList.contains('mobile-open')) {
+    closeMobileSidebar();
+  } else {
+    openMobileSidebar();
+  }
+}
+
+// --- EVENT LISTENERS ---
+
+// Top-left floating button (Mobile only)
+mobileToggleBtn.addEventListener('click', toggleMobileSidebar);
+
+// Dark backdrop click (Mobile only)
 sidebarOverlay.addEventListener('click', closeMobileSidebar);
+
+// Header button (Strictly separated by screen width)
+headerToggleBtn.addEventListener('click', () => {
+  const isMobile = window.innerWidth <= 768;
+
+  if (isMobile) {
+    // Mobile action: ONLY close the overlay drawer
+    closeMobileSidebar();
+  } else {
+    // Desktop action: ONLY toggle collapsed (icon-only) state
+    sidebar.classList.toggle('collapsed');
+  }
+});
+
+// Reset states if window is resized across breakpoint
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    closeMobileSidebar(); // Remove mobile drawer classes on desktop
+  } else {
+    sidebar.classList.remove('collapsed'); // Remove desktop collapse on mobile
+  }
+});
