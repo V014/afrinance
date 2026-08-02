@@ -80,6 +80,24 @@ body {
     /* font-weight: bold; */
 }
 
+/* Transaction List */
+.transaction-list {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
 /* --- Mobile Top Bar --- */
 .mobile-topbar {
     display: none;
