@@ -55,6 +55,31 @@ body {
     position: relative;
 }
 
+/* KPI Cards */
+.kpi-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+}
+
+.kpi-card h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.kpi-card p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
 /* --- Mobile Top Bar --- */
 .mobile-topbar {
     display: none;
