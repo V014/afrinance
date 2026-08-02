@@ -77,6 +77,40 @@
     </nav>
     <main class="main-content">
         <h1>Transactions</h1>
+
+        <div class="transaction-header">
+            <button class="modal-btn" id="newTransactionBtn">New Transaction</button>
+        </div>
+
+        <!-- New transaction modal -->
+        <div class="modal" id="newTransactionModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>New Transaction</h2>
+                <form>
+                    <label for="transactionDate">Date:</label>
+                    <input type="date" id="transactionDate" name="transactionDate" required>
+
+                    <label for="openPrice">Open Price:</label>
+                    <input type="number" id="openPrice" name="openPrice" step="0.01" required>
+
+                    <label for="closePrice">Close Price:</label>
+                    <input type="number" id="closePrice" name="closePrice" step="0.01" required>
+
+                    <label for="unit">Unit:</label>
+                    <input type="number" id="unit" name="unit" step="0.01" required>
+
+                    <label for="mill">Mill:</label>
+                    <input type="number" id="mill" name="mill" step="0.01" required>
+
+                    <label for="shell">Shell:</label>
+                    <input type="number" id="shell" name="shell" step="0.01" required>
+
+                    <button type="submit">Add Transaction</button>
+                </form>
+            </div>
+        </div>
+
         <!-- Transaction list -->
         <div class="transaction-list">
             <table class="table">
