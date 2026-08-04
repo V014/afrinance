@@ -91,6 +91,16 @@ body {
     /* font-weight: bold; */
 }
 
+/* Filter Styles */
+.filter-select {
+    background-color: var(--bg-panel);
+    color: var(--text-color);
+    border: none;
+    padding: var(--control-padding);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
 /* Transaction Header */
 .transaction-header {
     margin-top: 20px;

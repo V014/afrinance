@@ -79,7 +79,15 @@
         <h1>Transactions</h1>
 
         <div class="transaction-header">
+            <!-- New Transaction Button -->
             <button class="modal-btn" id="newTransactionBtn">New Transaction</button>
+            <!-- Asset Filter -->
+            <select id="filterAsset" name="filterAsset" class="filter-select">
+                <option value="">All Assets</option>
+                <option value="Makata">Makata</option>
+                <option value="Safalao">Safalao</option>
+                <option value="Zambia">Zambia</option>
+            </select>
         </div>
 
         <!-- New transaction modal -->
@@ -125,6 +133,7 @@
                         <th>Total</th>
                         <th>Amount</th>
                         <th>Unit Price</th>
+                        <th>Asset</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,6 +147,7 @@
                         <td>MWK 72,150</td>
                         <td>MWK 72,150</td>
                         <td>MWK 1,101</td>
+                        <td>Makata</td>
                     </tr>
                     <tr>
                         <td>2026-07-02</td>
@@ -149,6 +159,7 @@
                         <td>MWK 72,150</td>
                         <td>MWK 72,150</td>
                         <td>MWK 1,101</td>
+                        <td>Safalao</td>
                     </tr>
                 </tbody>
             </table>
