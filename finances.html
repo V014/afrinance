@@ -76,82 +76,46 @@
         </ul>
     </nav>
     <main class="main-content">
-        <h1>Transactions</h1>
+        <h1>Finances</h1>
 
-        <div class="transaction-header">
-            <button class="modal-btn" id="newTransactionBtn">New Transaction</button>
+        <div class="dashboard-header">
+            <button class="modal-btn" id="newFinanceBtn">Track finance</button>
         </div>
 
-        <!-- New transaction modal -->
-        <div class="modal" id="newTransactionModal">
+        <!-- New finance modal -->
+        <div class="modal" id="newFinanceModal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>New Transaction</h2>
-                <form>
-                    <label for="transactionDate">Date:</label>
-                    <input type="date" id="transactionDate" name="transactionDate" required>
-
-                    <label for="openPrice">Open Price:</label>
-                    <input type="number" id="openPrice" name="openPrice" step="0.01" required>
-
-                    <label for="closePrice">Close Price:</label>
-                    <input type="number" id="closePrice" name="closePrice" step="0.01" required>
-
-                    <label for="unit">Unit:</label>
-                    <input type="number" id="unit" name="unit" step="0.01" required>
-
-                    <label for="mill">Mill:</label>
-                    <input type="number" id="mill" name="mill" step="0.01" required>
-
-                    <label for="shell">Shell:</label>
-                    <input type="number" id="shell" name="shell" step="0.01" required>
-
-                    <button type="submit">Add Transaction</button>
-                </form>
+                <h2>New Finance</h2>
             </div>
         </div>
 
-        <!-- Transaction list -->
-        <div class="transaction-list">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Open</th>
-                        <th>Close</th>
-                        <th>Unit</th>
-                        <th>Mill</th>
-                        <th>Shell</th>
-                        <th>Total</th>
-                        <th>Amount</th>
-                        <th>Unit Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2026-07-01</td>
-                        <td>164.65</td>
-                        <td>99.1</td>
-                        <td>65.55</td>
-                        <td>MWK 40,150</td>
-                        <td>MWK 32,000</td>
-                        <td>MWK 72,150</td>
-                        <td>MWK 72,150</td>
-                        <td>MWK 1,101</td>
-                    </tr>
-                    <tr>
-                        <td>2026-07-02</td>
-                        <td>164.65</td>
-                        <td>99.1</td>
-                        <td>65.55</td>
-                        <td>MWK 40,150</td>
-                        <td>MWK 32,000</td>
-                        <td>MWK 72,150</td>
-                        <td>MWK 72,150</td>
-                        <td>MWK 1,101</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- KPI cards -->
+        <div class="kpi-cards">
+            <div class="kpi-card">
+                <h2>Capital</h2>
+                <p>MWK5,200,000</p>
+            </div>
+            <div class="kpi-card">
+                <h2>Monthly Sales</h2>
+                <p>MWK1,200,000</p>
+            </div>
+            <div class="kpi-card">
+                <h2>Monthly Expenses</h2>
+                <p>MWK423,000</p>
+            </div>
+            <div class="kpi-card">
+                <h2>Monthly Profit</h2>
+                <p>MWK699,000</p>
+            </div>
+            <div class="kpi-card">
+                <h2>Monthly Uptime</h2>
+                <p>90.9%</p>
+            </div>
+            <div class="kpi-card">
+                <h2>Best Month</h2>
+                <p>June</p>
+            </div>
         </div>
     </main>
 </body>
