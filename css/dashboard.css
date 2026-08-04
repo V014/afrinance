@@ -91,7 +91,7 @@ body {
     /* font-weight: bold; */
 }
 
-/* Filter Styles */
+/* Transaction Filter Styles */
 .filter-select {
     background-color: var(--bg-panel);
     color: var(--text-color);
