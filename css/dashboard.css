@@ -102,6 +102,7 @@ body {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     padding: 20px;
+    overflow-x: auto;
 }
 
 .table {
