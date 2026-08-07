@@ -74,10 +74,20 @@ body {
   padding: var(--control-padding);
   background: var(--bg-color);
   outline: none;
-  transition: border-color 0.2s;
+  /* transition: border-color 0.2s; */
+  transition: border 0.2s;
+  font-size: 1rem;
+  border: none;
+  color: var(--text-color);
   /* margin-bottom: 10px; */
-  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  /* border-radius: var(--border-radius); */
+}
+
+.default-input:focus {
   border-radius: var(--border-radius);
+  outline: 2px solid var(--accent-color);
+  outline-offset: 0px;
 }
 
 .login-btn {
@@ -92,4 +102,20 @@ body {
   cursor: pointer;
   border-radius: var(--border-radius);
   width: 100%;
+
+  gap: 0.5rem;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  transition: filter 0.15s, transform 0.05s;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.default-btn:hover {
+  filter: brightness(1.05);
+}
+
+.default-btn:active {
+  transform: scale(0.97);
 }
