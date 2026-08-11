@@ -11,12 +11,20 @@
     <div class="login-wrapper">
         <div class="login-panel">
             <div class="login-header text-center mb-6">
-                <img src="img/brand/logo-green.png" alt="" srcset="">
-                <h1>Afrinance</h1>
-                <h3>Enter your credentials</h3>
+                <!-- THE BRAND ICON -->
+                <div class="brand-image-wrapper">
+                    <img
+                    class="brand-image"
+                    src="img/brand/logo-green.png"
+                    alt="Afrinance"
+                    onerror="this.style.display = 'none'"
+                    />
+                </div>
+                <h1 class="title-style">Afrinance</h1>
+                <p class="sub-style">Enter your credentials</p>
             </div>
             <div class="login-form">
-                <form action="">
+                <form id="loginForm" action="">
                     
                     <div class="form-input">
                         <input type="text" class="default-input" id="username" name="username" placeholder="username" required>
@@ -27,7 +35,7 @@
                     </div>
 
                     <div class="login-btn">
-                        <button type="submit" class="default-btn">Login</button>
+                        <button type="submit" class="btn-primary">Login</button>
                     </div>
                 </form>
             </div>
