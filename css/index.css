@@ -12,7 +12,7 @@
   --accent-color: #3DDC84;
   --border:rgba(255,255,255,0.07);
   --border-radius: 12px;
-  --control-padding: 13px 16px;
+  --control-padding: 16px 20px;
 }
 
 /* System Dark Theme Override */
@@ -23,16 +23,27 @@
     --text-color: #f0f0f0;
     --card-bg: #1e1e1e;
     --accent-color: #3DDC84;
+    --border: rgba(255, 255, 255, 0.07);
     --btn-text: #1a1a1a;
     
   }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
 }
 
 /* Apply the variables to your elements */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
+  font-family: system-ui, -apple-system, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-wrapper {
@@ -153,6 +164,7 @@ body {
   margin-top: 0.5rem;
 }
 
+/* ----- brand image ----- */
 .brand-image {
   width: 100px;
   height: 100px;
