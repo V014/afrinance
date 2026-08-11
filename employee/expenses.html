@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+    />
+    <title>Afrinance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* ----- THEME (same as dashboard/sales) ----- */
+      :root {
+        --bg-color: #e4e4e4;
+        --bg-panel: #ffffff;
+        --text-color: #1a1a1a;
+        --card-bg: #f5f5f5;
+        --accent-color: #3ddc84;
+        --border: rgba(0, 0, 0, 0.07);
+        --border-radius: 12px;
+        --sales: #f59e0b;
+        --expenses: #e74c3c;
+        --debt: #3b82f6;
+        --remove-color: #e74c3c;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-color: #0c0d0c;
+          --bg-panel: #111412;
+          --text-color: #f0f0f0;
+          --card-bg: #1e1e1e;
+          --accent-color: #3ddc84;
+          --border: rgba(255, 255, 255, 0.07);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        min-height: 100vh;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      /* ----- SIDEBAR ----- */
+      .app-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+      .sidebar {
+        width: 260px;
+        border-right: 1px solid var(--border);
+        padding: 1.5rem 1rem;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        overflow-y: auto;
+      }
+      .sidebar .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar .brand .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        overflow: hidden;
+        background: var(--accent-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sidebar .brand .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .sidebar .brand .user-info {
+        font-size: 0.95rem;
+        font-weight: 500;
+        line-height: 1.3;
+      }
+      .sidebar .brand .user-info small {
+        font-weight: 400;
+        opacity: 0.6;
+        font-size: 0.75rem;
+      }
+      .sidebar .nav-links {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .sidebar .nav-links a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: var(--border-radius);
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+        opacity: 0.7;
+        font-size: 1rem;
+        transition:
+          background 0.1s,
+          opacity 0.1s;
+      }
+      .sidebar .nav-links a:hover {
+        background: var(--card-bg);
+        opacity: 1;
+      }
+      .sidebar .nav-links a.active-link {
+        background: var(--accent-color);
+        color: #1a1a1a;
+        opacity: 1;
+      }
+      .sidebar .nav-links a i {
+        width: 22px;
+        text-align: center;
+      }
+      .sidebar .logout-wrapper {
+        margin-top: auto;
+        border-top: 1px solid var(--border);
+        padding-top: 1rem;
+      }
+      .sidebar .logout-wrapper a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: var(--border-radius);
+        color: #e74c3c;
+        text-decoration: none;
+        font-weight: 500;
+        opacity: 0.7;
+        font-size: 1rem;
+        transition:
+          background 0.1s,
+          opacity 0.1s;
+        cursor: pointer;
+      }
+      .sidebar .logout-wrapper a:hover {
+        background: var(--card-bg);
+        opacity: 1;
+      }
+      .sidebar .logout-wrapper a i {
+        width: 22px;
+        text-align: center;
+      }
+
+      /* ----- MAIN CONTENT ----- */
+      .main-content {
+        flex: 1;
+        padding: 1.5rem 2rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .main-content .content-wrapper {
+        width: 100%;
+        max-width: 1300px;
+      }
+
+      /* ----- PANEL CARD ----- */
+      .panel-card {
+        border-radius: var(--border-radius);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+      }
+
+      /* ----- WELCOME CARD ----- */
+      .welcome-card {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        gap: 10px;
+      }
+      .welcome-card .welcome-left h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      .welcome-card .welcome-center {
+        flex: 1;
+        text-align: center;
+        opacity: 0.8;
+        font-size: 0.95rem;
+      }
+      .welcome-card .welcome-right {
+        flex: 0 0 auto;
+        text-align: right;
+        opacity: 0.8;
+        font-size: 0.95rem;
+      }
+      .welcome-card .welcome-center strong,
+      .welcome-card .welcome-right strong {
+        font-weight: 600;
+      }
+
+      /* ----- STAT CARDS ----- */
+      .stat-card {
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+      .stat-card .stat-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .stat-card .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+      .stat-card .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.6;
+      }
+
+      .grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .grid-cols-1 {
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 640px) {
+        .sm\:grid-cols-3 {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      /* ----- FORM CARD (expense specific) ----- */
+      .form-card {
+        margin: 1.5rem auto;
+        border-radius: var(--border-radius);
+        padding: 1.5rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        max-width: 800px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1.2rem 2rem;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 140px;
+        min-width: 130px;
+      }
+      .form-group label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        opacity: 0.7;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+      .form-group input,
+      .form-group select {
+        background: var(--bg-color);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.65rem 0.9rem;
+        color: var(--text-color);
+        font-size: 0.95rem;
+        transition: border 0.2s;
+        width: 100%;
+        appearance: auto;
+      }
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 1px;
+        border-color: transparent;
+      }
+      .form-group select {
+        cursor: pointer;
+        transition:
+          border 0.2s,
+          box-shadow 0.2s,
+          transform 0.15s ease;
+      }
+      .form-group select:hover {
+        transform: scale(1.02);
+      }
+
+      .btn-primary {
+        background: var(--accent-color);
+        border: none;
+        padding: 0.7rem 2.2rem;
+        border-radius: 30px;
+        font-weight: 700;
+        color: #1a1a1a;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+        align-self: center;
+        white-space: nowrap;
+        margin-left: auto;
+      }
+      .btn-primary:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(61, 220, 132, 0.3);
+      }
+      .btn-primary i {
+        margin-right: 6px;
+      }
+
+      /* ----- TABLE ----- */
+      .table-wrapper {
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        overflow-x: auto;
+        margin-top: 0.5rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+      thead {
+        background: var(--bg-color);
+        border-radius: var(--border-radius);
+      }
+      th {
+        padding: 0.9rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        opacity: 0.8;
+        border-bottom: 2px solid var(--border);
+      }
+      td {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid var(--border);
+        opacity: 0.9;
+        vertical-align: middle;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 2rem;
+        opacity: 0.5;
+      }
+      .btn-remove {
+        background: transparent;
+        border: none;
+        color: var(--remove-color);
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+        opacity: 0.6;
+      }
+      .btn-remove:hover {
+        background: rgba(231, 76, 60, 0.12);
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      .type-badge {
+        display: inline-block;
+        padding: 0.15rem 0.7rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: var(--bg-color);
+      }
+
+      /* mobile */
+      @media (max-width: 768px) {
+        .app-layout {
+          flex-direction: column;
+        }
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+          padding: 1rem;
+        }
+        .main-content {
+          padding: 1rem;
+        }
+        .main-content .content-wrapper {
+          max-width: 100%;
+        }
+        .welcome-card {
+          flex-direction: column;
+          align-items: stretch;
+          text-align: center;
+        }
+        .welcome-card .welcome-left,
+        .welcome-card .welcome-center,
+        .welcome-card .welcome-right {
+          text-align: center;
+          flex: 1 1 auto;
+        }
+        .form-card {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .btn-primary {
+          margin-left: 0;
+          width: 100%;
+          text-align: center;
+        }
+        .btn-remove {
+          font-size: 1rem;
+          padding: 0.2rem 0.3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="avatar">
+            <img
+              src="1774245015_69c0d497743f0.jpeg"
+              alt="User avatar"
+              onerror="
+                this.parentElement.innerHTML =
+                  '<i class=\'fas fa-user\' style=\'font-size:1.5rem;color:#1a1a1a;\'></i>'
+              "
+            />
+          </div>
+          <div class="user-info">
+            <span id="sidebarUserName">Cashier</span>
+          </div>
+        </div>
+
+        <nav class="nav-links">
+          <a href="dashboard.html" data-page="dashboard"
+            ><i class="fas fa-th-large"></i> Dashboard</a
+          >
+          <a href="sales.html" data-page="add-sale"
+            ><i class="fas fa-coins"></i> Sales</a
+          >
+          <a href="#" data-page="add-expense" class="active-link"
+            ><i class="fas fa-receipt"></i> Expenses</a
+          >
+          <a href="reports.html" data-page="add-debt"
+            ><i class="fas fa-file-alt"></i> Reports</a
+          >
+        </nav>
+
+        <div class="logout-wrapper">
+          <a href="login.html" data-page="logout"
+            ><i class="fas fa-sign-out-alt"></i> Logout</a
+          >
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <div class="content-wrapper">
+          <!-- WELCOME CARD -->
+          <div class="panel-card welcome-card">
+            <div class="welcome-left">
+              <h2>Expenses · <span id="dashUserName">Cashier</span></h2>
+            </div>
+            <div class="welcome-center">
+              <strong>Time:</strong> <span id="liveTime">--:--:--</span>
+            </div>
+            <div class="welcome-right">
+              <strong>Day:</strong> <span id="liveDay">----</span>
+            </div>
+          </div>
+
+          <!-- STATS CARDS -->
+          <div class="grid grid-cols-1 sm:grid-cols-3">
+            <div class="stat-card">
+              <div class="stat-icon" style="color: var(--expenses)">
+                <i class="fas fa-receipt"></i>
+              </div>
+              <div class="stat-value" id="dashTotalExpensesToday">0.00</div>
+              <div class="stat-label">Today's Expenses</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="color: var(--expenses)">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="stat-value" id="dashTotalExpensesAll">0.00</div>
+              <div class="stat-label">All-time Expenses</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="color: var(--expenses)">
+                <i class="fas fa-list-ul"></i>
+              </div>
+              <div class="stat-value" id="dashExpensesCount">0</div>
+              <div class="stat-label">Total Entries</div>
+            </div>
+          </div>
+
+          <!-- ADD EXPENSE FORM (dedicated categories with fixed prices) -->
+          <div class="form-card">
+            <div class="form-group" style="flex: 1.2">
+              <label for="expenseCategory">Type</label>
+              <select id="expenseCategory">
+                <option value="bearings">Bearings</option>
+                <option value="drivebelts">Drive Belts</option>
+                <option value="screens">Screens</option>
+                <option value="engines">Engines / Motors</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 0.8">
+              <label for="expenseUnits">Units</label>
+              <input
+                type="number"
+                id="expenseUnits"
+                placeholder="e.g. 2"
+                value="1"
+                min="0.5"
+                step="0.5"
+              />
+            </div>
+            <button class="btn-primary" id="addExpenseBtn">
+              <i class="fas fa-plus-circle"></i> Add Expense
+            </button>
+          </div>
+
+          <!-- EXPENSES TABLE -->
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Units</th>
+                  <th>Amount (MWK)</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th style="text-align: center; width: 60px">Remove</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <!-- rendered by JS -->
+              </tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display: none">
+              No expenses recorded yet
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // ----- PRICE PER UNIT (MWK) for each category -----
+        const PRICE_MAP = {
+          bearings: 3500,
+          drivebelts: 2800,
+          screens: 4200,
+          engines: 15000,
+        };
+
+        // category display names
+        const CATEGORY_LABELS = {
+          bearings: "Bearings",
+          drivebelts: "Drive Belts",
+          screens: "Screens",
+          engines: "Engines / Motors",
+        };
+
+        // ----- LIVE CLOCK -----
+        function updateClock() {
+          const now = new Date();
+          document.getElementById("liveTime").textContent =
+            now.toLocaleTimeString("en-US", { hour12: false });
+          document.getElementById("liveDay").textContent =
+            now.toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // ----- HELPERS -----
+        function todayStr() {
+          return new Date().toISOString().slice(0, 10);
+        }
+        const today = todayStr();
+
+        // ----- SAMPLE DATA (expenses) -----
+        let expenseRecords = [
+          {
+            id: 1,
+            category: "bearings",
+            units: 2,
+            amount: 7000,
+            date: today,
+            time: "09:15:30",
+          },
+          {
+            id: 2,
+            category: "drivebelts",
+            units: 1.5,
+            amount: 4200,
+            date: today,
+            time: "10:45:12",
+          },
+          {
+            id: 3,
+            category: "screens",
+            units: 1,
+            amount: 4200,
+            date: today,
+            time: "14:20:05",
+          },
+          {
+            id: 4,
+            category: "engines",
+            units: 1,
+            amount: 15000,
+            date: today,
+            time: "16:00:00",
+          },
+        ];
+        let nextId = 5;
+
+        // ----- RENDER TABLE -----
+        function renderExpenses() {
+          const tbody = document.getElementById("tableBody");
+          const empty = document.getElementById("emptyState");
+
+          const sorted = [...expenseRecords].sort((a, b) =>
+            b.time.localeCompare(a.time),
+          );
+
+          if (sorted.length === 0) {
+            tbody.innerHTML = "";
+            empty.style.display = "block";
+            return;
+          }
+          empty.style.display = "none";
+
+          let html = "";
+          sorted.forEach((r) => {
+            const label = CATEGORY_LABELS[r.category] || r.category;
+            html += `<tr data-id="${r.id}">
+          <td><span class="type-badge">${label}</span></td>
+          <td>${r.units}</td>
+          <td><strong>${r.amount.toFixed(2)}</strong></td>
+          <td>${r.date}</td>
+          <td>${r.time}</td>
+          <td style="text-align:center;">
+            <button class="btn-remove" data-id="${r.id}" title="Remove expense"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        </tr>`;
+          });
+          tbody.innerHTML = html;
+
+          // attach remove events
+          document.querySelectorAll(".btn-remove").forEach((btn) => {
+            btn.addEventListener("click", function (e) {
+              e.stopPropagation();
+              const id = parseInt(this.dataset.id, 10);
+              removeExpenseById(id);
+            });
+          });
+        }
+
+        // ----- REMOVE -----
+        function removeExpenseById(id) {
+          const idx = expenseRecords.findIndex((r) => r.id === id);
+          if (idx === -1) return;
+          expenseRecords.splice(idx, 1);
+          renderExpenses();
+          updateStats();
+        }
+
+        // ----- UPDATE STATS -----
+        function updateStats() {
+          const today = todayStr();
+          const todayTotal = expenseRecords
+            .filter((r) => r.date === today)
+            .reduce((sum, r) => sum + r.amount, 0);
+          const allTotal = expenseRecords.reduce((sum, r) => sum + r.amount, 0);
+          const count = expenseRecords.length;
+
+          document.getElementById("dashTotalExpensesToday").textContent =
+            todayTotal.toFixed(2);
+          document.getElementById("dashTotalExpensesAll").textContent =
+            allTotal.toFixed(2);
+          document.getElementById("dashExpensesCount").textContent = count;
+        }
+
+        // ----- ADD EXPENSE (amount auto-calculated from category price * units) -----
+        function addExpense() {
+          const category = document.getElementById("expenseCategory").value;
+          const unitsInput = document.getElementById("expenseUnits");
+          const units = parseFloat(unitsInput.value);
+
+          if (isNaN(units) || units <= 0) {
+            alert("Please enter a valid number of units (e.g. 1, 1.5, 2).");
+            return;
+          }
+
+          const pricePerUnit = PRICE_MAP[category] || 0;
+          if (pricePerUnit === 0) {
+            alert("Price not defined for this category.");
+            return;
+          }
+
+          const amount = units * pricePerUnit;
+          const date = todayStr();
+          const now = new Date();
+          const time = now.toTimeString().slice(0, 8);
+
+          expenseRecords.push({
+            id: nextId++,
+            category: category,
+            units: units,
+            amount: amount,
+            date: date,
+            time: time,
+          });
+
+          // reset units to 1, keep category as is
+          unitsInput.value = "1";
+
+          renderExpenses();
+          updateStats();
+        }
+
+        // ----- EVENT LISTENERS -----
+        document
+          .getElementById("addExpenseBtn")
+          .addEventListener("click", addExpense);
+        document
+          .getElementById("expenseUnits")
+          .addEventListener("keydown", (e) => {
+            if (e.key === "Enter") addExpense();
+          });
+
+        // ----- INIT -----
+        renderExpenses();
+        updateStats();
+
+        document.getElementById("sidebarUserName").textContent = "Cashier";
+        document.getElementById("dashUserName").textContent = "Cashier";
+      })();
+    </script>
+  </body>
+</html>
