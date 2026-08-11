@@ -1,31 +1,23 @@
-:root {
-  /* Tells the browser that the page supports both themes */
-  color-scheme: light dark;
-}
-
-/* Default Light Theme */
+/* ----- THEME (same as original) ----- */
 :root {
   --bg-color: #e4e4e4;
   --bg-panel: #ffffff;
   --text-color: #1a1a1a;
   --card-bg: #f5f5f5;
-  --accent-color: #3DDC84;
-  --border:rgba(255,255,255,0.07);
+  --accent-color: #3ddc84;
+  --border: rgba(0, 0, 0, 0.07);
   --border-radius: 12px;
   --control-padding: 16px 20px;
 }
 
-/* System Dark Theme Override */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #0C0D0C;
+    --bg-color: #0c0d0c;
     --bg-panel: #111412;
     --text-color: #f0f0f0;
     --card-bg: #1e1e1e;
-    --accent-color: #3DDC84;
+    --accent-color: #3ddc84;
     --border: rgba(255, 255, 255, 0.07);
-    --btn-text: #1a1a1a;
-    
   }
 }
 
@@ -34,98 +26,20 @@
   margin: 0;
 }
 
-/* Apply the variables to your elements */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: system-ui, -apple-system, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
+  transition: background-img 0.2s, color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.title-style {
-  font-size: 1.8rem; 
-  font-weight: 700; 
-  margin-top: 0.25rem;
-}
+/* ----- PANEL CARD (reuse) ----- */
 
-.sub-style {
-  opacity: 0.6; 
-  font-size: 0.95rem; 
-  margin-top: 0.25rem;
-}
-
-.login-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  width: 100%;
-  padding: 1rem;
-}
-
-.login-panel {
-  max-width: 420px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2.5rem 2rem;
-}
-
-/* Where login form sits */
-.panel {
-    background: var(--bg-panel);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 32px 40px;
-    border-radius: var(--border-radius);
-    position: relative;
-    overflow: hidden;
-}
-
-.card {
-  background-color: var(--card-bg);
-}
-
-.login-header {
-  margin-bottom: 20px;
-}
-
-.login-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.form-input {
-  padding: 6px;
-}
-
-.default-input {
-  padding: var(--control-padding);
-  background: var(--bg-color);
-  outline: none;
-  transition: border 0.2s;
-  font-size: 1rem;
-  border: none;
-  color: var(--text-color);
-  border-bottom: 1px solid var(--border);
-}
-
-.default-input:focus {
-  border-radius: var(--border-radius);
-  outline: 2px solid var(--accent-color);
-  outline-offset: 0px;
-}
-
-.login-btn {
-    padding-top: 10px;
-}
-
+/* ----- BUTTONS ----- */
 .btn-primary {
   background-color: var(--accent-color);
   color: #1a1a1a;
@@ -142,46 +56,93 @@ body {
   justify-content: center;
   gap: 0.5rem;
 }
-
-.default-btn:hover {
+.btn-primary:hover {
   filter: brightness(1.05);
 }
-
-.default-btn:active {
+.btn-primary:active {
   transform: scale(0.97);
+}
+
+/* ----- FORM ELEMENTS ----- */
+input {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  /* */
+  padding: var(--control-padding);
+  width: 100%;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+input:focus {
+  border-radius: var(--border-radius);
+  outline: 2px solid var(--accent-color);
+  outline-offset: 0px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+/* ----- LOGIN PAGE (isolated) ----- */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  /* background: var(--bg-color); */
+  padding: 1rem;
+}
+.login-panel {
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
 }
 
 .text-center {
   text-align: center;
 }
-
 .mb-6 {
   margin-bottom: 1.5rem;
 }
-
 .space-y-5 > * + * {
   margin-top: 1.25rem;
 }
-
 .mt-2 {
   margin-top: 0.5rem;
 }
 
-/* ----- brand image ----- */
+/* small helper */
+.demo-hint {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* ----- brand image (replaces icon) ----- */
 .brand-image {
   width: 100px;
   height: 100px;
   object-fit: cover;
+  /* border-radius: 50%; */
   display: inline-block;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* background: var(--bg-panel);
+  border: 2px solid var(--accent-color); */
   padding: 4px;
 }
-
 /* fallback if image fails */
 .brand-image[src=""] {
   display: none;
 }
-
 .brand-image-wrapper {
   display: flex;
   justify-content: center;

@@ -8,38 +8,46 @@
     <title>Afrinance</title>
 </head>
 <body>
+    <!-- ========== LOGIN PAGE (standalone) ========== -->
     <div class="login-wrapper">
-        <div class="login-panel">
-            <div class="login-header text-center mb-6">
-                <!-- THE BRAND ICON -->
-                <div class="brand-image-wrapper">
-                    <img
-                    class="brand-image"
-                    src="img/brand/logo-green.png"
-                    alt="Afrinance"
-                    onerror="this.style.display = 'none'"
-                    />
-                </div>
-                <h1 class="title-style">Afrinance</h1>
-                <p class="sub-style">Enter your credentials</p>
-            </div>
-            <div class="login-form">
-                <form id="loginForm" action="">
-                    
-                    <div class="form-input">
-                        <input type="text" class="default-input" id="username" name="username" placeholder="username" required>
-                    </div>
-                    
-                    <div class="form-input">
-                        <input type="password" class="default-input" id="password" name="password" placeholder="password" required>
-                    </div>
-
-                    <div class="login-btn">
-                        <button type="submit" class="btn-primary">Login</button>
-                    </div>
-                </form>
-            </div>
+      <div class="login-panel panel-card">
+        <div class="text-center mb-6">
+          <!-- IMAGE REPLACES THE ICON -->
+          <div class="brand-image-wrapper">
+            <img class="brand-image" src="brand/logo-green.png" alt="Afrinance" onerror="this.style.display = 'none'"/>
+          </div>
+          <h1 style="font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem">
+            Afrinance
+          </h1>
+          <p style="opacity: 0.6; font-size: 0.95rem; margin-top: 0.25rem">
+            Enter your credentials
+          </p>
         </div>
+
+        <form id="loginForm" class="space-y-5">
+          <div>
+            <!-- <label for="loginUsername">Username</label> -->
+            <input
+              id="loginUsername"
+              type="text"
+              placeholder="Enter username"
+            />
+          </div>
+          <div>
+            <!-- <label for="loginPassword">Password</label> -->
+            <input
+              id="loginPassword"
+              type="password"
+              placeholder="Enter password"
+            />
+          </div>
+          <button type="submit" class="btn-primary">
+            <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+        </form>
+
+        <!-- <div class="demo-hint">demo: cashier1 / 1234</div> -->
+      </div>
     </div>
     
 </body>
