@@ -384,7 +384,7 @@
         background: rgba(230, 126, 34, 0.12);
         color: var(--text-color);
       }
-      .branch-fargo .branch-badge {
+      .branch-makata .branch-badge {
         background: rgba(26, 188, 156, 0.12);
         color: var(--text-color);
       }
@@ -618,9 +618,9 @@
         <!-- DASHBOARD -->
         <div class="nav-section">Dashboard</div>
         <nav class="nav-links">
-          <a href="dashboard2.html" data-page="dashboard" class="active-link"
-            ><i class="fas fa-th-large"></i> Dashboard</a
-          >
+          <a href="dashboard2.html" data-page="dashboard" class="active-link"><i class="fas fa-th-large"></i>
+            Dashboard
+          </a>
         </nav>
 
         <!-- BRANCHES -->
@@ -632,8 +632,8 @@
           <a href="#" data-page="zambia"
             ><i class="fas fa-store-alt"></i> Zambia</a
           >
-          <a href="#" data-page="fargo"
-            ><i class="fas fa-store-alt"></i> Fargo</a
+          <a href="#" data-page="makata"
+            ><i class="fas fa-store-alt"></i> Makata</a
           >
         </nav>
 
@@ -710,23 +710,23 @@
               </div>
             </div>
 
-            <!-- Fargo -->
+            <!-- Makata -->
             <div class="stat-card">
               <div class="stat-header">
                 <span class="stat-icon"><i class="fas fa-store-alt"></i></span>
-                <span class="stat-label">Fargo</span>
+                <span class="stat-label">Makata</span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Sales</span>
-                <span class="detail-value" id="statFargoSales">0.00</span>
+                <span class="detail-value" id="statMakataSales">0.00</span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Expenses</span>
-                <span class="detail-value" id="statFargoExpenses">0.00</span>
+                <span class="detail-value" id="statMakataExpenses">0.00</span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">This month's Net</span>
-                <span class="detail-value" id="statFargo">0.00</span>
+                <span class="detail-value" id="statMakata">0.00</span>
               </div>
             </div>
 
@@ -763,7 +763,7 @@
                 <option value="all">All Branches</option>
                 <option value="safalawo">Safalawo</option>
                 <option value="zambia">Zambia</option>
-                <option value="fargo">Fargo</option>
+                <option value="makata">Makata</option>
               </select>
             </div>
 
@@ -935,9 +935,9 @@
             date: today,
             time: "13:30:00",
           },
-          // FARGO
+          // MAKATA
           {
-            branch: "fargo",
+            branch: "makata",
             type: "sale",
             cashier: "Michael Banda",
             amount: 900,
@@ -945,7 +945,7 @@
             time: "11:00:00",
           },
           {
-            branch: "fargo",
+            branch: "makata",
             type: "sale",
             cashier: "Ruth Moyo",
             amount: 1100,
@@ -953,7 +953,7 @@
             time: "15:20:00",
           },
           {
-            branch: "fargo",
+            branch: "makata",
             type: "expense",
             cashier: "Joseph Kamanga",
             amount: 3500,
@@ -961,7 +961,7 @@
             time: "07:30:00",
           },
           {
-            branch: "fargo",
+            branch: "makata",
             type: "expense",
             cashier: "Linda Phakati",
             amount: 2800,
@@ -986,7 +986,7 @@
             time: "09:00:00",
           },
           {
-            branch: "fargo",
+            branch: "makata",
             type: "sale",
             cashier: "Ruth Moyo",
             amount: 1300,
@@ -1097,12 +1097,12 @@
           const branchLabels = {
             safalawo: "Safalawo",
             zambia: "Zambia",
-            fargo: "Fargo",
+            makata: "Makata",
           };
           const branchClasses = {
             safalawo: "branch-safalawo",
             zambia: "branch-zambia",
-            fargo: "branch-fargo",
+            makata: "branch-makata",
           };
 
           let html = "";
@@ -1124,7 +1124,7 @@
         // ----- UPDATE STATS -----
         function updateStats() {
           const today = todayStr();
-          const branches = ["safalawo", "zambia", "fargo"];
+          const branches = ["safalawo", "zambia", "makata"];
           const branchData = {};
 
           branches.forEach((br) => {
@@ -1156,17 +1156,17 @@
           document.getElementById("statZambia").textContent =
             branchData.zambia.net.toFixed(2);
 
-          document.getElementById("statFargoSales").textContent =
-            branchData.fargo.sales.toFixed(2);
-          document.getElementById("statFargoExpenses").textContent =
-            branchData.fargo.expenses.toFixed(2);
-          document.getElementById("statFargo").textContent =
-            branchData.fargo.net.toFixed(2);
+          document.getElementById("statMakataSales").textContent =
+            branchData.makata.sales.toFixed(2);
+          document.getElementById("statMakataExpenses").textContent =
+            branchData.makata.expenses.toFixed(2);
+          document.getElementById("statMakata").textContent =
+            branchData.makata.net.toFixed(2);
 
           const totalNet =
             branchData.safalawo.net +
             branchData.zambia.net +
-            branchData.fargo.net;
+            branchData.makata.net;
           document.getElementById("statTotal").textContent =
             totalNet.toFixed(2);
         }
