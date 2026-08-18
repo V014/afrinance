@@ -28,9 +28,9 @@
 ### users
 
   user_id         PK
-  firebase_uid    UNIQUE       -- links to Firebase Auth, no password stored here
+  password
   username
-  role            -- 'owner', 'admin', 'employee', etc.
+  role            -- 'accountant', 'admin', 'employee', etc.
   created_at
   updated_at
 
@@ -43,14 +43,21 @@
   company_id      FK -> profile
   role_in_company  -- lets one user have different roles in different companies
 
+### user_logs
+
+  user_log_id     PK
+  user_id         FK -> users
+  logged_in_at
+  logged_out_at
+
 ### profile  (company)
 
   company_id      PK
   company_name
-  company_mission
+  company_description
   company_logo
   privacy_policy
-  currency         -- e.g. MWK, USD
+  currency         -- e.g. MWK
   created_at
   updated_at
 
