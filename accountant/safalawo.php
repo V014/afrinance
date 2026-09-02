@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
-      /* ----- THEME (same as original) ----- */
+      /* ----- THEME (same as accountant dashboard) ----- */
       :root {
         --bg-color: #e4e4e4;
         --bg-panel: #ffffff;
@@ -23,7 +23,6 @@
         --border-radius: 12px;
         --sales: #f59e0b;
         --expenses: #e74c3c;
-        --debt: #3b82f6;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -204,7 +203,7 @@
         padding: 1.5rem;
       }
 
-      /* ----- WELCOME CARD ----- */
+      /* ----- WELCOME CARD (branch specific) ----- */
       .welcome-card {
         display: flex;
         flex-wrap: wrap;
@@ -237,7 +236,54 @@
         font-weight: 600;
       }
 
-      /* ----- STATS CARDS (completely clean, no colors) ----- */
+      /* ----- NAVIGATION BUTTONS (Sales & Expenses) ----- */
+      .nav-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.7rem 2rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: 2px solid var(--border);
+        background: var(--bg-panel);
+        color: var(--text-color);
+        cursor: pointer;
+      }
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .nav-btn i {
+        font-size: 1.1rem;
+      }
+      .nav-btn.sales-btn {
+        border-color: var(--sales);
+        color: var(--sales);
+      }
+      .nav-btn.sales-btn:hover {
+        background: var(--sales);
+        color: #fff;
+      }
+      .nav-btn.expenses-btn {
+        border-color: var(--expenses);
+        color: var(--expenses);
+      }
+      .nav-btn.expenses-btn:hover {
+        background: var(--expenses);
+        color: #fff;
+      }
+
+      /* ----- STATS CARDS (branch summary) ----- */
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -264,13 +310,13 @@
         margin-bottom: 0.6rem;
       }
       .stat-header .stat-icon {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         width: 2rem;
         text-align: center;
         color: var(--text-color);
       }
       .stat-header .stat-label {
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 600;
         letter-spacing: 0.01em;
         color: var(--text-color);
@@ -297,26 +343,41 @@
       }
       .stat-detail .detail-value {
         font-weight: 600;
-        color: var(--text-color) !important;
-      }
-
-      /* No special colors for any stat values */
-      .stat-detail .detail-value.sales-value,
-      .stat-detail .detail-value.expenses-value,
-      .stat-detail .detail-value.net-value {
-        color: var(--text-color) !important;
-      }
-
-      /* Total Net card - completely neutral too */
-      .stat-card.branch-total .stat-header .stat-icon,
-      .stat-card.branch-total .stat-header .stat-label {
         color: var(--text-color);
       }
-      .stat-card.branch-total .stat-detail:last-of-type .detail-value {
-        color: var(--text-color) !important;
+
+      /* ----- EXTRA METRICS (profit, transactions) ----- */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .metric-card {
+        padding: 0.8rem 1rem;
+        border-radius: var(--border-radius);
+        background: var(--bg-panel);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border: 1px solid var(--border);
+      }
+      .metric-card .metric-value {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--text-color);
+      }
+      .metric-card .metric-label {
+        font-size: 0.7rem;
+        opacity: 0.6;
+        margin-top: 0.1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
       }
 
-      /* ----- TABLE with full borders ----- */
+      /* ----- TABLE (full borders) ----- */
       .table-wrapper {
         border-radius: var(--border-radius);
         padding: 0.5rem;
@@ -350,7 +411,6 @@
         border-bottom: 1px solid var(--border);
       }
 
-      /* Type badges with colors */
       .type-badge {
         display: inline-block;
         padding: 0.15rem 0.7rem;
@@ -366,105 +426,44 @@
         color: var(--expenses);
       }
 
-      /* branch badges in table – subtle */
-      .branch-badge {
-        display: inline-block;
-        padding: 0.1rem 0.6rem;
-        border-radius: 12px;
-        font-size: 0.65rem;
-        font-weight: 600;
-        background: var(--bg-color);
-        color: var(--text-color);
-      }
-      .branch-safalawo .branch-badge {
-        background: rgba(155, 89, 182, 0.12);
-        color: var(--text-color);
-      }
-      .branch-zambia .branch-badge {
-        background: rgba(230, 126, 34, 0.12);
-        color: var(--text-color);
-      }
-      .branch-makata .branch-badge {
-        background: rgba(26, 188, 156, 0.12);
-        color: var(--text-color);
-      }
-
-      /* Number column */
-      .row-number {
-        color: var(--text-color);
-        opacity: 0.5;
-        font-weight: 400;
-        text-align: center;
-      }
-
       .empty-state {
         text-align: center;
         padding: 2rem;
         opacity: 0.5;
       }
 
-      /* ----- DROPDOWN FILTERS (centered) ----- */
-      .filters-container {
+      /* ----- FILTER TABS (type filter) ----- */
+      .tabs-container {
         display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        margin: 1.5rem 0 1rem;
-        padding: 0.75rem 1rem;
-        background: var(--bg-panel);
-        border-radius: var(--border-radius);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        align-items: center;
         justify-content: center;
-        border: 1px solid var(--border);
-      }
-      .filters-container .filter-group {
-        display: flex;
-        align-items: center;
         gap: 0.5rem;
+        margin: 1.5rem 0 1rem;
         flex-wrap: wrap;
       }
-      .filters-container .filter-group label {
-        font-size: 0.8rem;
+      .tab-btn {
+        padding: 0.5rem 1.5rem;
+        border: 2px solid transparent;
         font-weight: 600;
-        opacity: 0.7;
-        white-space: nowrap;
-      }
-      .filters-container .filter-group select {
-        padding: 0.4rem 0.75rem;
-        border-radius: var(--border-radius);
-        border: 1px solid var(--border);
+        font-size: 0.9rem;
+        cursor: pointer;
         background: var(--bg-color);
         color: var(--text-color);
-        font-size: 0.85rem;
-        cursor: pointer;
-        outline: none;
-        min-width: 120px;
+        opacity: 0.6;
+        transition: all 0.2s ease;
+        border-radius: 30px;
       }
-      .filters-container .filter-group select:focus {
-        border-color: var(--accent-color);
+      .tab-btn:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
       }
-      .filters-container .filter-group select option {
-        background: var(--bg-panel);
-        color: var(--text-color);
-      }
-      .clear-filters-btn {
-        padding: 0.4rem 1rem;
-        border-radius: var(--border-radius);
-        border: 1px solid var(--border);
-        background: var(--bg-color);
-        color: var(--text-color);
-        font-size: 0.8rem;
-        cursor: pointer;
-        font-weight: 600;
-        opacity: 0.7;
-        transition: all 0.2s;
-      }
-      .clear-filters-btn:hover {
+      .tab-btn.active-tab {
+        color: var(--accent-color);
         opacity: 1;
-        background: var(--card-bg);
+        border-bottom: 2px solid var(--accent-color);
+        border-radius: 0;
       }
 
-      /* ----- PAGINATION CONTROLS ----- */
+      /* ----- PAGINATION ----- */
       .pagination-container {
         display: flex;
         flex-wrap: wrap;
@@ -499,18 +498,11 @@
         opacity: 0.3;
         cursor: not-allowed;
       }
-      .pagination-controls button.active-page {
-        background: var(--accent-color);
-        color: #1a1a1a;
-        opacity: 1;
-        border-color: var(--accent-color);
-      }
       .pagination-controls .page-info {
         font-size: 0.85rem;
         opacity: 0.7;
         padding: 0 0.5rem;
       }
-
       .rows-per-page {
         display: flex;
         align-items: center;
@@ -568,12 +560,18 @@
         .stats-grid {
           grid-template-columns: 1fr 1fr;
         }
-        .filters-container {
+        .metrics-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .nav-buttons {
           flex-direction: column;
           align-items: stretch;
         }
-        .filters-container .filter-group {
-          justify-content: space-between;
+        .nav-btn {
+          justify-content: center;
+        }
+        .tabs-container {
+          flex-wrap: wrap;
         }
         .pagination-container {
           flex-direction: column;
@@ -591,12 +589,15 @@
         .stats-grid {
           grid-template-columns: 1fr;
         }
+        .metrics-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
     <div class="app-layout">
-      <!-- SIDEBAR (Accountant version) -->
+      <!-- SIDEBAR (Accountant) -->
       <aside class="sidebar" id="sidebar">
         <div class="brand">
           <div class="avatar">
@@ -618,35 +619,35 @@
         <!-- DASHBOARD -->
         <div class="nav-section">Dashboard</div>
         <nav class="nav-links">
-          <a href="dashboard2.html" data-page="dashboard" class="active-link"><i class="fas fa-th-large"></i>
-            Dashboard
-          </a>
+          <a href="dashboard2.php" data-page="dashboard"
+            ><i class="fas fa-th-large"></i> Dashboard</a
+          >
         </nav>
 
         <!-- BRANCHES -->
         <div class="nav-section">Branches</div>
         <nav class="nav-links">
-          <a href="safalawo.html" data-page="safalawo"
+          <a href="safalawo.php" data-page="safalawo" class="active-link"
             ><i class="fas fa-store-alt"></i> Safalawo</a
           >
           <a href="#" data-page="zambia"
             ><i class="fas fa-store-alt"></i> Zambia</a
           >
-          <a href="#" data-page="makata"
-            ><i class="fas fa-store-alt"></i> Makata</a
+          <a href="#" data-page="fargo"
+            ><i class="fas fa-store-alt"></i> Fargo</a
           >
         </nav>
 
         <!-- TOOLS -->
         <div class="nav-section">Tools</div>
         <nav class="nav-links">
-          <a href="analytics.html" data-page="analytics"
+          <a href="analytics.php" data-page="audit"
             ><i class="fas fa-chart-line"></i> Analytics</a
           >
         </nav>
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
@@ -655,10 +656,16 @@
       <!-- MAIN CONTENT -->
       <main class="main-content">
         <div class="content-wrapper">
-          <!-- WELCOME CARD -->
+          <!-- WELCOME CARD (Safalawo) -->
           <div class="panel-card welcome-card">
             <div class="welcome-left">
-              <h2>Accountant · <span id="dashUserName">Consolidated</span></h2>
+              <h2>
+                <i class="fas fa-store-alt"></i>
+                <span class="branch-name">Safalawo</span>
+                <span style="opacity: 0.5; font-weight: 400"
+                  >· Branch Report</span
+                >
+              </h2>
             </div>
             <div class="welcome-center">
               <strong>Time:</strong> <span id="liveTime">--:--:--</span>
@@ -668,134 +675,112 @@
             </div>
           </div>
 
-          <!-- STATS CARDS -->
+          <!-- NAVIGATION BUTTONS: Sales & Expenses Detail Pages -->
+          <div class="nav-buttons">
+            <a href="safalawosales.php" class="nav-btn sales-btn">
+              <i class="fas fa-coins"></i> View Sales Details
+            </a>
+            <a href="safalawoexpenses.php" class="nav-btn expenses-btn">
+              <i class="fas fa-receipt"></i> View Expenses Details
+            </a>
+          </div>
+
+          <!-- STATS CARDS: Sales, Expenses, Net, Total Transactions -->
           <div class="stats-grid" id="statsGrid">
-            <!-- Safalawo -->
             <div class="stat-card">
               <div class="stat-header">
-                <span class="stat-icon"><i class="fas fa-store-alt"></i></span>
-                <span class="stat-label">Safalawo</span>
+                <span class="stat-icon"><i class="fas fa-coins"></i></span>
+                <span class="stat-label">Total Sales</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Sales</span>
-                <span class="detail-value" id="statSafalawoSales">0.00</span>
+                <span class="detail-label">Today</span>
+                <span class="detail-value" id="statSalesToday">0.00</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Expenses</span>
-                <span class="detail-value" id="statSafalawoExpenses">0.00</span>
-              </div>
-              <div class="stat-detail">
-                <span class="detail-label">This month's Net</span>
-                <span class="detail-value" id="statSafalawo">0.00</span>
+                <span class="detail-label">All-time</span>
+                <span class="detail-value" id="statSalesAll">0.00</span>
               </div>
             </div>
 
-            <!-- Zambia -->
             <div class="stat-card">
               <div class="stat-header">
-                <span class="stat-icon"><i class="fas fa-store-alt"></i></span>
-                <span class="stat-label">Zambia</span>
+                <span class="stat-icon"><i class="fas fa-receipt"></i></span>
+                <span class="stat-label">Total Expenses</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Sales</span>
-                <span class="detail-value" id="statZambiaSales">0.00</span>
+                <span class="detail-label">Today</span>
+                <span class="detail-value" id="statExpensesToday">0.00</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Expenses</span>
-                <span class="detail-value" id="statZambiaExpenses">0.00</span>
-              </div>
-              <div class="stat-detail">
-                <span class="detail-label">This month's Net</span>
-                <span class="detail-value" id="statZambia">0.00</span>
+                <span class="detail-label">All-time</span>
+                <span class="detail-value" id="statExpensesAll">0.00</span>
               </div>
             </div>
 
-            <!-- Makata -->
             <div class="stat-card">
-              <div class="stat-header">
-                <span class="stat-icon"><i class="fas fa-store-alt"></i></span>
-                <span class="stat-label">Makata</span>
-              </div>
-              <div class="stat-detail">
-                <span class="detail-label">Sales</span>
-                <span class="detail-value" id="statMakataSales">0.00</span>
-              </div>
-              <div class="stat-detail">
-                <span class="detail-label">Expenses</span>
-                <span class="detail-value" id="statMakataExpenses">0.00</span>
-              </div>
-              <div class="stat-detail">
-                <span class="detail-label">This month's Net</span>
-                <span class="detail-value" id="statMakata">0.00</span>
-              </div>
-            </div>
-
-            <!-- Total Net -->
-            <div class="stat-card branch-total">
               <div class="stat-header">
                 <span class="stat-icon"><i class="fas fa-chart-pie"></i></span>
-                <span class="stat-label">Total Net</span>
+                <span class="stat-label">Net Profit</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Combined</span>
-                <span class="detail-value" id="statTotal">0.00</span>
+                <span class="detail-label">Today</span>
+                <span class="detail-value" id="statNetToday">0.00</span>
               </div>
-              <div
-                class="stat-detail"
-                style="
-                  border-bottom: none;
-                  opacity: 0.5;
-                  font-size: 0.65rem;
-                  padding-top: 0.3rem;
-                "
-              >
-                <span class="detail-label">Sales – Expenses</span>
-                <span></span>
+              <div class="stat-detail">
+                <span class="detail-label">All-time</span>
+                <span class="detail-value" id="statNetAll">0.00</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-icon"><i class="fas fa-list-ul"></i></span>
+                <span class="stat-label">Transactions</span>
+              </div>
+              <div class="stat-detail">
+                <span class="detail-label">Today</span>
+                <span class="detail-value" id="statTxToday">0</span>
+              </div>
+              <div class="stat-detail">
+                <span class="detail-label">All-time</span>
+                <span class="detail-value" id="statTxAll">0</span>
               </div>
             </div>
           </div>
 
-          <!-- DROPDOWN FILTERS (centered) -->
-          <div class="filters-container">
-            <div class="filter-group">
-              <label for="filterBranch">Branch</label>
-              <select id="filterBranch">
-                <option value="all">All Branches</option>
-                <option value="safalawo">Safalawo</option>
-                <option value="zambia">Zambia</option>
-                <option value="makata">Makata</option>
-              </select>
+          <!-- EXTRA METRICS: average sale, average expense, highest, lowest -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value" id="metricAvgSale">0.00</div>
+              <div class="metric-label">Avg Sale</div>
             </div>
-
-            <div class="filter-group">
-              <label for="filterType">Type</label>
-              <select id="filterType">
-                <option value="all">All Types</option>
-                <option value="sale">Sale</option>
-                <option value="expense">Expense</option>
-              </select>
+            <div class="metric-card">
+              <div class="metric-value" id="metricAvgExpense">0.00</div>
+              <div class="metric-label">Avg Expense</div>
             </div>
-
-            <div class="filter-group">
-              <label for="filterCashier">Cashier</label>
-              <select id="filterCashier">
-                <option value="all">All Cashiers</option>
-                <!-- populated by JS -->
-              </select>
+            <div class="metric-card">
+              <div class="metric-value" id="metricHighest">0.00</div>
+              <div class="metric-label">Highest Transaction</div>
             </div>
-
-            <button class="clear-filters-btn" id="clearFilters">
-              <i class="fas fa-times"></i> Clear Filters
-            </button>
+            <div class="metric-card">
+              <div class="metric-value" id="metricLowest">0.00</div>
+              <div class="metric-label">Lowest Transaction</div>
+            </div>
           </div>
 
-          <!-- TABLE -->
+          <!-- TYPE FILTER TABS -->
+          <div class="tabs-container">
+            <button class="tab-btn active-tab" data-filter="all">All</button>
+            <button class="tab-btn" data-filter="sale">Sales</button>
+            <button class="tab-btn" data-filter="expense">Expenses</button>
+          </div>
+
+          <!-- TABLE (Safalawo only) -->
           <div class="table-wrapper">
             <table>
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Branch</th>
                   <th>Type</th>
                   <th>Cashier</th>
                   <th>Amount (MWK)</th>
@@ -808,11 +793,11 @@
               </tbody>
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
-              No records found
+              No records found for Safalawo
             </div>
           </div>
 
-          <!-- PAGINATION CONTROLS -->
+          <!-- PAGINATION -->
           <div class="pagination-container">
             <div class="rows-per-page">
               <label for="rowsPerPage">Rows per page:</label>
@@ -820,12 +805,10 @@
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
-                <option value="40">40</option>
                 <option value="50">50</option>
                 <option value="all">All</option>
               </select>
             </div>
-
             <div class="pagination-controls">
               <button id="prevPage" disabled>
                 <i class="fas fa-chevron-left"></i> Previous
@@ -866,12 +849,9 @@
         }
         const today = todayStr();
 
-        // ----- SAMPLE DATA -----
-        // Generate more sample data for pagination testing
-        const baseRecords = [
-          // SAFALAWO
+        // ----- SAFALAWO ONLY DATA with Cashier names -----
+        const safalawoRecords = [
           {
-            branch: "safalawo",
             type: "sale",
             cashier: "Grace Banda",
             amount: 1200,
@@ -879,7 +859,6 @@
             time: "09:15:00",
           },
           {
-            branch: "safalawo",
             type: "sale",
             cashier: "Peter Mwale",
             amount: 800,
@@ -887,7 +866,6 @@
             time: "10:30:00",
           },
           {
-            branch: "safalawo",
             type: "expense",
             cashier: "John Phiri",
             amount: 3500,
@@ -895,159 +873,84 @@
             time: "08:00:00",
           },
           {
-            branch: "safalawo",
             type: "expense",
             cashier: "Mary Kachale",
             amount: 2800,
             date: today,
             time: "11:20:00",
           },
-          // ZAMBIA
           {
-            branch: "zambia",
             type: "sale",
             cashier: "David Zulu",
             amount: 1500,
             date: today,
-            time: "09:45:00",
+            time: "14:45:00",
           },
           {
-            branch: "zambia",
             type: "sale",
             cashier: "Sarah Lungu",
-            amount: 2000,
-            date: today,
-            time: "14:10:00",
-          },
-          {
-            branch: "zambia",
-            type: "expense",
-            cashier: "James Nyirenda",
-            amount: 4200,
-            date: today,
-            time: "10:00:00",
-          },
-          {
-            branch: "zambia",
-            type: "expense",
-            cashier: "Ester Tembo",
-            amount: 15000,
-            date: today,
-            time: "13:30:00",
-          },
-          // MAKATA
-          {
-            branch: "makata",
-            type: "sale",
-            cashier: "Michael Banda",
-            amount: 900,
-            date: today,
-            time: "11:00:00",
-          },
-          {
-            branch: "makata",
-            type: "sale",
-            cashier: "Ruth Moyo",
-            amount: 1100,
-            date: today,
-            time: "15:20:00",
-          },
-          {
-            branch: "makata",
-            type: "expense",
-            cashier: "Joseph Kamanga",
-            amount: 3500,
-            date: today,
-            time: "07:30:00",
-          },
-          {
-            branch: "makata",
-            type: "expense",
-            cashier: "Linda Phakati",
-            amount: 2800,
-            date: today,
-            time: "12:00:00",
-          },
-          // extra older
-          {
-            branch: "safalawo",
-            type: "sale",
-            cashier: "Grace Banda",
             amount: 600,
-            date: "2026-07-30",
-            time: "16:00:00",
+            date: today,
+            time: "16:10:00",
           },
           {
-            branch: "zambia",
             type: "expense",
             cashier: "James Nyirenda",
             amount: 4200,
-            date: "2026-07-29",
+            date: "2026-07-30",
             time: "09:00:00",
           },
           {
-            branch: "makata",
+            type: "sale",
+            cashier: "Michael Banda",
+            amount: 900,
+            date: "2026-07-30",
+            time: "11:30:00",
+          },
+          {
             type: "sale",
             cashier: "Ruth Moyo",
-            amount: 1300,
+            amount: 1100,
+            date: "2026-07-29",
+            time: "10:00:00",
+          },
+          {
+            type: "expense",
+            cashier: "Joseph Kamanga",
+            amount: 15000,
             date: "2026-07-28",
-            time: "14:30:00",
+            time: "08:30:00",
+          },
+          {
+            type: "sale",
+            cashier: "Linda Phakati",
+            amount: 700,
+            date: "2026-07-28",
+            time: "13:20:00",
+          },
+          {
+            type: "expense",
+            cashier: "Ester Tembo",
+            amount: 2800,
+            date: "2026-07-27",
+            time: "09:45:00",
           },
         ];
-
-        // Add more records to test pagination
-        const allRecords = [];
-        for (let i = 0; i < 3; i++) {
-          baseRecords.forEach((record) => {
-            const newRecord = { ...record };
-            if (i > 0) {
-              const date = new Date();
-              date.setDate(date.getDate() - i * 2);
-              newRecord.date = date.toISOString().slice(0, 10);
-              newRecord.time = `1${String(i).padStart(2, "0")}:30:00`;
-              newRecord.amount = record.amount + i * 100;
-            }
-            allRecords.push(newRecord);
-          });
-        }
-
-        // ----- POPULATE CASHIER DROPDOWN -----
-        function populateCashierFilter() {
-          const select = document.getElementById("filterCashier");
-          const cashiers = [
-            ...new Set(allRecords.map((r) => r.cashier)),
-          ].sort();
-          cashiers.forEach((cashier) => {
-            const option = document.createElement("option");
-            option.value = cashier;
-            option.textContent = cashier;
-            select.appendChild(option);
-          });
-        }
-        populateCashierFilter();
 
         // ----- PAGINATION STATE -----
         let currentPage = 1;
         let rowsPerPage = 10;
         let filteredData = [];
+        let currentFilter = "all";
 
-        // ----- RENDER TABLE (with pagination) -----
+        // ----- RENDER TABLE (filter by type) -----
         function renderTable() {
-          const branchFilter = document.getElementById("filterBranch").value;
-          const typeFilter = document.getElementById("filterType").value;
-          const cashierFilter = document.getElementById("filterCashier").value;
+          const filter = currentFilter;
 
-          let filtered = allRecords;
-
-          if (branchFilter !== "all") {
-            filtered = filtered.filter((r) => r.branch === branchFilter);
-          }
-          if (typeFilter !== "all") {
-            filtered = filtered.filter((r) => r.type === typeFilter);
-          }
-          if (cashierFilter !== "all") {
-            filtered = filtered.filter((r) => r.cashier === cashierFilter);
-          }
+          let filtered =
+            filter === "all"
+              ? safalawoRecords
+              : safalawoRecords.filter((r) => r.type === filter);
 
           filtered = [...filtered].sort(
             (a, b) => (a.date + a.time).localeCompare(b.date + b.time) * -1,
@@ -1094,23 +997,12 @@
 
           const typeLabels = { sale: "Sale", expense: "Expense" };
           const typeClasses = { sale: "type-sale", expense: "type-expense" };
-          const branchLabels = {
-            safalawo: "Safalawo",
-            zambia: "Zambia",
-            makata: "Makata",
-          };
-          const branchClasses = {
-            safalawo: "branch-safalawo",
-            zambia: "branch-zambia",
-            makata: "branch-makata",
-          };
 
           let html = "";
           pageData.forEach((r, index) => {
             const rowNum = startIndex + index + 1;
             html += `<tr>
-              <td class="row-number">${rowNum}</td>
-              <td><span class="branch-badge ${branchClasses[r.branch]}">${branchLabels[r.branch]}</span></td>
+              <td style="opacity: 0.5; text-align: center;">${rowNum}</td>
               <td><span class="type-badge ${typeClasses[r.type]}">${typeLabels[r.type]}</span></td>
               <td>${r.cashier || "-"}</td>
               <td><strong>${r.amount.toFixed(2)}</strong></td>
@@ -1121,54 +1013,74 @@
           tbody.innerHTML = html;
         }
 
-        // ----- UPDATE STATS -----
+        // ----- UPDATE STATS (Safalawo specific) -----
         function updateStats() {
           const today = todayStr();
-          const branches = ["safalawo", "zambia", "makata"];
-          const branchData = {};
 
-          branches.forEach((br) => {
-            const sales = allRecords
-              .filter(
-                (r) => r.branch === br && r.type === "sale" && r.date === today,
-              )
-              .reduce((sum, r) => sum + r.amount, 0);
-            const expenses = allRecords
-              .filter(
-                (r) =>
-                  r.branch === br && r.type === "expense" && r.date === today,
-              )
-              .reduce((sum, r) => sum + r.amount, 0);
-            branchData[br] = { sales, expenses, net: sales - expenses };
-          });
+          // Today's figures
+          const todaySales = safalawoRecords
+            .filter((r) => r.type === "sale" && r.date === today)
+            .reduce((sum, r) => sum + r.amount, 0);
+          const todayExpenses = safalawoRecords
+            .filter((r) => r.type === "expense" && r.date === today)
+            .reduce((sum, r) => sum + r.amount, 0);
+          const todayNet = todaySales - todayExpenses;
+          const todayTx = safalawoRecords.filter(
+            (r) => r.date === today,
+          ).length;
 
-          document.getElementById("statSafalawoSales").textContent =
-            branchData.safalawo.sales.toFixed(2);
-          document.getElementById("statSafalawoExpenses").textContent =
-            branchData.safalawo.expenses.toFixed(2);
-          document.getElementById("statSafalawo").textContent =
-            branchData.safalawo.net.toFixed(2);
+          // All-time figures
+          const allSales = safalawoRecords
+            .filter((r) => r.type === "sale")
+            .reduce((sum, r) => sum + r.amount, 0);
+          const allExpenses = safalawoRecords
+            .filter((r) => r.type === "expense")
+            .reduce((sum, r) => sum + r.amount, 0);
+          const allNet = allSales - allExpenses;
+          const allTx = safalawoRecords.length;
 
-          document.getElementById("statZambiaSales").textContent =
-            branchData.zambia.sales.toFixed(2);
-          document.getElementById("statZambiaExpenses").textContent =
-            branchData.zambia.expenses.toFixed(2);
-          document.getElementById("statZambia").textContent =
-            branchData.zambia.net.toFixed(2);
+          // Update stat cards
+          document.getElementById("statSalesToday").textContent =
+            todaySales.toFixed(2);
+          document.getElementById("statSalesAll").textContent =
+            allSales.toFixed(2);
+          document.getElementById("statExpensesToday").textContent =
+            todayExpenses.toFixed(2);
+          document.getElementById("statExpensesAll").textContent =
+            allExpenses.toFixed(2);
+          document.getElementById("statNetToday").textContent =
+            todayNet.toFixed(2);
+          document.getElementById("statNetAll").textContent = allNet.toFixed(2);
+          document.getElementById("statTxToday").textContent = todayTx;
+          document.getElementById("statTxAll").textContent = allTx;
 
-          document.getElementById("statMakataSales").textContent =
-            branchData.makata.sales.toFixed(2);
-          document.getElementById("statMakataExpenses").textContent =
-            branchData.makata.expenses.toFixed(2);
-          document.getElementById("statMakata").textContent =
-            branchData.makata.net.toFixed(2);
+          // Metrics: averages, highest, lowest
+          const salesOnly = safalawoRecords.filter((r) => r.type === "sale");
+          const expensesOnly = safalawoRecords.filter(
+            (r) => r.type === "expense",
+          );
+          const avgSale =
+            salesOnly.length > 0
+              ? salesOnly.reduce((s, r) => s + r.amount, 0) / salesOnly.length
+              : 0;
+          const avgExpense =
+            expensesOnly.length > 0
+              ? expensesOnly.reduce((s, r) => s + r.amount, 0) /
+                expensesOnly.length
+              : 0;
 
-          const totalNet =
-            branchData.safalawo.net +
-            branchData.zambia.net +
-            branchData.makata.net;
-          document.getElementById("statTotal").textContent =
-            totalNet.toFixed(2);
+          const allAmounts = safalawoRecords.map((r) => r.amount);
+          const highest = allAmounts.length > 0 ? Math.max(...allAmounts) : 0;
+          const lowest = allAmounts.length > 0 ? Math.min(...allAmounts) : 0;
+
+          document.getElementById("metricAvgSale").textContent =
+            avgSale.toFixed(2);
+          document.getElementById("metricAvgExpense").textContent =
+            avgExpense.toFixed(2);
+          document.getElementById("metricHighest").textContent =
+            highest.toFixed(2);
+          document.getElementById("metricLowest").textContent =
+            lowest.toFixed(2);
         }
 
         // ----- PAGINATION FUNCTIONS -----
@@ -1198,36 +1110,20 @@
           }
         }
 
+        // ----- TABS (type filter) -----
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            document.querySelectorAll(".tab-btn").forEach((b) => {
+              b.classList.remove("active-tab");
+            });
+            this.classList.add("active-tab");
+            currentFilter = this.dataset.filter;
+            currentPage = 1;
+            renderTable();
+          });
+        });
+
         // ----- SETUP EVENT LISTENERS -----
-        document
-          .getElementById("filterBranch")
-          .addEventListener("change", function () {
-            currentPage = 1;
-            renderTable();
-          });
-        document
-          .getElementById("filterType")
-          .addEventListener("change", function () {
-            currentPage = 1;
-            renderTable();
-          });
-        document
-          .getElementById("filterCashier")
-          .addEventListener("change", function () {
-            currentPage = 1;
-            renderTable();
-          });
-
-        document
-          .getElementById("clearFilters")
-          .addEventListener("click", function () {
-            document.getElementById("filterBranch").value = "all";
-            document.getElementById("filterType").value = "all";
-            document.getElementById("filterCashier").value = "all";
-            currentPage = 1;
-            renderTable();
-          });
-
         document
           .getElementById("rowsPerPage")
           .addEventListener("change", function () {
@@ -1244,7 +1140,6 @@
         updateStats();
 
         document.getElementById("sidebarUserName").textContent = "Accountant";
-        document.getElementById("dashUserName").textContent = "Consolidated";
       })();
     </script>
   </body>

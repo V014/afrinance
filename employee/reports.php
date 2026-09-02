@@ -528,22 +528,22 @@
         </div>
 
         <nav class="nav-links">
-          <a href="dashboard.html" data-page="dashboard"
+          <a href="dashboard.php" data-page="dashboard"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-          <a href="sales.html" data-page="add-sale"
+          <a href="sales.php" data-page="add-sale"
             ><i class="fas fa-coins"></i> Sales</a
           >
-          <a href="expenses.html" data-page="add-expense"
+          <a href="expenses.php" data-page="add-expense"
             ><i class="fas fa-receipt"></i> Expenses</a
           >
-          <a href="reports.html" data-page="reports" class="active-link"
+          <a href="reports.php" data-page="reports" class="active-link"
             ><i class="fas fa-file-alt"></i> Reports</a
           >
         </nav>
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>

@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
-      /* ----- THEME (same as dashboard) ----- */
+      /* ----- THEME INSPIRED FROM AFRINANCE ----- */
       :root {
         --bg-color: #e4e4e4;
         --bg-panel: #ffffff;
@@ -21,10 +21,11 @@
         --accent-color: #3ddc84;
         --border: rgba(0, 0, 0, 0.07);
         --border-radius: 12px;
+        --control-padding: 16px 20px;
         --sales: #f59e0b;
         --expenses: #e74c3c;
+        /* debt variable kept for compatibility but not used */
         --debt: #3b82f6;
-        --remove-color: #e74c3c;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -56,13 +57,14 @@
           color 0.2s;
       }
 
-      /* ----- SIDEBAR ----- */
+      /* ----- SIDEBAR LAYOUT ----- */
       .app-layout {
         display: flex;
         min-height: 100vh;
       }
       .sidebar {
         width: 260px;
+        /* background: var(--bg-panel); */
         border-right: 1px solid var(--border);
         padding: 1.5rem 1rem;
         flex-shrink: 0;
@@ -108,6 +110,7 @@
         opacity: 0.6;
         font-size: 0.75rem;
       }
+
       .sidebar .nav-links {
         flex: 1;
         display: flex;
@@ -143,6 +146,7 @@
         width: 22px;
         text-align: center;
       }
+
       .sidebar .logout-wrapper {
         margin-top: auto;
         border-top: 1px solid var(--border);
@@ -194,7 +198,7 @@
         padding: 1.5rem;
       }
 
-      /* ----- WELCOME CARD ----- */
+      /* ----- WELCOME CARD (flex layout: left, center, right) ----- */
       .welcome-card {
         display: flex;
         flex-wrap: wrap;
@@ -227,12 +231,19 @@
         font-weight: 600;
       }
 
-      /* ----- STAT CARDS ----- */
+      /* ----- STATS CARDS - side by side ----- */
+      .stats-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
       .stat-card {
         padding: 1.5rem;
         border-radius: var(--border-radius);
         text-align: center;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        /* background: var(--bg-panel); */
       }
       .stat-card .stat-icon {
         font-size: 2rem;
@@ -247,106 +258,54 @@
         opacity: 0.6;
       }
 
-      .grid {
-        display: grid;
-        gap: 1rem;
-      }
-      .grid-cols-1 {
-        grid-template-columns: 1fr;
-      }
-      @media (min-width: 640px) {
-        .sm\:grid-cols-3 {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      /* ----- ADD SALE FORM (amount input removed) ----- */
-      .form-card {
-        margin: 1.5rem auto;
-        border-radius: var(--border-radius);
-        padding: 1.5rem 2rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        max-width: 800px;
+      /* ----- TABS (filter) with color coding ----- */
+      .tabs-container {
         display: flex;
-        flex-wrap: wrap;
-        align-items: center;
         justify-content: center;
-        gap: 1.2rem 2rem;
+        gap: 0.5rem;
+        margin: 1.5rem 0 1rem;
       }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        flex: 1 0 140px;
-        min-width: 130px;
-      }
-      .form-group label {
-        font-size: 0.8rem;
+      .tab-btn {
+        padding: 0.6rem 1.8rem;
+        border: 2px solid transparent;
+        /* border-radius: 30px; */
         font-weight: 600;
-        opacity: 0.7;
-        margin-bottom: 0.25rem;
-        text-transform: uppercase;
-        letter-spacing: 0.02em;
-      }
-      .form-group input,
-      .form-group select {
+        font-size: 0.9rem;
+        cursor: pointer;
         background: var(--bg-color);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 0.65rem 0.9rem;
         color: var(--text-color);
-        font-size: 0.95rem;
-        transition: border 0.2s;
-        width: 100%;
-        appearance: auto;
+        opacity: 0.6;
+        transition: all 0.3s ease;
       }
-      .form-group input:focus,
-      .form-group select:focus {
-        outline: 2px solid var(--accent-color);
-        outline-offset: 1px;
-        border-color: transparent;
-      }
-
-      /* ----- SMOOTH DROPDOWN ANIMATION ----- */
-      .form-group select {
-        cursor: pointer;
-        transition:
-          border 0.2s,
-          box-shadow 0.2s,
-          transform 0.15s ease;
-      }
-      .form-group select:hover {
+      .tab-btn:hover {
+        opacity: 0.9;
         transform: scale(1.02);
       }
-      .form-group select option {
-        padding: 8px;
+      /* Default active state (All) */
+      .tab-btn.active-tab {
+        /* background: var(--accent-color); */
+        color: var(--accent-color);
+        opacity: 1;
+        border-bottom: 1px solid var(--accent-color);
       }
-
-      .btn-primary {
-        background: var(--accent-color);
-        border: none;
-        padding: 0.7rem 2.2rem;
-        border-radius: 30px;
-        font-weight: 700;
-        color: #1a1a1a;
-        cursor: pointer;
-        font-size: 0.95rem;
-        transition:
-          transform 0.1s,
-          box-shadow 0.1s;
-        align-self: center;
-        white-space: nowrap;
-        margin-left: auto;
+      /* Sales filter active */
+      .tab-btn.active-sales {
+        /* background: var(--sales); */
+        color: var(--sales);
+        opacity: 1;
+        border-bottom: 1px solid var(--sales);
       }
-      .btn-primary:hover {
-        transform: scale(1.02);
-        box-shadow: 0 4px 12px rgba(61, 220, 132, 0.3);
-      }
-      .btn-primary i {
-        margin-right: 6px;
+      /* Expenses filter active */
+      .tab-btn.active-expenses {
+        /* background: var(--expenses); */
+        color: var(--expenses);
+        opacity: 1;
+        border-bottom: 1px solid var(--expenses);
       }
 
       /* ----- TABLE ----- */
       .table-wrapper {
+        /* background: var(--bg-panel); */
         border-radius: var(--border-radius);
         padding: 1rem;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -373,44 +332,31 @@
         padding: 0.8rem 1rem;
         border-bottom: 1px solid var(--border);
         opacity: 0.9;
-        vertical-align: middle;
       }
       tr:last-child td {
         border-bottom: none;
       }
+      .type-badge {
+        display: inline-block;
+        padding: 0.2rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+      .type-sale {
+        color: var(--sales);
+      }
+      .type-expense {
+        color: var(--expenses);
+      }
+
       .empty-state {
         text-align: center;
         padding: 2rem;
         opacity: 0.5;
       }
-      .btn-remove {
-        background: transparent;
-        border: none;
-        color: var(--remove-color);
-        cursor: pointer;
-        font-size: 1.1rem;
-        padding: 0.2rem 0.5rem;
-        border-radius: 6px;
-        transition:
-          background 0.15s,
-          transform 0.1s;
-        opacity: 0.6;
-      }
-      .btn-remove:hover {
-        background: rgba(231, 76, 60, 0.12);
-        opacity: 1;
-        transform: scale(1.1);
-      }
-      .type-badge {
-        display: inline-block;
-        padding: 0.15rem 0.7rem;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        background: var(--bg-color);
-      }
 
-      /* ----- mobile ----- */
+      /* ----- MOBILE ----- */
       @media (max-width: 768px) {
         .app-layout {
           flex-direction: column;
@@ -440,18 +386,11 @@
           text-align: center;
           flex: 1 1 auto;
         }
-        .form-card {
-          flex-direction: column;
-          align-items: stretch;
+        .tabs-container {
+          flex-wrap: wrap;
         }
-        .btn-primary {
-          margin-left: 0;
-          width: 100%;
-          text-align: center;
-        }
-        .btn-remove {
-          font-size: 1rem;
-          padding: 0.2rem 0.3rem;
+        .stats-row {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -477,22 +416,22 @@
         </div>
 
         <nav class="nav-links">
-          <a href="dashboard.html" data-page="dashboard"
+          <a href="dashboard.php" data-page="dashboard" class="active-link"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-          <a href="sales.html" data-page="add-sale" class="active-link"
+          <a href="sales.php" data-page="add-sale"
             ><i class="fas fa-coins"></i> Sales</a
           >
-          <a href="expenses.html" data-page="add-expense"
+          <a href="expenses.php" data-page="add-expense"
             ><i class="fas fa-receipt"></i> Expenses</a
           >
-          <a href="reports.html" data-page="add-debt"
+          <a href="reports.php" data-page="add-debt"
             ><i class="fas fa-file-alt"></i> Reports</a
           >
         </nav>
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
@@ -501,10 +440,10 @@
       <!-- MAIN CONTENT -->
       <main class="main-content">
         <div class="content-wrapper">
-          <!-- WELCOME CARD -->
+          <!-- WELCOME CARD with live time (left, center, right) -->
           <div class="panel-card welcome-card">
             <div class="welcome-left">
-              <h2>Sales · <span id="dashUserName">Cashier</span></h2>
+              <h2>Welcome, <span id="dashUserName">Cashier</span></h2>
             </div>
             <div class="welcome-center">
               <strong>Time:</strong> <span id="liveTime">--:--:--</span>
@@ -514,8 +453,8 @@
             </div>
           </div>
 
-          <!-- STATS CARDS -->
-          <div class="grid grid-cols-1 sm:grid-cols-3">
+          <!-- STATS CARDS - side by side -->
+          <div class="stats-row">
             <div class="stat-card">
               <div class="stat-icon" style="color: var(--sales)">
                 <i class="fas fa-coins"></i>
@@ -524,65 +463,38 @@
               <div class="stat-label">Today's Sales</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon" style="color: var(--sales)">
-                <i class="fas fa-chart-line"></i>
+              <div class="stat-icon" style="color: var(--expenses)">
+                <i class="fas fa-receipt"></i>
               </div>
-              <div class="stat-value" id="dashTotalSalesAll">0.00</div>
-              <div class="stat-label">All-time Sales</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon" style="color: var(--sales)">
-                <i class="fas fa-list-ul"></i>
-              </div>
-              <div class="stat-value" id="dashSalesCount">0</div>
-              <div class="stat-label">Total Sales Entries</div>
+              <div class="stat-value" id="dashTotalExpenses">0.00</div>
+              <div class="stat-label">Today's Expenses</div>
             </div>
           </div>
 
-          <!-- ADD SALE FORM (date + amount inputs removed) -->
-          <div class="form-card">
-            <div class="form-group" style="flex: 1">
-              <label for="saleType">Type</label>
-              <select id="saleType">
-                <option value="mill">Milling</option>
-                <option value="shell">Shelling</option>
-              </select>
-            </div>
-            <div class="form-group" style="flex: 1">
-              <label for="saleUnits">Units</label>
-              <input
-                type="number"
-                id="saleUnits"
-                placeholder="e.g. 2"
-                value="1"
-                min="0.5"
-                step="0.5"
-              />
-            </div>
-            <button class="btn-primary" id="addSaleBtn">
-              <i class="fas fa-plus-circle"></i> Add Sale
-            </button>
+          <!-- TABS FILTER (Debt tab removed) -->
+          <div class="tabs-container">
+            <button class="tab-btn active-tab" data-filter="all">All</button>
+            <button class="tab-btn" data-filter="sale">Sales</button>
+            <button class="tab-btn" data-filter="expense">Expenses</button>
           </div>
 
-          <!-- SALES TABLE -->
+          <!-- TABLE (description column removed) -->
           <div class="table-wrapper">
             <table>
               <thead>
                 <tr>
                   <th>Type</th>
-                  <th>Units</th>
                   <th>Amount (MWK)</th>
                   <th>Date</th>
                   <th>Time</th>
-                  <th style="text-align: center; width: 60px">Remove</th>
                 </tr>
               </thead>
               <tbody id="tableBody">
-                <!-- rendered by JS -->
+                <!-- rows rendered by JS -->
               </tbody>
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
-              No sales recorded yet
+              No records found
             </div>
           </div>
         </div>
@@ -593,89 +505,91 @@
       (function () {
         "use strict";
 
-        // ----- PRICES -----
-        const PRICES = {
-          mill: 500, // MWK per unit (5L bucket)
-          shell: 1000,
-        };
-
         // ----- LIVE CLOCK -----
         function updateClock() {
           const now = new Date();
-          document.getElementById("liveTime").textContent =
-            now.toLocaleTimeString("en-US", { hour12: false });
-          document.getElementById("liveDay").textContent =
-            now.toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            });
+          const timeStr = now.toLocaleTimeString("en-US", { hour12: false });
+          const dayStr = now.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          document.getElementById("liveTime").textContent = timeStr;
+          document.getElementById("liveDay").textContent = dayStr;
         }
         updateClock();
         setInterval(updateClock, 1000);
 
-        // ----- DATA -----
+        // ----- DATA (debt records removed) -----
         function todayStr() {
           return new Date().toISOString().slice(0, 10);
         }
+
         const today = todayStr();
 
-        let salesRecords = [
+        // Sample data without debt entries
+        const allRecords = [
           {
-            id: 1,
-            type: "mill",
-            units: 2,
-            amount: 1000,
+            type: "sale",
+            description: "Dine-in - Alice",
+            amount: 120.5,
             date: today,
             time: "12:30:15",
           },
           {
-            id: 2,
-            type: "shell",
-            units: 1.5,
-            amount: 1500,
+            type: "sale",
+            description: "Takeaway - Bob",
+            amount: 45.0,
             date: today,
             time: "13:45:22",
           },
           {
-            id: 3,
-            type: "mill",
-            units: 3,
-            amount: 1500,
+            type: "expense",
+            description: "Ingredients - veggies",
+            amount: 30.0,
+            date: today,
+            time: "09:10:05",
+          },
+          {
+            type: "expense",
+            description: "Transport - delivery",
+            amount: 15.0,
+            date: today,
+            time: "10:20:30",
+          },
+          {
+            type: "sale",
+            description: "Mobile Money - Carol",
+            amount: 75.25,
             date: today,
             time: "15:10:00",
           },
           {
-            id: 4,
-            type: "shell",
-            units: 2,
-            amount: 2000,
+            type: "expense",
+            description: "Salaries - weekly",
+            amount: 200.0,
             date: today,
-            time: "11:20:10",
+            time: "08:00:00",
           },
         ];
-        let nextId = 5;
 
-        // ----- AUTO-CALCULATE AMOUNT (internal only, no display) -----
-        function calculateAmount() {
-          const type = document.getElementById("saleType").value;
-          const units =
-            parseFloat(document.getElementById("saleUnits").value) || 0;
-          const price = PRICES[type] || 0;
-          return units * price;
-        }
+        // ----- RENDER TABLE (no description column) -----
+        let currentFilter = "all";
 
-        // ----- RENDER TABLE -----
-        function renderSales() {
+        function renderTable(filter) {
           const tbody = document.getElementById("tableBody");
           const empty = document.getElementById("emptyState");
 
-          const sorted = [...salesRecords].sort((a, b) =>
-            b.time.localeCompare(a.time),
-          );
+          let filtered =
+            filter === "all"
+              ? allRecords
+              : allRecords.filter((r) => r.type === filter);
 
-          if (sorted.length === 0) {
+          // Sort by time (newest first)
+          filtered = [...filtered].sort((a, b) => b.time.localeCompare(a.time));
+
+          if (filtered.length === 0) {
             tbody.innerHTML = "";
             empty.style.display = "block";
             return;
@@ -683,111 +597,77 @@
           empty.style.display = "none";
 
           let html = "";
-          const typeLabels = { mill: "Milling", shell: "Shelling" };
-          const typeClasses = { mill: "mill", shell: "shell" };
-          sorted.forEach((r) => {
-            html += `<tr data-id="${r.id}">
-              <td><span class="type-badge ${typeClasses[r.type]}">${typeLabels[r.type]}</span></td>
-              <td>${r.units}</td>
-              <td><strong>${r.amount.toFixed(2)}</strong></td>
-              <td>${r.date}</td>
-              <td>${r.time}</td>
-              <td style="text-align:center;">
-                <button class="btn-remove" data-id="${r.id}" title="Remove sale"><i class="fas fa-trash-alt"></i></button>
-              </td>
-            </tr>`;
+          const typeLabels = { sale: "Sale", expense: "Expense" };
+          const typeClasses = {
+            sale: "type-sale",
+            expense: "type-expense",
+          };
+          const iconMap = {
+            sale: "",
+            expense: "",
+          };
+
+          filtered.forEach((r) => {
+            html += `<tr>
+          <td><span class="type-badge ${typeClasses[r.type]}"><i class="fas ${iconMap[r.type]}"></i> ${typeLabels[r.type]}</span></td>
+          <td><strong>${r.amount.toFixed(2)}</strong></td>
+          <td>${r.date}</td>
+          <td>${r.time}</td>
+        </tr>`;
           });
           tbody.innerHTML = html;
-
-          document.querySelectorAll(".btn-remove").forEach((btn) => {
-            btn.addEventListener("click", function (e) {
-              e.stopPropagation();
-              const id = parseInt(this.dataset.id, 10);
-              removeSaleById(id);
-            });
-          });
         }
 
-        // ----- REMOVE -----
-        function removeSaleById(id) {
-          const index = salesRecords.findIndex((r) => r.id === id);
-          if (index === -1) return;
-          salesRecords.splice(index, 1);
-          renderSales();
-          updateStats();
-        }
-
-        // ----- UPDATE STATS -----
+        // ----- UPDATE STATS (debt removed) -----
         function updateStats() {
           const today = todayStr();
-          const todaySales = salesRecords
-            .filter((r) => r.date === today)
+          const salesToday = allRecords
+            .filter((r) => r.type === "sale" && r.date === today)
             .reduce((sum, r) => sum + r.amount, 0);
-          const allSales = salesRecords.reduce((sum, r) => sum + r.amount, 0);
-          const count = salesRecords.length;
+          const expToday = allRecords
+            .filter((r) => r.type === "expense" && r.date === today)
+            .reduce((sum, r) => sum + r.amount, 0);
 
           document.getElementById("dashTotalSales").textContent =
-            todaySales.toFixed(2);
-          document.getElementById("dashTotalSalesAll").textContent =
-            allSales.toFixed(2);
-          document.getElementById("dashSalesCount").textContent = count;
+            salesToday.toFixed(2);
+          document.getElementById("dashTotalExpenses").textContent =
+            expToday.toFixed(2);
         }
 
-        // ----- ADD SALE (date + amount auto, no inputs) -----
-        function addSale() {
-          const type = document.getElementById("saleType").value;
-          const unitsInput = document.getElementById("saleUnits");
+        // ----- TABS with color coding (debt tab removed) -----
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            // Remove all active classes from all tabs
+            document.querySelectorAll(".tab-btn").forEach((b) => {
+              b.classList.remove(
+                "active-tab",
+                "active-sales",
+                "active-expenses",
+                "active-debts",
+              );
+            });
 
-          const units = parseFloat(unitsInput.value);
-          if (isNaN(units) || units <= 0) {
-            alert("Please enter a valid number of units (e.g. 1, 1.5, 2).");
-            return;
-          }
+            const filter = this.dataset.filter;
 
-          // Calculate amount from price
-          const price = PRICES[type];
-          const amount = units * price;
+            // Add the appropriate active class based on filter
+            if (filter === "all") {
+              this.classList.add("active-tab");
+            } else if (filter === "sale") {
+              this.classList.add("active-sales");
+            } else if (filter === "expense") {
+              this.classList.add("active-expenses");
+            }
 
-          // Date is always today
-          const date = todayStr();
-
-          const now = new Date();
-          const time = now.toTimeString().slice(0, 8);
-
-          salesRecords.push({
-            id: nextId++,
-            type: type,
-            units: units,
-            amount: amount,
-            date: date,
-            time: time,
+            currentFilter = filter;
+            renderTable(currentFilter);
           });
-
-          // Reset form: keep type, reset units to 1
-          unitsInput.value = "1";
-
-          renderSales();
-          updateStats();
-        }
-
-        // ----- SETUP -----
-
-        // ----- EVENT LISTENERS -----
-        document
-          .getElementById("addSaleBtn")
-          .addEventListener("click", addSale);
-
-        // Enter key on units triggers add
-        document
-          .getElementById("saleUnits")
-          .addEventListener("keydown", (e) => {
-            if (e.key === "Enter") addSale();
-          });
+        });
 
         // ----- INIT -----
-        renderSales();
+        renderTable("all");
         updateStats();
 
+        // Set user name
         document.getElementById("sidebarUserName").textContent = "Cashier";
         document.getElementById("dashUserName").textContent = "Cashier";
       })();

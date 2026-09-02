@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
-      /* ----- THEME (same as accountant dashboard) ----- */
+      /* ----- THEME (same as original) ----- */
       :root {
         --bg-color: #e4e4e4;
         --bg-panel: #ffffff;
@@ -23,6 +23,8 @@
         --border-radius: 12px;
         --sales: #f59e0b;
         --expenses: #e74c3c;
+        --debt: #3b82f6;
+        --admin-purple: #8b5cf6;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -106,7 +108,6 @@
         opacity: 0.6;
         font-size: 0.75rem;
       }
-
       .sidebar .nav-section {
         font-size: 0.65rem;
         text-transform: uppercase;
@@ -115,7 +116,6 @@
         padding: 0.75rem 1rem 0.3rem 1rem;
         font-weight: 700;
       }
-
       .sidebar .nav-links {
         display: flex;
         flex-direction: column;
@@ -151,7 +151,6 @@
         width: 22px;
         text-align: center;
       }
-
       .sidebar .logout-wrapper {
         margin-top: auto;
         border-top: 1px solid var(--border);
@@ -203,7 +202,7 @@
         padding: 1.5rem;
       }
 
-      /* ----- WELCOME CARD (branch specific) ----- */
+      /* ----- WELCOME CARD ----- */
       .welcome-card {
         display: flex;
         flex-wrap: wrap;
@@ -236,54 +235,7 @@
         font-weight: 600;
       }
 
-      /* ----- NAVIGATION BUTTONS (Sales & Expenses) ----- */
-      .nav-buttons {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .nav-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        padding: 0.7rem 2rem;
-        border-radius: 30px;
-        font-weight: 600;
-        font-size: 0.95rem;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border: 2px solid var(--border);
-        background: var(--bg-panel);
-        color: var(--text-color);
-        cursor: pointer;
-      }
-      .nav-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      .nav-btn i {
-        font-size: 1.1rem;
-      }
-      .nav-btn.sales-btn {
-        border-color: var(--sales);
-        color: var(--sales);
-      }
-      .nav-btn.sales-btn:hover {
-        background: var(--sales);
-        color: #fff;
-      }
-      .nav-btn.expenses-btn {
-        border-color: var(--expenses);
-        color: var(--expenses);
-      }
-      .nav-btn.expenses-btn:hover {
-        background: var(--expenses);
-        color: #fff;
-      }
-
-      /* ----- STATS CARDS (branch summary) ----- */
+      /* ----- STATS CARDS ----- */
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -302,7 +254,6 @@
       .stat-card:hover {
         transform: translateY(-2px);
       }
-
       .stat-header {
         display: flex;
         align-items: center;
@@ -310,18 +261,17 @@
         margin-bottom: 0.6rem;
       }
       .stat-header .stat-icon {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         width: 2rem;
         text-align: center;
         color: var(--text-color);
       }
       .stat-header .stat-label {
-        font-size: 0.95rem;
+        font-size: 1rem;
         font-weight: 600;
         letter-spacing: 0.01em;
         color: var(--text-color);
       }
-
       .stat-detail {
         display: flex;
         justify-content: space-between;
@@ -343,38 +293,7 @@
       }
       .stat-detail .detail-value {
         font-weight: 600;
-        color: var(--text-color);
-      }
-
-      /* ----- EXTRA METRICS (profit, transactions) ----- */
-      .metrics-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-      .metric-card {
-        padding: 0.8rem 1rem;
-        border-radius: var(--border-radius);
-        background: var(--bg-panel);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        border: 1px solid var(--border);
-      }
-      .metric-card .metric-value {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--text-color);
-      }
-      .metric-card .metric-label {
-        font-size: 0.7rem;
-        opacity: 0.6;
-        margin-top: 0.1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
+        color: var(--text-color) !important;
       }
 
       /* ----- TABLE (full borders) ----- */
@@ -411,7 +330,7 @@
         border-bottom: 1px solid var(--border);
       }
 
-      .type-badge {
+      .role-badge {
         display: inline-block;
         padding: 0.15rem 0.7rem;
         border-radius: 20px;
@@ -419,10 +338,28 @@
         font-weight: 600;
         background: var(--bg-color);
       }
-      .type-sale {
+      .role-cashier {
         color: var(--sales);
       }
-      .type-expense {
+      .role-accountant {
+        color: var(--debt);
+      }
+      .role-admin-manager {
+        color: var(--admin-purple);
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 0.15rem 0.7rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: var(--bg-color);
+      }
+      .status-active {
+        color: var(--accent-color);
+      }
+      .status-inactive {
         color: var(--expenses);
       }
 
@@ -432,35 +369,77 @@
         opacity: 0.5;
       }
 
-      /* ----- FILTER TABS (type filter) ----- */
-      .tabs-container {
+      /* ----- FILTERS (dynamic from table columns) ----- */
+      .filters-container {
         display: flex;
-        justify-content: center;
-        gap: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.75rem;
         margin: 1.5rem 0 1rem;
+        padding: 0.75rem 1rem;
+        background: var(--bg-panel);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+      }
+      .filters-container .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         flex-wrap: wrap;
       }
-      .tab-btn {
-        padding: 0.5rem 1.5rem;
-        border: 2px solid transparent;
+      .filters-container .filter-group label {
+        font-size: 0.8rem;
         font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
+        opacity: 0.7;
+        white-space: nowrap;
+      }
+      .filters-container .filter-group select {
+        padding: 0.4rem 0.75rem;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border);
         background: var(--bg-color);
         color: var(--text-color);
-        opacity: 0.6;
-        transition: all 0.2s ease;
-        border-radius: 30px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        outline: none;
+        min-width: 120px;
       }
-      .tab-btn:hover {
-        opacity: 0.9;
-        transform: scale(1.02);
+      .filters-container .filter-group select:focus {
+        border-color: var(--accent-color);
       }
-      .tab-btn.active-tab {
-        color: var(--accent-color);
+      .filters-container .filter-group input {
+        padding: 0.4rem 0.75rem;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border);
+        background: var(--bg-color);
+        color: var(--text-color);
+        font-size: 0.85rem;
+        outline: none;
+        min-width: 140px;
+      }
+      .filters-container .filter-group input:focus {
+        border-color: var(--accent-color);
+      }
+      .filters-container .filter-group input::placeholder {
+        opacity: 0.4;
+      }
+      .clear-filters-btn {
+        padding: 0.4rem 1rem;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border);
+        background: var(--bg-color);
+        color: var(--text-color);
+        font-size: 0.8rem;
+        cursor: pointer;
+        font-weight: 600;
+        opacity: 0.7;
+        transition: all 0.2s;
+      }
+      .clear-filters-btn:hover {
         opacity: 1;
-        border-bottom: 2px solid var(--accent-color);
-        border-radius: 0;
+        background: var(--card-bg);
       }
 
       /* ----- PAGINATION ----- */
@@ -498,6 +477,12 @@
         opacity: 0.3;
         cursor: not-allowed;
       }
+      .pagination-controls button.active-page {
+        background: var(--accent-color);
+        color: #1a1a1a;
+        opacity: 1;
+        border-color: var(--accent-color);
+      }
       .pagination-controls .page-info {
         font-size: 0.85rem;
         opacity: 0.7;
@@ -522,9 +507,6 @@
         font-size: 0.85rem;
         cursor: pointer;
         outline: none;
-      }
-      .rows-per-page select:focus {
-        border-color: var(--accent-color);
       }
 
       /* mobile */
@@ -560,18 +542,12 @@
         .stats-grid {
           grid-template-columns: 1fr 1fr;
         }
-        .metrics-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .nav-buttons {
+        .filters-container {
           flex-direction: column;
           align-items: stretch;
         }
-        .nav-btn {
-          justify-content: center;
-        }
-        .tabs-container {
-          flex-wrap: wrap;
+        .filters-container .filter-group {
+          justify-content: space-between;
         }
         .pagination-container {
           flex-direction: column;
@@ -589,15 +565,12 @@
         .stats-grid {
           grid-template-columns: 1fr;
         }
-        .metrics-grid {
-          grid-template-columns: 1fr;
-        }
       }
     </style>
   </head>
   <body>
     <div class="app-layout">
-      <!-- SIDEBAR (Accountant) -->
+      <!-- SIDEBAR (Admin Manager) -->
       <aside class="sidebar" id="sidebar">
         <div class="brand">
           <div class="avatar">
@@ -611,43 +584,39 @@
             />
           </div>
           <div class="user-info">
-            <span id="sidebarUserName">Accountant</span>
-            <br /><small>Wanga Kanjala</small>
+            <span id="sidebarUserName">Admin Manager</span>
+            <br /><small>System Admin</small>
           </div>
         </div>
 
-        <!-- DASHBOARD -->
-        <div class="nav-section">Dashboard</div>
+        <!-- <div class="nav-section">Management</div> -->
         <nav class="nav-links">
-          <a href="dashboard2.html" data-page="dashboard"
+          <a href="dashboard.php" data-page="dashboard" class="active-link"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-        </nav>
-
-        <!-- BRANCHES -->
-        <div class="nav-section">Branches</div>
-        <nav class="nav-links">
-          <a href="safalawo.html" data-page="safalawo" class="active-link"
-            ><i class="fas fa-store-alt"></i> Safalawo</a
+          <a href="manage.php" data-page="admins"
+            ><i class="fas fa-user-cog"></i> Manage Admins</a
           >
-          <a href="#" data-page="zambia"
-            ><i class="fas fa-store-alt"></i> Zambia</a
+          <a href="roles.php" data-page="roles"
+            ><i class="fas fa-user-tag"></i> Manage Roles</a
           >
-          <a href="#" data-page="fargo"
-            ><i class="fas fa-store-alt"></i> Fargo</a
+          <a href="audit.php" data-page="audit"
+            ><i class="fas fa-clipboard-list"></i> Audit Log</a
           >
         </nav>
 
-        <!-- TOOLS -->
-        <div class="nav-section">Tools</div>
+        <!-- <div class="nav-section">System</div>
         <nav class="nav-links">
-          <a href="analytics.html" data-page="audit"
-            ><i class="fas fa-chart-line"></i> Analytics</a
+          <a href="#" data-page="settings"
+            ><i class="fas fa-cog"></i> Settings</a
           >
-        </nav>
+          <a href="#" data-page="backup"
+            ><i class="fas fa-database"></i> Backup</a
+          >
+        </nav> -->
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
@@ -656,15 +625,15 @@
       <!-- MAIN CONTENT -->
       <main class="main-content">
         <div class="content-wrapper">
-          <!-- WELCOME CARD (Safalawo) -->
+          <!-- WELCOME CARD -->
           <div class="panel-card welcome-card">
             <div class="welcome-left">
               <h2>
-                <i class="fas fa-store-alt"></i>
-                <span class="branch-name">Safalawo</span>
-                <span style="opacity: 0.5; font-weight: 400"
-                  >· Branch Report</span
-                >
+                <i
+                  class="fas fa-user-shield"
+                  style="color: var(--admin-purple)"
+                ></i>
+                Admin Manager · <span id="dashUserName">System</span>
               </h2>
             </div>
             <div class="welcome-center">
@@ -675,125 +644,139 @@
             </div>
           </div>
 
-          <!-- NAVIGATION BUTTONS: Sales & Expenses Detail Pages -->
-          <div class="nav-buttons">
-            <a href="safalawosales.html" class="nav-btn sales-btn">
-              <i class="fas fa-coins"></i> View Sales Details
-            </a>
-            <a href="safalawoexpenses.html" class="nav-btn expenses-btn">
-              <i class="fas fa-receipt"></i> View Expenses Details
-            </a>
-          </div>
-
-          <!-- STATS CARDS: Sales, Expenses, Net, Total Transactions -->
-          <div class="stats-grid" id="statsGrid">
+          <!-- STATS CARDS -->
+          <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-header">
-                <span class="stat-icon"><i class="fas fa-coins"></i></span>
-                <span class="stat-label">Total Sales</span>
+                <span class="stat-icon"><i class="fas fa-users-cog"></i></span>
+                <span class="stat-label">Total Admins</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Today</span>
-                <span class="detail-value" id="statSalesToday">0.00</span>
+                <span class="detail-label">Active</span>
+                <span class="detail-value" id="statActive">0</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">All-time</span>
-                <span class="detail-value" id="statSalesAll">0.00</span>
+                <span class="detail-label">Inactive</span>
+                <span class="detail-value" id="statInactive">0</span>
+              </div>
+              <div class="stat-detail">
+                <span class="detail-label">Total</span>
+                <span class="detail-value" id="statTotalAdmins">0</span>
               </div>
             </div>
 
             <div class="stat-card">
               <div class="stat-header">
-                <span class="stat-icon"><i class="fas fa-receipt"></i></span>
-                <span class="stat-label">Total Expenses</span>
+                <span class="stat-icon"><i class="fas fa-user-tag"></i></span>
+                <span class="stat-label">Roles</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Today</span>
-                <span class="detail-value" id="statExpensesToday">0.00</span>
+                <span class="detail-label">Cashiers</span>
+                <span class="detail-value" id="statRoleCashier">0</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">All-time</span>
-                <span class="detail-value" id="statExpensesAll">0.00</span>
+                <span class="detail-label">Accountants</span>
+                <span class="detail-value" id="statRoleAccountant">0</span>
+              </div>
+              <div class="stat-detail">
+                <span class="detail-label">Admin Managers</span>
+                <span class="detail-value" id="statRoleAdminManager">0</span>
               </div>
             </div>
 
             <div class="stat-card">
               <div class="stat-header">
-                <span class="stat-icon"><i class="fas fa-chart-pie"></i></span>
-                <span class="stat-label">Net Profit</span>
+                <span class="stat-icon"><i class="fas fa-clock"></i></span>
+                <span class="stat-label">Recent Activity</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Today</span>
-                <span class="detail-value" id="statNetToday">0.00</span>
+                <span class="detail-label">Last 7 days</span>
+                <span class="detail-value" id="statRecent7">0</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">All-time</span>
-                <span class="detail-value" id="statNetAll">0.00</span>
+                <span class="detail-label">Last 30 days</span>
+                <span class="detail-value" id="statRecent30">0</span>
+              </div>
+              <div class="stat-detail">
+                <span class="detail-label">Last login</span>
+                <span class="detail-value" id="statLastLogin">--</span>
               </div>
             </div>
 
             <div class="stat-card">
               <div class="stat-header">
-                <span class="stat-icon"><i class="fas fa-list-ul"></i></span>
-                <span class="stat-label">Transactions</span>
+                <span class="stat-icon"><i class="fas fa-shield-alt"></i></span>
+                <span class="stat-label">Security</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Today</span>
-                <span class="detail-value" id="statTxToday">0</span>
+                <span class="detail-label">2FA Enabled</span>
+                <span class="detail-value" id="stat2fa">0</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">All-time</span>
-                <span class="detail-value" id="statTxAll">0</span>
+                <span class="detail-label">Pending invites</span>
+                <span class="detail-value" id="statPending">0</span>
+              </div>
+              <div class="stat-detail">
+                <span class="detail-label">Locked accounts</span>
+                <span class="detail-value" id="statLocked">0</span>
               </div>
             </div>
           </div>
 
-          <!-- EXTRA METRICS: average sale, average expense, highest, lowest -->
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <div class="metric-value" id="metricAvgSale">0.00</div>
-              <div class="metric-label">Avg Sale</div>
+          <!-- FILTERS (from table columns) -->
+          <div class="filters-container">
+            <div class="filter-group">
+              <label for="filterName">Name</label>
+              <input type="text" id="filterName" placeholder="Search name..." />
             </div>
-            <div class="metric-card">
-              <div class="metric-value" id="metricAvgExpense">0.00</div>
-              <div class="metric-label">Avg Expense</div>
+            <div class="filter-group">
+              <label for="filterEmail">Email</label>
+              <input
+                type="text"
+                id="filterEmail"
+                placeholder="Search email..."
+              />
             </div>
-            <div class="metric-card">
-              <div class="metric-value" id="metricHighest">0.00</div>
-              <div class="metric-label">Highest Transaction</div>
+            <div class="filter-group">
+              <label for="filterRole">Role</label>
+              <select id="filterRole">
+                <option value="all">All Roles</option>
+                <option value="cashier">Cashier</option>
+                <option value="accountant">Accountant</option>
+                <option value="admin-manager">Admin Manager</option>
+              </select>
             </div>
-            <div class="metric-card">
-              <div class="metric-value" id="metricLowest">0.00</div>
-              <div class="metric-label">Lowest Transaction</div>
+            <div class="filter-group">
+              <label for="filterStatus">Status</label>
+              <select id="filterStatus">
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
             </div>
+            <button class="clear-filters-btn" id="clearFilters">
+              <i class="fas fa-times"></i> Clear Filters
+            </button>
           </div>
 
-          <!-- TYPE FILTER TABS -->
-          <div class="tabs-container">
-            <button class="tab-btn active-tab" data-filter="all">All</button>
-            <button class="tab-btn" data-filter="sale">Sales</button>
-            <button class="tab-btn" data-filter="expense">Expenses</button>
-          </div>
-
-          <!-- TABLE (Safalawo only) -->
+          <!-- TABLE -->
           <div class="table-wrapper">
             <table>
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Type</th>
-                  <th>Cashier</th>
-                  <th>Amount (MWK)</th>
-                  <th>Date</th>
-                  <th>Time</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Last Login</th>
+                  <th>2FA</th>
                 </tr>
               </thead>
-              <tbody id="tableBody">
-                <!-- rendered by JS -->
-              </tbody>
+              <tbody id="tableBody"></tbody>
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
-              No records found for Safalawo
+              No admin accounts found
             </div>
           </div>
 
@@ -802,10 +785,9 @@
             <div class="rows-per-page">
               <label for="rowsPerPage">Rows per page:</label>
               <select id="rowsPerPage">
+                <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="50">50</option>
                 <option value="all">All</option>
               </select>
             </div>
@@ -843,119 +825,179 @@
         updateClock();
         setInterval(updateClock, 1000);
 
+        // ----- SAMPLE DATA (admin accounts with 3 roles) -----
+        let admins = [
+          {
+            id: 1,
+            name: "Alice Mwale",
+            email: "alice@3maze.com",
+            role: "cashier",
+            status: "active",
+            lastLogin: "2026-08-05 14:23",
+            twoFA: true,
+          },
+          {
+            id: 2,
+            name: "Bob Phiri",
+            email: "bob@3maze.com",
+            role: "accountant",
+            status: "active",
+            lastLogin: "2026-08-04 09:10",
+            twoFA: false,
+          },
+          {
+            id: 3,
+            name: "Carol Banda",
+            email: "carol@3maze.com",
+            role: "admin-manager",
+            status: "inactive",
+            lastLogin: "2026-07-28 11:45",
+            twoFA: false,
+          },
+          {
+            id: 4,
+            name: "David Zulu",
+            email: "david@3maze.com",
+            role: "cashier",
+            status: "active",
+            lastLogin: "2026-08-06 08:00",
+            twoFA: true,
+          },
+          {
+            id: 5,
+            name: "Ester Tembo",
+            email: "ester@3maze.com",
+            role: "accountant",
+            status: "active",
+            lastLogin: "2026-08-03 16:20",
+            twoFA: false,
+          },
+          {
+            id: 6,
+            name: "Frank Kamanga",
+            email: "frank@3maze.com",
+            role: "admin-manager",
+            status: "inactive",
+            lastLogin: "2026-07-25 13:00",
+            twoFA: false,
+          },
+          {
+            id: 7,
+            name: "Grace Banda",
+            email: "grace@3maze.com",
+            role: "cashier",
+            status: "active",
+            lastLogin: "2026-08-06 07:30",
+            twoFA: true,
+          },
+          {
+            id: 8,
+            name: "Henry Moyo",
+            email: "henry@3maze.com",
+            role: "accountant",
+            status: "active",
+            lastLogin: "2026-08-02 10:00",
+            twoFA: false,
+          },
+          {
+            id: 9,
+            name: "Ivy Nkhoma",
+            email: "ivy@3maze.com",
+            role: "admin-manager",
+            status: "active",
+            lastLogin: "2026-08-05 12:15",
+            twoFA: true,
+          },
+        ];
+
+        // ----- STATE -----
+        let currentPage = 1;
+        let rowsPerPage = 5;
+        let filteredData = [];
+
         // ----- HELPERS -----
         function todayStr() {
           return new Date().toISOString().slice(0, 10);
         }
-        const today = todayStr();
 
-        // ----- SAFALAWO ONLY DATA with Cashier names -----
-        const safalawoRecords = [
-          {
-            type: "sale",
-            cashier: "Grace Banda",
-            amount: 1200,
-            date: today,
-            time: "09:15:00",
-          },
-          {
-            type: "sale",
-            cashier: "Peter Mwale",
-            amount: 800,
-            date: today,
-            time: "10:30:00",
-          },
-          {
-            type: "expense",
-            cashier: "John Phiri",
-            amount: 3500,
-            date: today,
-            time: "08:00:00",
-          },
-          {
-            type: "expense",
-            cashier: "Mary Kachale",
-            amount: 2800,
-            date: today,
-            time: "11:20:00",
-          },
-          {
-            type: "sale",
-            cashier: "David Zulu",
-            amount: 1500,
-            date: today,
-            time: "14:45:00",
-          },
-          {
-            type: "sale",
-            cashier: "Sarah Lungu",
-            amount: 600,
-            date: today,
-            time: "16:10:00",
-          },
-          {
-            type: "expense",
-            cashier: "James Nyirenda",
-            amount: 4200,
-            date: "2026-07-30",
-            time: "09:00:00",
-          },
-          {
-            type: "sale",
-            cashier: "Michael Banda",
-            amount: 900,
-            date: "2026-07-30",
-            time: "11:30:00",
-          },
-          {
-            type: "sale",
-            cashier: "Ruth Moyo",
-            amount: 1100,
-            date: "2026-07-29",
-            time: "10:00:00",
-          },
-          {
-            type: "expense",
-            cashier: "Joseph Kamanga",
-            amount: 15000,
-            date: "2026-07-28",
-            time: "08:30:00",
-          },
-          {
-            type: "sale",
-            cashier: "Linda Phakati",
-            amount: 700,
-            date: "2026-07-28",
-            time: "13:20:00",
-          },
-          {
-            type: "expense",
-            cashier: "Ester Tembo",
-            amount: 2800,
-            date: "2026-07-27",
-            time: "09:45:00",
-          },
-        ];
+        // ----- POPULATE STATS -----
+        function updateStats() {
+          const active = admins.filter((a) => a.status === "active").length;
+          const inactive = admins.filter((a) => a.status === "inactive").length;
+          document.getElementById("statActive").textContent = active;
+          document.getElementById("statInactive").textContent = inactive;
+          document.getElementById("statTotalAdmins").textContent =
+            admins.length;
 
-        // ----- PAGINATION STATE -----
-        let currentPage = 1;
-        let rowsPerPage = 10;
-        let filteredData = [];
-        let currentFilter = "all";
+          const cashier = admins.filter((a) => a.role === "cashier").length;
+          const accountant = admins.filter(
+            (a) => a.role === "accountant",
+          ).length;
+          const adminManager = admins.filter(
+            (a) => a.role === "admin-manager",
+          ).length;
+          document.getElementById("statRoleCashier").textContent = cashier;
+          document.getElementById("statRoleAccountant").textContent =
+            accountant;
+          document.getElementById("statRoleAdminManager").textContent =
+            adminManager;
 
-        // ----- RENDER TABLE (filter by type) -----
+          const now = new Date();
+          const sevenDays = new Date(now);
+          sevenDays.setDate(now.getDate() - 7);
+          const thirtyDays = new Date(now);
+          thirtyDays.setDate(now.getDate() - 30);
+          const recent7 = admins.filter((a) => {
+            const d = new Date(a.lastLogin.split(" ")[0]);
+            return d >= sevenDays;
+          }).length;
+          const recent30 = admins.filter((a) => {
+            const d = new Date(a.lastLogin.split(" ")[0]);
+            return d >= thirtyDays;
+          }).length;
+          document.getElementById("statRecent7").textContent = recent7;
+          document.getElementById("statRecent30").textContent = recent30;
+
+          const sorted = [...admins].sort(
+            (a, b) => new Date(b.lastLogin) - new Date(a.lastLogin),
+          );
+          document.getElementById("statLastLogin").textContent = sorted.length
+            ? sorted[0].lastLogin
+            : "--";
+          document.getElementById("stat2fa").textContent = admins.filter(
+            (a) => a.twoFA,
+          ).length;
+          document.getElementById("statPending").textContent = admins.filter(
+            (a) => a.status === "inactive",
+          ).length;
+          document.getElementById("statLocked").textContent = 0;
+        }
+
+        // ----- RENDER TABLE -----
         function renderTable() {
-          const filter = currentFilter;
+          const nameFilter = document
+            .getElementById("filterName")
+            .value.toLowerCase()
+            .trim();
+          const emailFilter = document
+            .getElementById("filterEmail")
+            .value.toLowerCase()
+            .trim();
+          const roleFilter = document.getElementById("filterRole").value;
+          const statusFilter = document.getElementById("filterStatus").value;
 
-          let filtered =
-            filter === "all"
-              ? safalawoRecords
-              : safalawoRecords.filter((r) => r.type === filter);
+          let filtered = admins.filter((a) => {
+            const matchName = a.name.toLowerCase().includes(nameFilter);
+            const matchEmail = a.email.toLowerCase().includes(emailFilter);
+            const matchRole = roleFilter === "all" || a.role === roleFilter;
+            const matchStatus =
+              statusFilter === "all" || a.status === statusFilter;
+            return matchName && matchEmail && matchRole && matchStatus;
+          });
 
           filtered = [...filtered].sort(
-            (a, b) => (a.date + a.time).localeCompare(b.date + b.time) * -1,
+            (a, b) => new Date(b.lastLogin) - new Date(a.lastLogin),
           );
-
           filteredData = filtered;
 
           const tbody = document.getElementById("tableBody");
@@ -971,7 +1013,6 @@
           }
           empty.style.display = "none";
 
-          // Calculate pagination
           const totalPages =
             rowsPerPage === "all"
               ? 1
@@ -987,7 +1028,6 @@
               : Math.min(startIndex + rowsPerPage, filteredData.length);
           const pageData = filteredData.slice(startIndex, endIndex);
 
-          // Update pagination controls
           document.getElementById("prevPage").disabled =
             currentPage === 1 || totalPages === 0;
           document.getElementById("nextPage").disabled =
@@ -995,95 +1035,39 @@
           document.getElementById("pageInfo").textContent =
             `Page ${currentPage} of ${totalPages}`;
 
-          const typeLabels = { sale: "Sale", expense: "Expense" };
-          const typeClasses = { sale: "type-sale", expense: "type-expense" };
+          const roleLabels = {
+            cashier: "Cashier",
+            accountant: "Accountant",
+            "admin-manager": "Admin Manager",
+          };
+          const roleClasses = {
+            cashier: "role-cashier",
+            accountant: "role-accountant",
+            "admin-manager": "role-admin-manager",
+          };
+          const statusLabels = { active: "Active", inactive: "Inactive" };
+          const statusClasses = {
+            active: "status-active",
+            inactive: "status-inactive",
+          };
 
           let html = "";
-          pageData.forEach((r, index) => {
-            const rowNum = startIndex + index + 1;
+          pageData.forEach((a, idx) => {
+            const rowNum = startIndex + idx + 1;
             html += `<tr>
-              <td style="opacity: 0.5; text-align: center;">${rowNum}</td>
-              <td><span class="type-badge ${typeClasses[r.type]}">${typeLabels[r.type]}</span></td>
-              <td>${r.cashier || "-"}</td>
-              <td><strong>${r.amount.toFixed(2)}</strong></td>
-              <td>${r.date}</td>
-              <td>${r.time}</td>
-            </tr>`;
+          <td style="text-align:center;opacity:0.5;">${rowNum}</td>
+          <td><strong>${a.name}</strong></td>
+          <td>${a.email}</td>
+          <td><span class="role-badge ${roleClasses[a.role]}">${roleLabels[a.role]}</span></td>
+          <td><span class="status-badge ${statusClasses[a.status]}">${statusLabels[a.status]}</span></td>
+          <td>${a.lastLogin}</td>
+          <td>${a.twoFA ? '<i class="fas fa-check-circle" style="color:var(--accent-color)"></i>' : '<i class="fas fa-times-circle" style="color:var(--expenses)"></i>'}</td>
+        </tr>`;
           });
           tbody.innerHTML = html;
         }
 
-        // ----- UPDATE STATS (Safalawo specific) -----
-        function updateStats() {
-          const today = todayStr();
-
-          // Today's figures
-          const todaySales = safalawoRecords
-            .filter((r) => r.type === "sale" && r.date === today)
-            .reduce((sum, r) => sum + r.amount, 0);
-          const todayExpenses = safalawoRecords
-            .filter((r) => r.type === "expense" && r.date === today)
-            .reduce((sum, r) => sum + r.amount, 0);
-          const todayNet = todaySales - todayExpenses;
-          const todayTx = safalawoRecords.filter(
-            (r) => r.date === today,
-          ).length;
-
-          // All-time figures
-          const allSales = safalawoRecords
-            .filter((r) => r.type === "sale")
-            .reduce((sum, r) => sum + r.amount, 0);
-          const allExpenses = safalawoRecords
-            .filter((r) => r.type === "expense")
-            .reduce((sum, r) => sum + r.amount, 0);
-          const allNet = allSales - allExpenses;
-          const allTx = safalawoRecords.length;
-
-          // Update stat cards
-          document.getElementById("statSalesToday").textContent =
-            todaySales.toFixed(2);
-          document.getElementById("statSalesAll").textContent =
-            allSales.toFixed(2);
-          document.getElementById("statExpensesToday").textContent =
-            todayExpenses.toFixed(2);
-          document.getElementById("statExpensesAll").textContent =
-            allExpenses.toFixed(2);
-          document.getElementById("statNetToday").textContent =
-            todayNet.toFixed(2);
-          document.getElementById("statNetAll").textContent = allNet.toFixed(2);
-          document.getElementById("statTxToday").textContent = todayTx;
-          document.getElementById("statTxAll").textContent = allTx;
-
-          // Metrics: averages, highest, lowest
-          const salesOnly = safalawoRecords.filter((r) => r.type === "sale");
-          const expensesOnly = safalawoRecords.filter(
-            (r) => r.type === "expense",
-          );
-          const avgSale =
-            salesOnly.length > 0
-              ? salesOnly.reduce((s, r) => s + r.amount, 0) / salesOnly.length
-              : 0;
-          const avgExpense =
-            expensesOnly.length > 0
-              ? expensesOnly.reduce((s, r) => s + r.amount, 0) /
-                expensesOnly.length
-              : 0;
-
-          const allAmounts = safalawoRecords.map((r) => r.amount);
-          const highest = allAmounts.length > 0 ? Math.max(...allAmounts) : 0;
-          const lowest = allAmounts.length > 0 ? Math.min(...allAmounts) : 0;
-
-          document.getElementById("metricAvgSale").textContent =
-            avgSale.toFixed(2);
-          document.getElementById("metricAvgExpense").textContent =
-            avgExpense.toFixed(2);
-          document.getElementById("metricHighest").textContent =
-            highest.toFixed(2);
-          document.getElementById("metricLowest").textContent =
-            lowest.toFixed(2);
-        }
-
-        // ----- PAGINATION FUNCTIONS -----
+        // ----- PAGINATION -----
         function goToPage(page) {
           const totalPages =
             rowsPerPage === "all"
@@ -1093,37 +1077,54 @@
           currentPage = page;
           renderTable();
         }
-
         function prevPage() {
-          if (currentPage > 1) {
-            goToPage(currentPage - 1);
-          }
+          if (currentPage > 1) goToPage(currentPage - 1);
         }
-
         function nextPage() {
           const totalPages =
             rowsPerPage === "all"
               ? 1
               : Math.ceil(filteredData.length / rowsPerPage);
-          if (currentPage < totalPages) {
-            goToPage(currentPage + 1);
-          }
+          if (currentPage < totalPages) goToPage(currentPage + 1);
         }
 
-        // ----- TABS (type filter) -----
-        document.querySelectorAll(".tab-btn").forEach((btn) => {
-          btn.addEventListener("click", function () {
-            document.querySelectorAll(".tab-btn").forEach((b) => {
-              b.classList.remove("active-tab");
-            });
-            this.classList.add("active-tab");
-            currentFilter = this.dataset.filter;
+        // ----- EVENT LISTENERS -----
+        document
+          .getElementById("filterName")
+          .addEventListener("input", function () {
             currentPage = 1;
             renderTable();
           });
-        });
+        document
+          .getElementById("filterEmail")
+          .addEventListener("input", function () {
+            currentPage = 1;
+            renderTable();
+          });
+        document
+          .getElementById("filterRole")
+          .addEventListener("change", function () {
+            currentPage = 1;
+            renderTable();
+          });
+        document
+          .getElementById("filterStatus")
+          .addEventListener("change", function () {
+            currentPage = 1;
+            renderTable();
+          });
 
-        // ----- SETUP EVENT LISTENERS -----
+        document
+          .getElementById("clearFilters")
+          .addEventListener("click", function () {
+            document.getElementById("filterName").value = "";
+            document.getElementById("filterEmail").value = "";
+            document.getElementById("filterRole").value = "all";
+            document.getElementById("filterStatus").value = "all";
+            currentPage = 1;
+            renderTable();
+          });
+
         document
           .getElementById("rowsPerPage")
           .addEventListener("change", function () {
@@ -1131,15 +1132,15 @@
             currentPage = 1;
             renderTable();
           });
-
         document.getElementById("prevPage").addEventListener("click", prevPage);
         document.getElementById("nextPage").addEventListener("click", nextPage);
 
         // ----- INIT -----
-        renderTable();
         updateStats();
-
-        document.getElementById("sidebarUserName").textContent = "Accountant";
+        renderTable();
+        document.getElementById("sidebarUserName").textContent =
+          "Admin Manager";
+        document.getElementById("dashUserName").textContent = "System";
       })();
     </script>
   </body>

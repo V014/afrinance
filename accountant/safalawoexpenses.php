@@ -382,7 +382,7 @@
       <div class="content-wrapper">
         <!-- BACK BUTTON -->
         <div class="back-button-container">
-          <a href="safalawo.html" class="back-btn">
+          <a href="safalawo.php" class="back-btn">
             <i class="fas fa-arrow-left"></i> Back to Safalawo
           </a>
         </div>

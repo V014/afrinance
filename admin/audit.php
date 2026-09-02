@@ -11,6 +11,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <style>
       /* ----- THEME (same as original) ----- */
       :root {
@@ -25,6 +27,11 @@
         --expenses: #e74c3c;
         --debt: #3b82f6;
         --admin-purple: #8b5cf6;
+        --audit-create: #3ddc84;
+        --audit-update: #f59e0b;
+        --audit-delete: #e74c3c;
+        --audit-login: #3b82f6;
+        --audit-logout: #8b5cf6;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -217,6 +224,12 @@
       .welcome-card .welcome-left h2 {
         font-size: 1.25rem;
         font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .welcome-card .welcome-left h2 i {
+        color: var(--admin-purple);
       }
 
       /* ----- BACK BUTTON ----- */
@@ -246,13 +259,42 @@
         font-size: 1rem;
       }
 
-      /* ----- ACTION BAR (Create only) ----- */
+      /* ----- STATS MINI ----- */
+      .stats-mini {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .stat-mini {
+        padding: 0.8rem 1rem;
+        border-radius: var(--border-radius);
+        background: var(--bg-panel);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        border: 1px solid var(--border);
+      }
+      .stat-mini .stat-number {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--text-color);
+      }
+      .stat-mini .stat-label {
+        font-size: 0.7rem;
+        opacity: 0.6;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      /* ----- ACTION BAR (Export only) ----- */
       .action-bar {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
         margin-bottom: 1.5rem;
-        justify-content: center;
+        justify-content: flex-start;
       }
       .action-btn {
         display: inline-flex;
@@ -285,36 +327,7 @@
         font-size: 1.1rem;
       }
 
-      /* ----- STATS (mini) ----- */
-      .stats-mini {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-      .stat-mini {
-        padding: 0.8rem 1rem;
-        border-radius: var(--border-radius);
-        background: var(--bg-panel);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        border: 1px solid var(--border);
-      }
-      .stat-mini .stat-number {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: var(--text-color);
-      }
-      .stat-mini .stat-label {
-        font-size: 0.7rem;
-        opacity: 0.6;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
-
-      /* ----- FILTERS (from table columns) ----- */
+      /* ----- FILTERS ----- */
       .filters-container {
         display: flex;
         flex-wrap: wrap;
@@ -387,7 +400,7 @@
         background: var(--card-bg);
       }
 
-      /* ----- TABLE (full borders) ----- */
+      /* ----- TABLE ----- */
       .table-wrapper {
         border-radius: var(--border-radius);
         padding: 0.5rem;
@@ -422,7 +435,7 @@
         border-bottom: 1px solid var(--border);
       }
 
-      .role-badge {
+      .action-badge {
         display: inline-block;
         padding: 0.15rem 0.7rem;
         border-radius: 20px;
@@ -430,14 +443,20 @@
         font-weight: 600;
         background: var(--bg-color);
       }
-      .role-cashier {
-        color: var(--sales);
+      .action-create {
+        color: var(--audit-create);
       }
-      .role-accountant {
-        color: var(--debt);
+      .action-update {
+        color: var(--audit-update);
       }
-      .role-admin-manager {
-        color: var(--admin-purple);
+      .action-delete {
+        color: var(--audit-delete);
+      }
+      .action-login {
+        color: var(--audit-login);
+      }
+      .action-logout {
+        color: var(--audit-logout);
       }
 
       .status-badge {
@@ -448,27 +467,10 @@
         font-weight: 600;
         background: var(--bg-color);
       }
-      .status-active {
+      .status-success {
         color: var(--accent-color);
       }
-      .status-inactive {
-        color: var(--expenses);
-      }
-
-      .action-icons a {
-        color: var(--text-color);
-        opacity: 0.6;
-        margin: 0 0.3rem;
-        transition: opacity 0.2s;
-        text-decoration: none;
-      }
-      .action-icons a:hover {
-        opacity: 1;
-      }
-      .action-icons .edit {
-        color: var(--debt);
-      }
-      .action-icons .delete {
+      .status-failure {
         color: var(--expenses);
       }
 
@@ -539,123 +541,13 @@
         outline: none;
       }
 
-      /* ----- DELETE MODAL ----- */
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-      }
-      .modal-overlay.active {
-        display: flex;
-      }
-      .modal-box {
-        background: var(--bg-panel);
-        border-radius: var(--border-radius);
-        padding: 2rem;
-        max-width: 440px;
-        width: 90%;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        border: 1px solid var(--border);
-      }
-      .modal-box .modal-icon {
-        font-size: 2.5rem;
-        color: var(--expenses);
-        text-align: center;
-        margin-bottom: 0.5rem;
-      }
-      .modal-box h3 {
-        font-size: 1.2rem;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 0.3rem;
-      }
-      .modal-box .modal-sub {
-        text-align: center;
-        opacity: 0.6;
-        font-size: 0.9rem;
-        margin-bottom: 1.2rem;
-      }
-      .modal-box .modal-sub strong {
-        color: var(--text-color);
-        opacity: 1;
-      }
-      .modal-box .form-group {
-        margin-bottom: 1rem;
-      }
-      .modal-box .form-group label {
-        display: block;
-        font-size: 0.8rem;
-        font-weight: 600;
-        opacity: 0.7;
-        margin-bottom: 0.3rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
-      .modal-box .form-group input {
-        width: 100%;
-        padding: 0.7rem 1rem;
-        border-radius: var(--border-radius);
-        border: 1px solid var(--border);
-        background: var(--bg-color);
-        color: var(--text-color);
-        font-size: 0.95rem;
-        outline: none;
-        transition: border 0.2s;
-      }
-      .modal-box .form-group input:focus {
-        border-color: var(--accent-color);
-      }
-      .modal-box .modal-actions {
-        display: flex;
-        gap: 0.75rem;
-        margin-top: 1.2rem;
-        flex-wrap: wrap;
-      }
-      .modal-box .modal-actions button {
-        flex: 1;
-        padding: 0.7rem 1.2rem;
-        border-radius: 30px;
-        font-weight: 600;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border: 2px solid var(--border);
-        background: var(--bg-panel);
-        color: var(--text-color);
-        min-width: 100px;
-      }
-      .modal-box .modal-actions .btn-confirm-delete {
-        background: var(--expenses);
-        border-color: var(--expenses);
-        color: #fff;
-      }
-      .modal-box .modal-actions .btn-confirm-delete:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
-      }
-      .modal-box .modal-actions .btn-cancel-delete:hover {
-        background: var(--card-bg);
-        transform: translateY(-2px);
-      }
-      .modal-box .modal-error {
-        color: var(--expenses);
-        font-size: 0.85rem;
-        margin-top: 0.5rem;
-        display: none;
-      }
-      .modal-box .modal-error.visible {
-        display: block;
+      /* ----- RESPONSIVE ----- */
+      @media (max-width: 1024px) {
+        .stats-mini {
+          grid-template-columns: repeat(3, 1fr);
+        }
       }
 
-      /* mobile */
       @media (max-width: 768px) {
         .app-layout {
           flex-direction: column;
@@ -706,15 +598,6 @@
         .rows-per-page {
           justify-content: center;
         }
-        .modal-box {
-          padding: 1.5rem;
-        }
-        .modal-box .modal-actions {
-          flex-direction: column;
-        }
-        .modal-box .modal-actions button {
-          width: 100%;
-        }
       }
       @media (max-width: 480px) {
         .stats-mini {
@@ -749,16 +632,16 @@
 
         <!-- <div class="nav-section">Management</div> -->
         <nav class="nav-links">
-          <a href="dashboard.html" data-page="dashboard"
+          <a href="dashboard.php" data-page="dashboard"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-          <a href="manage.html" data-page="admins" class="active-link"
-            ><i class="fas fa-user-cog"></i> Admin Accounts</a
+          <a href="manage.php" data-page="admins"
+            ><i class="fas fa-user-cog"></i> Manage Admins</a
           >
-          <a href="roles.html" data-page="roles"
+          <a href="roles.php" data-page="roles"
             ><i class="fas fa-user-tag"></i> Manage Roles</a
           >
-          <a href="audit.html" data-page="audit"
+          <a href="audit.php" data-page="audit" class="active-link"
             ><i class="fas fa-clipboard-list"></i> Audit Log</a
           >
         </nav>
@@ -774,7 +657,7 @@
         </nav> -->
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
@@ -785,81 +668,80 @@
         <div class="content-wrapper">
           <!-- BACK BUTTON -->
           <!-- <div class="back-bar">
-            <a href="dashboard2.html" class="back-btn"
+            <a href="dashboard.php" class="back-btn"
               ><i class="fas fa-arrow-left"></i> Back to Dashboard</a
             >
           </div> -->
 
-          <!-- WELCOME CARD (no time/date) -->
+          <!-- WELCOME CARD -->
           <div class="panel-card welcome-card">
             <div class="welcome-left">
               <h2>
-                <i
-                  class="fas fa-users-cog"
-                  style="color: var(--admin-purple)"
-                ></i>
-                Manage Admins
+                <i class="fas fa-clipboard-list"></i>
+                Audit Log
               </h2>
             </div>
-          </div>
-
-          <!-- ACTION BAR (Create only) -->
-          <div class="action-bar">
-            <a href="create.html" class="action-btn primary-btn">
-              <i class="fas fa-user-plus"></i> Create New Account
-            </a>
           </div>
 
           <!-- STATS MINI -->
           <div class="stats-mini">
             <div class="stat-mini">
-              <div class="stat-number" id="miniTotal">0</div>
-              <div class="stat-label">Total Admins</div>
+              <div class="stat-number" id="statTotal">0</div>
+              <div class="stat-label">Total Events</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="miniActive">0</div>
-              <div class="stat-label">Active</div>
+              <div class="stat-number" id="statToday">0</div>
+              <div class="stat-label">Today</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="miniCashier">0</div>
-              <div class="stat-label">Cashiers</div>
+              <div class="stat-number" id="statCreate">0</div>
+              <div class="stat-label">Creates</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="miniAdminManager">0</div>
-              <div class="stat-label">Admin Managers</div>
+              <div class="stat-number" id="statUpdate">0</div>
+              <div class="stat-label">Updates</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-number" id="statDelete">0</div>
+              <div class="stat-label">Deletes</div>
             </div>
           </div>
 
-          <!-- FILTERS (from table columns) -->
+          <!-- ACTION BAR (Export only) -->
+          <div class="action-bar">
+            <button class="action-btn primary-btn" id="exportBtn">
+              <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
+          </div>
+
+          <!-- FILTERS -->
           <div class="filters-container">
             <div class="filter-group">
-              <label for="filterName">Name</label>
-              <input type="text" id="filterName" placeholder="Search name..." />
+              <label for="filterUser">User</label>
+              <input type="text" id="filterUser" placeholder="Search user..." />
             </div>
             <div class="filter-group">
-              <label for="filterEmail">Email</label>
-              <input
-                type="text"
-                id="filterEmail"
-                placeholder="Search email..."
-              />
-            </div>
-            <div class="filter-group">
-              <label for="filterRole">Role</label>
-              <select id="filterRole">
-                <option value="all">All Roles</option>
-                <option value="cashier">Cashier</option>
-                <option value="accountant">Accountant</option>
-                <option value="admin-manager">Admin Manager</option>
+              <label for="filterAction">Action</label>
+              <select id="filterAction">
+                <option value="all">All Actions</option>
+                <option value="create">Create</option>
+                <option value="update">Update</option>
+                <option value="delete">Delete</option>
+                <option value="login">Login</option>
+                <option value="logout">Logout</option>
               </select>
             </div>
             <div class="filter-group">
               <label for="filterStatus">Status</label>
               <select id="filterStatus">
                 <option value="all">All Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="success">Success</option>
+                <option value="failure">Failure</option>
               </select>
+            </div>
+            <div class="filter-group">
+              <label for="filterDate">Date</label>
+              <input type="date" id="filterDate" />
             </div>
             <button class="clear-filters-btn" id="clearFilters">
               <i class="fas fa-times"></i> Clear Filters
@@ -872,19 +754,18 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
+                  <th>User</th>
+                  <th>Action</th>
+                  <th>Target</th>
+                  <th>Details</th>
                   <th>Status</th>
-                  <th>Last Login</th>
-                  <th>2FA</th>
-                  <th>Actions</th>
+                  <th>Timestamp</th>
                 </tr>
               </thead>
               <tbody id="tableBody"></tbody>
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
-              No admin accounts found
+              No audit events found
             </div>
           </div>
 
@@ -893,9 +774,9 @@
             <div class="rows-per-page">
               <label for="rowsPerPage">Rows per page:</label>
               <select id="rowsPerPage">
-                <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
+                <option value="50">50</option>
                 <option value="all">All</option>
               </select>
             </div>
@@ -913,171 +794,258 @@
       </main>
     </div>
 
-    <!-- DELETE MODAL -->
-    <div class="modal-overlay" id="deleteModal">
-      <div class="modal-box">
-        <div class="modal-icon">
-          <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <h3>Confirm Deletion</h3>
-        <p class="modal-sub">
-          Are you sure you want to delete
-          <strong id="deleteUserName">User</strong>? <br />This action cannot be
-          undone.
-        </p>
-        <div class="form-group">
-          <label for="deletePassword">Enter your password to confirm</label>
-          <input
-            type="password"
-            id="deletePassword"
-            placeholder="Enter your password..."
-          />
-          <div class="modal-error" id="deleteError">
-            Incorrect password. Please try again.
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button class="btn-cancel-delete" id="cancelDeleteBtn">Cancel</button>
-          <button class="btn-confirm-delete" id="confirmDeleteBtn">
-            <i class="fas fa-trash-alt"></i> Delete
-          </button>
-        </div>
-      </div>
-    </div>
-
     <script>
       (function () {
         "use strict";
 
-        // ----- SAMPLE DATA (3 roles) -----
-        let admins = [
+        // ----- SAMPLE AUDIT DATA (IP address removed) -----
+        const auditEvents = [
           {
             id: 1,
-            name: "Alice Mwale",
-            email: "alice@3maze.com",
-            role: "cashier",
-            status: "active",
-            lastLogin: "2026-08-05 14:23",
-            twoFA: true,
+            user: "Alice Mwale",
+            action: "login",
+            target: "System",
+            details: "Successful login from Chrome on Windows",
+            status: "success",
+            timestamp: "2026-08-06 08:15:23",
           },
           {
             id: 2,
-            name: "Bob Phiri",
-            email: "bob@3maze.com",
-            role: "accountant",
-            status: "active",
-            lastLogin: "2026-08-04 09:10",
-            twoFA: false,
+            user: "Bob Phiri",
+            action: "create",
+            target: "Admin Account",
+            details: "Created new admin account: Carol Banda",
+            status: "success",
+            timestamp: "2026-08-06 09:30:45",
           },
           {
             id: 3,
-            name: "Carol Banda",
-            email: "carol@3maze.com",
-            role: "admin-manager",
-            status: "inactive",
-            lastLogin: "2026-07-28 11:45",
-            twoFA: false,
+            user: "Carol Banda",
+            action: "update",
+            target: "Admin Account",
+            details: "Updated role for David Zulu from Cashier to Accountant",
+            status: "success",
+            timestamp: "2026-08-06 10:45:12",
           },
           {
             id: 4,
-            name: "David Zulu",
-            email: "david@3maze.com",
-            role: "cashier",
-            status: "active",
-            lastLogin: "2026-08-06 08:00",
-            twoFA: true,
+            user: "David Zulu",
+            action: "delete",
+            target: "Admin Account",
+            details: "Deleted inactive admin account: Frank Kamanga",
+            status: "success",
+            timestamp: "2026-08-06 11:20:33",
           },
           {
             id: 5,
-            name: "Ester Tembo",
-            email: "ester@3maze.com",
-            role: "accountant",
-            status: "active",
-            lastLogin: "2026-08-03 16:20",
-            twoFA: false,
+            user: "Ester Tembo",
+            action: "login",
+            target: "System",
+            details: "Failed login attempt - incorrect password",
+            status: "failure",
+            timestamp: "2026-08-06 12:05:17",
           },
           {
             id: 6,
-            name: "Frank Kamanga",
-            email: "frank@3maze.com",
-            role: "admin-manager",
-            status: "inactive",
-            lastLogin: "2026-07-25 13:00",
-            twoFA: false,
+            user: "Ester Tembo",
+            action: "login",
+            target: "System",
+            details: "Successful login from Firefox on Mac",
+            status: "success",
+            timestamp: "2026-08-06 12:06:01",
           },
           {
             id: 7,
-            name: "Grace Banda",
-            email: "grace@3maze.com",
-            role: "cashier",
-            status: "active",
-            lastLogin: "2026-08-06 07:30",
-            twoFA: true,
+            user: "Grace Banda",
+            action: "update",
+            target: "Admin Account",
+            details: "Updated 2FA settings for Henry Moyo",
+            status: "success",
+            timestamp: "2026-08-06 13:15:44",
           },
           {
             id: 8,
-            name: "Henry Moyo",
-            email: "henry@3maze.com",
-            role: "accountant",
-            status: "active",
-            lastLogin: "2026-08-02 10:00",
-            twoFA: false,
+            user: "Henry Moyo",
+            action: "logout",
+            target: "System",
+            details: "User logged out",
+            status: "success",
+            timestamp: "2026-08-06 14:30:22",
           },
           {
             id: 9,
-            name: "Ivy Nkhoma",
-            email: "ivy@3maze.com",
-            role: "admin-manager",
-            status: "active",
-            lastLogin: "2026-08-05 12:15",
-            twoFA: true,
+            user: "Ivy Nkhoma",
+            action: "create",
+            target: "Admin Account",
+            details: "Created new admin account: John Doe",
+            status: "success",
+            timestamp: "2026-08-05 16:45:55",
+          },
+          {
+            id: 10,
+            user: "Alice Mwale",
+            action: "update",
+            target: "Admin Account",
+            details: "Updated status for Carol Banda from Inactive to Active",
+            status: "success",
+            timestamp: "2026-08-05 14:20:11",
+          },
+          {
+            id: 11,
+            user: "Bob Phiri",
+            action: "delete",
+            target: "Admin Account",
+            details: "Deleted admin account: John Doe (inactive)",
+            status: "success",
+            timestamp: "2026-08-05 11:30:08",
+          },
+          {
+            id: 12,
+            user: "Carol Banda",
+            action: "login",
+            target: "System",
+            details: "Successful login from Safari on iPhone",
+            status: "success",
+            timestamp: "2026-08-04 09:00:33",
+          },
+          {
+            id: 13,
+            user: "David Zulu",
+            action: "update",
+            target: "System Settings",
+            details: "Updated system notification preferences",
+            status: "success",
+            timestamp: "2026-08-04 10:15:19",
+          },
+          {
+            id: 14,
+            user: "Ester Tembo",
+            action: "logout",
+            target: "System",
+            details: "User logged out (session timeout)",
+            status: "success",
+            timestamp: "2026-08-04 17:00:00",
+          },
+          {
+            id: 15,
+            user: "Frank Kamanga",
+            action: "login",
+            target: "System",
+            details: "Failed login attempt - account locked",
+            status: "failure",
+            timestamp: "2026-08-03 08:30:45",
+          },
+          {
+            id: 16,
+            user: "Grace Banda",
+            action: "create",
+            target: "Admin Account",
+            details: "Created new admin account: Sarah Mwale",
+            status: "success",
+            timestamp: "2026-08-03 13:45:22",
+          },
+          {
+            id: 17,
+            user: "Henry Moyo",
+            action: "update",
+            target: "Admin Account",
+            details:
+              "Changed role for Sarah Mwale from Cashier to Admin Manager",
+            status: "success",
+            timestamp: "2026-08-03 14:20:11",
+          },
+          {
+            id: 18,
+            user: "Ivy Nkhoma",
+            action: "delete",
+            target: "Admin Account",
+            details: "Deleted admin account: Sarah Mwale (duplicate)",
+            status: "success",
+            timestamp: "2026-08-03 15:30:55",
+          },
+          {
+            id: 19,
+            user: "Alice Mwale",
+            action: "login",
+            target: "System",
+            details: "Successful login from Edge on Windows",
+            status: "success",
+            timestamp: "2026-08-02 07:45:12",
+          },
+          {
+            id: 20,
+            user: "Bob Phiri",
+            action: "update",
+            target: "System Settings",
+            details:
+              "Updated security policy - password expiration set to 90 days",
+            status: "success",
+            timestamp: "2026-08-02 11:00:33",
           },
         ];
 
         // ----- STATE -----
         let currentPage = 1;
-        let rowsPerPage = 5;
+        let rowsPerPage = 10;
         let filteredData = [];
-        let deleteTargetId = null;
 
-        // ----- UPDATE MINI STATS -----
-        function updateMiniStats() {
-          document.getElementById("miniTotal").textContent = admins.length;
-          document.getElementById("miniActive").textContent = admins.filter(
-            (a) => a.status === "active",
+        // ----- HELPERS -----
+        function todayStr() {
+          return new Date().toISOString().slice(0, 10);
+        }
+
+        // ----- UPDATE STATS -----
+        function updateStats() {
+          const total = auditEvents.length;
+          const today = todayStr();
+          const todayEvents = auditEvents.filter((e) =>
+            e.timestamp.startsWith(today),
           ).length;
-          document.getElementById("miniCashier").textContent = admins.filter(
-            (a) => a.role === "cashier",
+          const creates = auditEvents.filter(
+            (e) => e.action === "create",
           ).length;
-          document.getElementById("miniAdminManager").textContent =
-            admins.filter((a) => a.role === "admin-manager").length;
+          const updates = auditEvents.filter(
+            (e) => e.action === "update",
+          ).length;
+          const deletes = auditEvents.filter(
+            (e) => e.action === "delete",
+          ).length;
+
+          document.getElementById("statTotal").textContent = total;
+          document.getElementById("statToday").textContent = todayEvents;
+          document.getElementById("statCreate").textContent = creates;
+          document.getElementById("statUpdate").textContent = updates;
+          document.getElementById("statDelete").textContent = deletes;
+        }
+
+        // ----- GET FILTERED DATA -----
+        function getFilteredData() {
+          const userFilter = document
+            .getElementById("filterUser")
+            .value.toLowerCase()
+            .trim();
+          const actionFilter = document.getElementById("filterAction").value;
+          const statusFilter = document.getElementById("filterStatus").value;
+          const dateFilter = document.getElementById("filterDate").value;
+
+          let filtered = auditEvents.filter((e) => {
+            const matchUser = e.user.toLowerCase().includes(userFilter);
+            const matchAction =
+              actionFilter === "all" || e.action === actionFilter;
+            const matchStatus =
+              statusFilter === "all" || e.status === statusFilter;
+            const matchDate = !dateFilter || e.timestamp.startsWith(dateFilter);
+            return matchUser && matchAction && matchStatus && matchDate;
+          });
+
+          return filtered.sort(
+            (a, b) => new Date(b.timestamp) - new Date(a.timestamp),
+          );
         }
 
         // ----- RENDER TABLE -----
         function renderTable() {
-          const nameFilter = document
-            .getElementById("filterName")
-            .value.toLowerCase()
-            .trim();
-          const emailFilter = document
-            .getElementById("filterEmail")
-            .value.toLowerCase()
-            .trim();
-          const roleFilter = document.getElementById("filterRole").value;
-          const statusFilter = document.getElementById("filterStatus").value;
-
-          let filtered = admins.filter((a) => {
-            const matchName = a.name.toLowerCase().includes(nameFilter);
-            const matchEmail = a.email.toLowerCase().includes(emailFilter);
-            const matchRole = roleFilter === "all" || a.role === roleFilter;
-            const matchStatus =
-              statusFilter === "all" || a.status === statusFilter;
-            return matchName && matchEmail && matchRole && matchStatus;
-          });
-
-          filtered = [...filtered].sort(
-            (a, b) => new Date(b.lastLogin) - new Date(a.lastLogin),
-          );
+          const filtered = getFilteredData();
           filteredData = filtered;
 
           const tbody = document.getElementById("tableBody");
@@ -1115,38 +1083,38 @@
           document.getElementById("pageInfo").textContent =
             `Page ${currentPage} of ${totalPages}`;
 
-          const roleLabels = {
-            cashier: "Cashier",
-            accountant: "Accountant",
-            "admin-manager": "Admin Manager",
+          const actionLabels = {
+            create: "Create",
+            update: "Update",
+            delete: "Delete",
+            login: "Login",
+            logout: "Logout",
           };
-          const roleClasses = {
-            cashier: "role-cashier",
-            accountant: "role-accountant",
-            "admin-manager": "role-admin-manager",
+          const actionClasses = {
+            create: "action-create",
+            update: "action-update",
+            delete: "action-delete",
+            login: "action-login",
+            logout: "action-logout",
           };
-          const statusLabels = { active: "Active", inactive: "Inactive" };
+          const statusLabels = { success: "Success", failure: "Failure" };
           const statusClasses = {
-            active: "status-active",
-            inactive: "status-inactive",
+            success: "status-success",
+            failure: "status-failure",
           };
 
           let html = "";
-          pageData.forEach((a, idx) => {
+          pageData.forEach((e, idx) => {
             const rowNum = startIndex + idx + 1;
-            html += `<tr data-id="${a.id}">
-          <td style="text-align:center;opacity:0.5;">${rowNum}</td>
-          <td><strong>${a.name}</strong></td>
-          <td>${a.email}</td>
-          <td><span class="role-badge ${roleClasses[a.role]}">${roleLabels[a.role]}</span></td>
-          <td><span class="status-badge ${statusClasses[a.status]}">${statusLabels[a.status]}</span></td>
-          <td>${a.lastLogin}</td>
-          <td>${a.twoFA ? '<i class="fas fa-check-circle" style="color:var(--accent-color)"></i>' : '<i class="fas fa-times-circle" style="color:var(--expenses)"></i>'}</td>
-          <td class="action-icons">
-            <a href="edit.html?id=${a.id}" class="edit" data-id="${a.id}" title="Edit"><i class="fas fa-edit"></i></a>
-            <a href="#" class="delete" data-id="${a.id}" title="Delete"><i class="fas fa-trash-alt"></i></a>
-          </td>
-        </tr>`;
+            html += `<tr>
+              <td style="text-align:center;opacity:0.5;">${rowNum}</td>
+              <td><strong>${e.user}</strong></td>
+              <td><span class="action-badge ${actionClasses[e.action]}">${actionLabels[e.action]}</span></td>
+              <td>${e.target}</td>
+              <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${e.details}">${e.details}</td>
+              <td><span class="status-badge ${statusClasses[e.status]}">${statusLabels[e.status]}</span></td>
+              <td style="font-size:0.85rem;">${e.timestamp}</td>
+            </tr>`;
           });
           tbody.innerHTML = html;
         }
@@ -1172,118 +1140,117 @@
           if (currentPage < totalPages) goToPage(currentPage + 1);
         }
 
-        // ----- DELETE MODAL LOGIC -----
-        const modal = document.getElementById("deleteModal");
-        const deletePasswordInput = document.getElementById("deletePassword");
-        const deleteError = document.getElementById("deleteError");
-        const deleteUserName = document.getElementById("deleteUserName");
+        // ----- EXPORT PDF -----
+        function exportPDF() {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF("landscape", "mm", "a4");
 
-        function openDeleteModal(userId) {
-          const user = admins.find((a) => a.id === userId);
-          if (!user) return;
-          deleteTargetId = userId;
-          deleteUserName.textContent = user.name;
-          deletePasswordInput.value = "";
-          deleteError.classList.remove("visible");
-          modal.classList.add("active");
-          deletePasswordInput.focus();
+          // Get the current filtered data (all rows, not just paginated)
+          const exportData = getFilteredData();
+
+          if (exportData.length === 0) {
+            alert("No data to export. Please adjust your filters.");
+            return;
+          }
+
+          // Add title
+          doc.setFontSize(16);
+          doc.setTextColor(40, 40, 40);
+          doc.text("Audit Log Report", 14, 15);
+
+          // Add subtitle with date
+          doc.setFontSize(10);
+          doc.setTextColor(100, 100, 100);
+          const now = new Date();
+          const dateStr = now.toLocaleString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          doc.text(
+            `Generated: ${dateStr} | Total Events: ${exportData.length}`,
+            14,
+            22,
+          );
+
+          // Prepare table data (IP address removed)
+          const tableData = exportData.map((e, idx) => [
+            idx + 1,
+            e.user,
+            e.action.charAt(0).toUpperCase() + e.action.slice(1),
+            e.target,
+            e.details,
+            e.status.charAt(0).toUpperCase() + e.status.slice(1),
+            e.timestamp,
+          ]);
+
+          // Generate table
+          doc.autoTable({
+            startY: 28,
+            head: [
+              [
+                "#",
+                "User",
+                "Action",
+                "Target",
+                "Details",
+                "Status",
+                "Timestamp",
+              ],
+            ],
+            body: tableData,
+            theme: "striped",
+            headStyles: {
+              fillColor: [61, 220, 132],
+              textColor: [0, 0, 0],
+              fontSize: 9,
+              fontStyle: "bold",
+            },
+            bodyStyles: {
+              fontSize: 8,
+              textColor: [40, 40, 40],
+            },
+            columnStyles: {
+              0: { cellWidth: 10, halign: "center" },
+              1: { cellWidth: 30 },
+              2: { cellWidth: 25 },
+              3: { cellWidth: 35 },
+              4: { cellWidth: 55 },
+              5: { cellWidth: 20, halign: "center" },
+              6: { cellWidth: 35 },
+            },
+            margin: { left: 10, right: 10 },
+            pageBreak: "auto",
+          });
+
+          // Add footer with page numbers
+          const totalPages = doc.internal.getNumberOfPages();
+          for (let i = 1; i <= totalPages; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8);
+            doc.setTextColor(150, 150, 150);
+            doc.text(
+              `Page ${i} of ${totalPages}`,
+              doc.internal.pageSize.getWidth() - 20,
+              doc.internal.pageSize.getHeight() - 10,
+            );
+          }
+
+          // Save the PDF
+          doc.save("audit-log-report.pdf");
         }
-
-        function closeDeleteModal() {
-          modal.classList.remove("active");
-          deleteTargetId = null;
-          deletePasswordInput.value = "";
-          deleteError.classList.remove("visible");
-        }
-
-        function confirmDelete() {
-          const password = deletePasswordInput.value.trim();
-          // In a real app, you'd verify against the logged-in user's password hash
-          // For demo, we'll use a hardcoded password: "admin123"
-          if (password === "admin123") {
-            if (deleteTargetId !== null) {
-              const index = admins.findIndex((a) => a.id === deleteTargetId);
-              if (index > -1) {
-                admins.splice(index, 1);
-                updateMiniStats();
-                currentPage = 1;
-                renderTable();
-                closeDeleteModal();
-                // Show success feedback
-                const toast = document.createElement("div");
-                toast.style.cssText = `
-                  position: fixed; bottom: 20px; right: 20px;
-                  background: var(--accent-color); color: #1a1a1a;
-                  padding: 0.8rem 1.5rem; border-radius: var(--border-radius);
-                  font-weight: 600; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-                  z-index: 2000; animation: slideUp 0.3s ease;
-                `;
-                toast.textContent = "✅ Admin account deleted successfully!";
-                document.body.appendChild(toast);
-                setTimeout(() => {
-                  toast.style.opacity = "0";
-                  toast.style.transition = "opacity 0.3s";
-                  setTimeout(() => toast.remove(), 300);
-                }, 3000);
-              }
-            }
-          } else {
-            deleteError.classList.add("visible");
-            deletePasswordInput.value = "";
-            deletePasswordInput.focus();
-          }
-        }
-
-        // Modal event listeners
-        document
-          .getElementById("cancelDeleteBtn")
-          .addEventListener("click", closeDeleteModal);
-        document
-          .getElementById("confirmDeleteBtn")
-          .addEventListener("click", confirmDelete);
-        deletePasswordInput.addEventListener("keydown", function (e) {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            confirmDelete();
-          }
-          if (e.key === "Escape") {
-            closeDeleteModal();
-          }
-        });
-        modal.addEventListener("click", function (e) {
-          if (e.target === modal) closeDeleteModal();
-        });
-
-        // ----- DELETE BUTTON (modal trigger) -----
-        document.addEventListener("click", function (e) {
-          const target = e.target.closest("a");
-          if (!target) return;
-
-          // Delete button - open modal
-          if (target.classList.contains("delete")) {
-            e.preventDefault();
-            const id = parseInt(target.dataset.id);
-            if (id) {
-              openDeleteModal(id);
-            }
-          }
-        });
 
         // ----- EVENT LISTENERS -----
         document
-          .getElementById("filterName")
+          .getElementById("filterUser")
           .addEventListener("input", function () {
             currentPage = 1;
             renderTable();
           });
         document
-          .getElementById("filterEmail")
-          .addEventListener("input", function () {
-            currentPage = 1;
-            renderTable();
-          });
-        document
-          .getElementById("filterRole")
+          .getElementById("filterAction")
           .addEventListener("change", function () {
             currentPage = 1;
             renderTable();
@@ -1294,14 +1261,20 @@
             currentPage = 1;
             renderTable();
           });
+        document
+          .getElementById("filterDate")
+          .addEventListener("change", function () {
+            currentPage = 1;
+            renderTable();
+          });
 
         document
           .getElementById("clearFilters")
           .addEventListener("click", function () {
-            document.getElementById("filterName").value = "";
-            document.getElementById("filterEmail").value = "";
-            document.getElementById("filterRole").value = "all";
+            document.getElementById("filterUser").value = "";
+            document.getElementById("filterAction").value = "all";
             document.getElementById("filterStatus").value = "all";
+            document.getElementById("filterDate").value = "";
             currentPage = 1;
             renderTable();
           });
@@ -1316,21 +1289,16 @@
         document.getElementById("prevPage").addEventListener("click", prevPage);
         document.getElementById("nextPage").addEventListener("click", nextPage);
 
+        // ----- EXPORT BUTTON -----
+        document
+          .getElementById("exportBtn")
+          .addEventListener("click", exportPDF);
+
         // ----- INIT -----
-        updateMiniStats();
+        updateStats();
         renderTable();
         document.getElementById("sidebarUserName").textContent =
           "Admin Manager";
-
-        // Add keyframe animation for toast
-        const style = document.createElement("style");
-        style.textContent = `
-          @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-          }
-        `;
-        document.head.appendChild(style);
       })();
     </script>
   </body>

@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
-      /* ----- THEME (same as dashboard/sales) ----- */
+      /* ----- THEME (same as dashboard) ----- */
       :root {
         --bg-color: #e4e4e4;
         --bg-panel: #ffffff;
@@ -72,6 +72,7 @@
         position: sticky;
         top: 0;
         overflow-y: auto;
+        transition: transform 0.2s;
       }
       .sidebar .brand {
         display: flex;
@@ -202,6 +203,9 @@
         margin-bottom: 1.5rem;
         gap: 10px;
       }
+      .welcome-card .welcome-left {
+        flex: 0 0 auto;
+      }
       .welcome-card .welcome-left h2 {
         font-size: 1.25rem;
         font-weight: 700;
@@ -256,7 +260,7 @@
         }
       }
 
-      /* ----- FORM CARD (expense specific) ----- */
+      /* ----- ADD SALE FORM (amount input removed) ----- */
       .form-card {
         margin: 1.5rem auto;
         border-radius: var(--border-radius);
@@ -301,6 +305,8 @@
         outline-offset: 1px;
         border-color: transparent;
       }
+
+      /* ----- SMOOTH DROPDOWN ANIMATION ----- */
       .form-group select {
         cursor: pointer;
         transition:
@@ -310,6 +316,9 @@
       }
       .form-group select:hover {
         transform: scale(1.02);
+      }
+      .form-group select option {
+        padding: 8px;
       }
 
       .btn-primary {
@@ -401,7 +410,7 @@
         background: var(--bg-color);
       }
 
-      /* mobile */
+      /* ----- mobile ----- */
       @media (max-width: 768px) {
         .app-layout {
           flex-direction: column;
@@ -468,22 +477,22 @@
         </div>
 
         <nav class="nav-links">
-          <a href="dashboard.html" data-page="dashboard"
+          <a href="dashboard.php" data-page="dashboard"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-          <a href="sales.html" data-page="add-sale"
+          <a href="sales.php" data-page="add-sale" class="active-link"
             ><i class="fas fa-coins"></i> Sales</a
           >
-          <a href="#" data-page="add-expense" class="active-link"
+          <a href="expenses.php" data-page="add-expense"
             ><i class="fas fa-receipt"></i> Expenses</a
           >
-          <a href="reports.html" data-page="add-debt"
+          <a href="reports.php" data-page="add-debt"
             ><i class="fas fa-file-alt"></i> Reports</a
           >
         </nav>
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
@@ -495,7 +504,7 @@
           <!-- WELCOME CARD -->
           <div class="panel-card welcome-card">
             <div class="welcome-left">
-              <h2>Expenses · <span id="dashUserName">Cashier</span></h2>
+              <h2>Sales · <span id="dashUserName">Cashier</span></h2>
             </div>
             <div class="welcome-center">
               <strong>Time:</strong> <span id="liveTime">--:--:--</span>
@@ -508,61 +517,59 @@
           <!-- STATS CARDS -->
           <div class="grid grid-cols-1 sm:grid-cols-3">
             <div class="stat-card">
-              <div class="stat-icon" style="color: var(--expenses)">
-                <i class="fas fa-receipt"></i>
+              <div class="stat-icon" style="color: var(--sales)">
+                <i class="fas fa-coins"></i>
               </div>
-              <div class="stat-value" id="dashTotalExpensesToday">0.00</div>
-              <div class="stat-label">Today's Expenses</div>
+              <div class="stat-value" id="dashTotalSales">0.00</div>
+              <div class="stat-label">Today's Sales</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon" style="color: var(--expenses)">
+              <div class="stat-icon" style="color: var(--sales)">
                 <i class="fas fa-chart-line"></i>
               </div>
-              <div class="stat-value" id="dashTotalExpensesAll">0.00</div>
-              <div class="stat-label">All-time Expenses</div>
+              <div class="stat-value" id="dashTotalSalesAll">0.00</div>
+              <div class="stat-label">All-time Sales</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon" style="color: var(--expenses)">
+              <div class="stat-icon" style="color: var(--sales)">
                 <i class="fas fa-list-ul"></i>
               </div>
-              <div class="stat-value" id="dashExpensesCount">0</div>
-              <div class="stat-label">Total Entries</div>
+              <div class="stat-value" id="dashSalesCount">0</div>
+              <div class="stat-label">Total Sales Entries</div>
             </div>
           </div>
 
-          <!-- ADD EXPENSE FORM (dedicated categories with fixed prices) -->
+          <!-- ADD SALE FORM (date + amount inputs removed) -->
           <div class="form-card">
-            <div class="form-group" style="flex: 1.2">
-              <label for="expenseCategory">Type</label>
-              <select id="expenseCategory">
-                <option value="bearings">Bearings</option>
-                <option value="drivebelts">Drive Belts</option>
-                <option value="screens">Screens</option>
-                <option value="engines">Engines / Motors</option>
+            <div class="form-group" style="flex: 1">
+              <label for="saleType">Type</label>
+              <select id="saleType">
+                <option value="mill">Milling</option>
+                <option value="shell">Shelling</option>
               </select>
             </div>
-            <div class="form-group" style="flex: 0.8">
-              <label for="expenseUnits">Units</label>
+            <div class="form-group" style="flex: 1">
+              <label for="saleUnits">Units</label>
               <input
                 type="number"
-                id="expenseUnits"
+                id="saleUnits"
                 placeholder="e.g. 2"
                 value="1"
                 min="0.5"
                 step="0.5"
               />
             </div>
-            <button class="btn-primary" id="addExpenseBtn">
-              <i class="fas fa-plus-circle"></i> Add Expense
+            <button class="btn-primary" id="addSaleBtn">
+              <i class="fas fa-plus-circle"></i> Add Sale
             </button>
           </div>
 
-          <!-- EXPENSES TABLE -->
+          <!-- SALES TABLE -->
           <div class="table-wrapper">
             <table>
               <thead>
                 <tr>
-                  <th>Category</th>
+                  <th>Type</th>
                   <th>Units</th>
                   <th>Amount (MWK)</th>
                   <th>Date</th>
@@ -575,7 +582,7 @@
               </tbody>
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
-              No expenses recorded yet
+              No sales recorded yet
             </div>
           </div>
         </div>
@@ -586,20 +593,10 @@
       (function () {
         "use strict";
 
-        // ----- PRICE PER UNIT (MWK) for each category -----
-        const PRICE_MAP = {
-          bearings: 3500,
-          drivebelts: 2800,
-          screens: 4200,
-          engines: 15000,
-        };
-
-        // category display names
-        const CATEGORY_LABELS = {
-          bearings: "Bearings",
-          drivebelts: "Drive Belts",
-          screens: "Screens",
-          engines: "Engines / Motors",
+        // ----- PRICES -----
+        const PRICES = {
+          mill: 500, // MWK per unit (5L bucket)
+          shell: 1000,
         };
 
         // ----- LIVE CLOCK -----
@@ -618,55 +615,63 @@
         updateClock();
         setInterval(updateClock, 1000);
 
-        // ----- HELPERS -----
+        // ----- DATA -----
         function todayStr() {
           return new Date().toISOString().slice(0, 10);
         }
         const today = todayStr();
 
-        // ----- SAMPLE DATA (expenses) -----
-        let expenseRecords = [
+        let salesRecords = [
           {
             id: 1,
-            category: "bearings",
+            type: "mill",
             units: 2,
-            amount: 7000,
+            amount: 1000,
             date: today,
-            time: "09:15:30",
+            time: "12:30:15",
           },
           {
             id: 2,
-            category: "drivebelts",
+            type: "shell",
             units: 1.5,
-            amount: 4200,
+            amount: 1500,
             date: today,
-            time: "10:45:12",
+            time: "13:45:22",
           },
           {
             id: 3,
-            category: "screens",
-            units: 1,
-            amount: 4200,
+            type: "mill",
+            units: 3,
+            amount: 1500,
             date: today,
-            time: "14:20:05",
+            time: "15:10:00",
           },
           {
             id: 4,
-            category: "engines",
-            units: 1,
-            amount: 15000,
+            type: "shell",
+            units: 2,
+            amount: 2000,
             date: today,
-            time: "16:00:00",
+            time: "11:20:10",
           },
         ];
         let nextId = 5;
 
+        // ----- AUTO-CALCULATE AMOUNT (internal only, no display) -----
+        function calculateAmount() {
+          const type = document.getElementById("saleType").value;
+          const units =
+            parseFloat(document.getElementById("saleUnits").value) || 0;
+          const price = PRICES[type] || 0;
+          return units * price;
+        }
+
         // ----- RENDER TABLE -----
-        function renderExpenses() {
+        function renderSales() {
           const tbody = document.getElementById("tableBody");
           const empty = document.getElementById("emptyState");
 
-          const sorted = [...expenseRecords].sort((a, b) =>
+          const sorted = [...salesRecords].sort((a, b) =>
             b.time.localeCompare(a.time),
           );
 
@@ -678,106 +683,109 @@
           empty.style.display = "none";
 
           let html = "";
+          const typeLabels = { mill: "Milling", shell: "Shelling" };
+          const typeClasses = { mill: "mill", shell: "shell" };
           sorted.forEach((r) => {
-            const label = CATEGORY_LABELS[r.category] || r.category;
             html += `<tr data-id="${r.id}">
-          <td><span class="type-badge">${label}</span></td>
-          <td>${r.units}</td>
-          <td><strong>${r.amount.toFixed(2)}</strong></td>
-          <td>${r.date}</td>
-          <td>${r.time}</td>
-          <td style="text-align:center;">
-            <button class="btn-remove" data-id="${r.id}" title="Remove expense"><i class="fas fa-trash-alt"></i></button>
-          </td>
-        </tr>`;
+              <td><span class="type-badge ${typeClasses[r.type]}">${typeLabels[r.type]}</span></td>
+              <td>${r.units}</td>
+              <td><strong>${r.amount.toFixed(2)}</strong></td>
+              <td>${r.date}</td>
+              <td>${r.time}</td>
+              <td style="text-align:center;">
+                <button class="btn-remove" data-id="${r.id}" title="Remove sale"><i class="fas fa-trash-alt"></i></button>
+              </td>
+            </tr>`;
           });
           tbody.innerHTML = html;
 
-          // attach remove events
           document.querySelectorAll(".btn-remove").forEach((btn) => {
             btn.addEventListener("click", function (e) {
               e.stopPropagation();
               const id = parseInt(this.dataset.id, 10);
-              removeExpenseById(id);
+              removeSaleById(id);
             });
           });
         }
 
         // ----- REMOVE -----
-        function removeExpenseById(id) {
-          const idx = expenseRecords.findIndex((r) => r.id === id);
-          if (idx === -1) return;
-          expenseRecords.splice(idx, 1);
-          renderExpenses();
+        function removeSaleById(id) {
+          const index = salesRecords.findIndex((r) => r.id === id);
+          if (index === -1) return;
+          salesRecords.splice(index, 1);
+          renderSales();
           updateStats();
         }
 
         // ----- UPDATE STATS -----
         function updateStats() {
           const today = todayStr();
-          const todayTotal = expenseRecords
+          const todaySales = salesRecords
             .filter((r) => r.date === today)
             .reduce((sum, r) => sum + r.amount, 0);
-          const allTotal = expenseRecords.reduce((sum, r) => sum + r.amount, 0);
-          const count = expenseRecords.length;
+          const allSales = salesRecords.reduce((sum, r) => sum + r.amount, 0);
+          const count = salesRecords.length;
 
-          document.getElementById("dashTotalExpensesToday").textContent =
-            todayTotal.toFixed(2);
-          document.getElementById("dashTotalExpensesAll").textContent =
-            allTotal.toFixed(2);
-          document.getElementById("dashExpensesCount").textContent = count;
+          document.getElementById("dashTotalSales").textContent =
+            todaySales.toFixed(2);
+          document.getElementById("dashTotalSalesAll").textContent =
+            allSales.toFixed(2);
+          document.getElementById("dashSalesCount").textContent = count;
         }
 
-        // ----- ADD EXPENSE (amount auto-calculated from category price * units) -----
-        function addExpense() {
-          const category = document.getElementById("expenseCategory").value;
-          const unitsInput = document.getElementById("expenseUnits");
-          const units = parseFloat(unitsInput.value);
+        // ----- ADD SALE (date + amount auto, no inputs) -----
+        function addSale() {
+          const type = document.getElementById("saleType").value;
+          const unitsInput = document.getElementById("saleUnits");
 
+          const units = parseFloat(unitsInput.value);
           if (isNaN(units) || units <= 0) {
             alert("Please enter a valid number of units (e.g. 1, 1.5, 2).");
             return;
           }
 
-          const pricePerUnit = PRICE_MAP[category] || 0;
-          if (pricePerUnit === 0) {
-            alert("Price not defined for this category.");
-            return;
-          }
+          // Calculate amount from price
+          const price = PRICES[type];
+          const amount = units * price;
 
-          const amount = units * pricePerUnit;
+          // Date is always today
           const date = todayStr();
+
           const now = new Date();
           const time = now.toTimeString().slice(0, 8);
 
-          expenseRecords.push({
+          salesRecords.push({
             id: nextId++,
-            category: category,
+            type: type,
             units: units,
             amount: amount,
             date: date,
             time: time,
           });
 
-          // reset units to 1, keep category as is
+          // Reset form: keep type, reset units to 1
           unitsInput.value = "1";
 
-          renderExpenses();
+          renderSales();
           updateStats();
         }
 
+        // ----- SETUP -----
+
         // ----- EVENT LISTENERS -----
         document
-          .getElementById("addExpenseBtn")
-          .addEventListener("click", addExpense);
+          .getElementById("addSaleBtn")
+          .addEventListener("click", addSale);
+
+        // Enter key on units triggers add
         document
-          .getElementById("expenseUnits")
+          .getElementById("saleUnits")
           .addEventListener("keydown", (e) => {
-            if (e.key === "Enter") addExpense();
+            if (e.key === "Enter") addSale();
           });
 
         // ----- INIT -----
-        renderExpenses();
+        renderSales();
         updateStats();
 
         document.getElementById("sidebarUserName").textContent = "Cashier";

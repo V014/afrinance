@@ -862,7 +862,7 @@
         <!-- DASHBOARD -->
         <div class="nav-section">Dashboard</div>
         <nav class="nav-links">
-          <a href="dashboard2.html" data-page="dashboard"
+          <a href="dashboard2.php" data-page="dashboard"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
         </nav>
@@ -870,7 +870,7 @@
         <!-- BRANCHES -->
         <div class="nav-section">Branches</div>
         <nav class="nav-links">
-          <a href="safalawo.html" data-page="safalawo"
+          <a href="safalawo.php" data-page="safalawo"
             ><i class="fas fa-store-alt"></i> Safalawo</a
           >
           <a href="#" data-page="zambia"
@@ -884,13 +884,13 @@
         <!-- TOOLS -->
         <div class="nav-section">Tools</div>
         <nav class="nav-links">
-          <a href="analytics.html" data-page="analytics" class="active-link"
+          <a href="analytics.php" data-page="analytics" class="active-link"
             ><i class="fas fa-chart-line"></i> Analytics</a
           >
         </nav>
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>

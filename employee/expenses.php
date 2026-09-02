@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
-      /* ----- THEME INSPIRED FROM AFRINANCE ----- */
+      /* ----- THEME (same as dashboard/sales) ----- */
       :root {
         --bg-color: #e4e4e4;
         --bg-panel: #ffffff;
@@ -21,11 +21,10 @@
         --accent-color: #3ddc84;
         --border: rgba(0, 0, 0, 0.07);
         --border-radius: 12px;
-        --control-padding: 16px 20px;
         --sales: #f59e0b;
         --expenses: #e74c3c;
-        /* debt variable kept for compatibility but not used */
         --debt: #3b82f6;
+        --remove-color: #e74c3c;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -57,14 +56,13 @@
           color 0.2s;
       }
 
-      /* ----- SIDEBAR LAYOUT ----- */
+      /* ----- SIDEBAR ----- */
       .app-layout {
         display: flex;
         min-height: 100vh;
       }
       .sidebar {
         width: 260px;
-        /* background: var(--bg-panel); */
         border-right: 1px solid var(--border);
         padding: 1.5rem 1rem;
         flex-shrink: 0;
@@ -74,7 +72,6 @@
         position: sticky;
         top: 0;
         overflow-y: auto;
-        transition: transform 0.2s;
       }
       .sidebar .brand {
         display: flex;
@@ -110,7 +107,6 @@
         opacity: 0.6;
         font-size: 0.75rem;
       }
-
       .sidebar .nav-links {
         flex: 1;
         display: flex;
@@ -146,7 +142,6 @@
         width: 22px;
         text-align: center;
       }
-
       .sidebar .logout-wrapper {
         margin-top: auto;
         border-top: 1px solid var(--border);
@@ -198,7 +193,7 @@
         padding: 1.5rem;
       }
 
-      /* ----- WELCOME CARD (flex layout: left, center, right) ----- */
+      /* ----- WELCOME CARD ----- */
       .welcome-card {
         display: flex;
         flex-wrap: wrap;
@@ -206,9 +201,6 @@
         justify-content: space-between;
         margin-bottom: 1.5rem;
         gap: 10px;
-      }
-      .welcome-card .welcome-left {
-        flex: 0 0 auto;
       }
       .welcome-card .welcome-left h2 {
         font-size: 1.25rem;
@@ -231,19 +223,12 @@
         font-weight: 600;
       }
 
-      /* ----- STATS CARDS - side by side ----- */
-      .stats-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin-bottom: 0.5rem;
-      }
+      /* ----- STAT CARDS ----- */
       .stat-card {
         padding: 1.5rem;
         border-radius: var(--border-radius);
         text-align: center;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        /* background: var(--bg-panel); */
       }
       .stat-card .stat-icon {
         font-size: 2rem;
@@ -258,54 +243,101 @@
         opacity: 0.6;
       }
 
-      /* ----- TABS (filter) with color coding ----- */
-      .tabs-container {
+      .grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .grid-cols-1 {
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 640px) {
+        .sm\:grid-cols-3 {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      /* ----- FORM CARD (expense specific) ----- */
+      .form-card {
+        margin: 1.5rem auto;
+        border-radius: var(--border-radius);
+        padding: 1.5rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        max-width: 800px;
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         justify-content: center;
-        gap: 0.5rem;
-        margin: 1.5rem 0 1rem;
+        gap: 1.2rem 2rem;
       }
-      .tab-btn {
-        padding: 0.6rem 1.8rem;
-        border: 2px solid transparent;
-        /* border-radius: 30px; */
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 140px;
+        min-width: 130px;
+      }
+      .form-group label {
+        font-size: 0.8rem;
         font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        background: var(--bg-color);
-        color: var(--text-color);
-        opacity: 0.6;
-        transition: all 0.3s ease;
+        opacity: 0.7;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
       }
-      .tab-btn:hover {
-        opacity: 0.9;
+      .form-group input,
+      .form-group select {
+        background: var(--bg-color);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.65rem 0.9rem;
+        color: var(--text-color);
+        font-size: 0.95rem;
+        transition: border 0.2s;
+        width: 100%;
+        appearance: auto;
+      }
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 1px;
+        border-color: transparent;
+      }
+      .form-group select {
+        cursor: pointer;
+        transition:
+          border 0.2s,
+          box-shadow 0.2s,
+          transform 0.15s ease;
+      }
+      .form-group select:hover {
         transform: scale(1.02);
       }
-      /* Default active state (All) */
-      .tab-btn.active-tab {
-        /* background: var(--accent-color); */
-        color: var(--accent-color);
-        opacity: 1;
-        border-bottom: 1px solid var(--accent-color);
+
+      .btn-primary {
+        background: var(--accent-color);
+        border: none;
+        padding: 0.7rem 2.2rem;
+        border-radius: 30px;
+        font-weight: 700;
+        color: #1a1a1a;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+        align-self: center;
+        white-space: nowrap;
+        margin-left: auto;
       }
-      /* Sales filter active */
-      .tab-btn.active-sales {
-        /* background: var(--sales); */
-        color: var(--sales);
-        opacity: 1;
-        border-bottom: 1px solid var(--sales);
+      .btn-primary:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(61, 220, 132, 0.3);
       }
-      /* Expenses filter active */
-      .tab-btn.active-expenses {
-        /* background: var(--expenses); */
-        color: var(--expenses);
-        opacity: 1;
-        border-bottom: 1px solid var(--expenses);
+      .btn-primary i {
+        margin-right: 6px;
       }
 
       /* ----- TABLE ----- */
       .table-wrapper {
-        /* background: var(--bg-panel); */
         border-radius: var(--border-radius);
         padding: 1rem;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -332,31 +364,44 @@
         padding: 0.8rem 1rem;
         border-bottom: 1px solid var(--border);
         opacity: 0.9;
+        vertical-align: middle;
       }
       tr:last-child td {
         border-bottom: none;
       }
-      .type-badge {
-        display: inline-block;
-        padding: 0.2rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-      }
-      .type-sale {
-        color: var(--sales);
-      }
-      .type-expense {
-        color: var(--expenses);
-      }
-
       .empty-state {
         text-align: center;
         padding: 2rem;
         opacity: 0.5;
       }
+      .btn-remove {
+        background: transparent;
+        border: none;
+        color: var(--remove-color);
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+        opacity: 0.6;
+      }
+      .btn-remove:hover {
+        background: rgba(231, 76, 60, 0.12);
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      .type-badge {
+        display: inline-block;
+        padding: 0.15rem 0.7rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: var(--bg-color);
+      }
 
-      /* ----- MOBILE ----- */
+      /* mobile */
       @media (max-width: 768px) {
         .app-layout {
           flex-direction: column;
@@ -386,11 +431,18 @@
           text-align: center;
           flex: 1 1 auto;
         }
-        .tabs-container {
-          flex-wrap: wrap;
+        .form-card {
+          flex-direction: column;
+          align-items: stretch;
         }
-        .stats-row {
-          grid-template-columns: 1fr;
+        .btn-primary {
+          margin-left: 0;
+          width: 100%;
+          text-align: center;
+        }
+        .btn-remove {
+          font-size: 1rem;
+          padding: 0.2rem 0.3rem;
         }
       }
     </style>
@@ -416,22 +468,22 @@
         </div>
 
         <nav class="nav-links">
-          <a href="dashboard.html" data-page="dashboard" class="active-link"
+          <a href="dashboard.php" data-page="dashboard"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-          <a href="sales.html" data-page="add-sale"
+          <a href="sales.php" data-page="add-sale"
             ><i class="fas fa-coins"></i> Sales</a
           >
-          <a href="expenses.html" data-page="add-expense"
+          <a href="#" data-page="add-expense" class="active-link"
             ><i class="fas fa-receipt"></i> Expenses</a
           >
-          <a href="reports.html" data-page="add-debt"
+          <a href="reports.php" data-page="add-debt"
             ><i class="fas fa-file-alt"></i> Reports</a
           >
         </nav>
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
@@ -440,10 +492,10 @@
       <!-- MAIN CONTENT -->
       <main class="main-content">
         <div class="content-wrapper">
-          <!-- WELCOME CARD with live time (left, center, right) -->
+          <!-- WELCOME CARD -->
           <div class="panel-card welcome-card">
             <div class="welcome-left">
-              <h2>Welcome, <span id="dashUserName">Cashier</span></h2>
+              <h2>Expenses · <span id="dashUserName">Cashier</span></h2>
             </div>
             <div class="welcome-center">
               <strong>Time:</strong> <span id="liveTime">--:--:--</span>
@@ -453,48 +505,77 @@
             </div>
           </div>
 
-          <!-- STATS CARDS - side by side -->
-          <div class="stats-row">
-            <div class="stat-card">
-              <div class="stat-icon" style="color: var(--sales)">
-                <i class="fas fa-coins"></i>
-              </div>
-              <div class="stat-value" id="dashTotalSales">0.00</div>
-              <div class="stat-label">Today's Sales</div>
-            </div>
+          <!-- STATS CARDS -->
+          <div class="grid grid-cols-1 sm:grid-cols-3">
             <div class="stat-card">
               <div class="stat-icon" style="color: var(--expenses)">
                 <i class="fas fa-receipt"></i>
               </div>
-              <div class="stat-value" id="dashTotalExpenses">0.00</div>
+              <div class="stat-value" id="dashTotalExpensesToday">0.00</div>
               <div class="stat-label">Today's Expenses</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="color: var(--expenses)">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="stat-value" id="dashTotalExpensesAll">0.00</div>
+              <div class="stat-label">All-time Expenses</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="color: var(--expenses)">
+                <i class="fas fa-list-ul"></i>
+              </div>
+              <div class="stat-value" id="dashExpensesCount">0</div>
+              <div class="stat-label">Total Entries</div>
             </div>
           </div>
 
-          <!-- TABS FILTER (Debt tab removed) -->
-          <div class="tabs-container">
-            <button class="tab-btn active-tab" data-filter="all">All</button>
-            <button class="tab-btn" data-filter="sale">Sales</button>
-            <button class="tab-btn" data-filter="expense">Expenses</button>
+          <!-- ADD EXPENSE FORM (dedicated categories with fixed prices) -->
+          <div class="form-card">
+            <div class="form-group" style="flex: 1.2">
+              <label for="expenseCategory">Type</label>
+              <select id="expenseCategory">
+                <option value="bearings">Bearings</option>
+                <option value="drivebelts">Drive Belts</option>
+                <option value="screens">Screens</option>
+                <option value="engines">Engines / Motors</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 0.8">
+              <label for="expenseUnits">Units</label>
+              <input
+                type="number"
+                id="expenseUnits"
+                placeholder="e.g. 2"
+                value="1"
+                min="0.5"
+                step="0.5"
+              />
+            </div>
+            <button class="btn-primary" id="addExpenseBtn">
+              <i class="fas fa-plus-circle"></i> Add Expense
+            </button>
           </div>
 
-          <!-- TABLE (description column removed) -->
+          <!-- EXPENSES TABLE -->
           <div class="table-wrapper">
             <table>
               <thead>
                 <tr>
-                  <th>Type</th>
+                  <th>Category</th>
+                  <th>Units</th>
                   <th>Amount (MWK)</th>
                   <th>Date</th>
                   <th>Time</th>
+                  <th style="text-align: center; width: 60px">Remove</th>
                 </tr>
               </thead>
               <tbody id="tableBody">
-                <!-- rows rendered by JS -->
+                <!-- rendered by JS -->
               </tbody>
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
-              No records found
+              No expenses recorded yet
             </div>
           </div>
         </div>
@@ -505,91 +586,91 @@
       (function () {
         "use strict";
 
+        // ----- PRICE PER UNIT (MWK) for each category -----
+        const PRICE_MAP = {
+          bearings: 3500,
+          drivebelts: 2800,
+          screens: 4200,
+          engines: 15000,
+        };
+
+        // category display names
+        const CATEGORY_LABELS = {
+          bearings: "Bearings",
+          drivebelts: "Drive Belts",
+          screens: "Screens",
+          engines: "Engines / Motors",
+        };
+
         // ----- LIVE CLOCK -----
         function updateClock() {
           const now = new Date();
-          const timeStr = now.toLocaleTimeString("en-US", { hour12: false });
-          const dayStr = now.toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          });
-          document.getElementById("liveTime").textContent = timeStr;
-          document.getElementById("liveDay").textContent = dayStr;
+          document.getElementById("liveTime").textContent =
+            now.toLocaleTimeString("en-US", { hour12: false });
+          document.getElementById("liveDay").textContent =
+            now.toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
         }
         updateClock();
         setInterval(updateClock, 1000);
 
-        // ----- DATA (debt records removed) -----
+        // ----- HELPERS -----
         function todayStr() {
           return new Date().toISOString().slice(0, 10);
         }
-
         const today = todayStr();
 
-        // Sample data without debt entries
-        const allRecords = [
+        // ----- SAMPLE DATA (expenses) -----
+        let expenseRecords = [
           {
-            type: "sale",
-            description: "Dine-in - Alice",
-            amount: 120.5,
+            id: 1,
+            category: "bearings",
+            units: 2,
+            amount: 7000,
             date: today,
-            time: "12:30:15",
+            time: "09:15:30",
           },
           {
-            type: "sale",
-            description: "Takeaway - Bob",
-            amount: 45.0,
+            id: 2,
+            category: "drivebelts",
+            units: 1.5,
+            amount: 4200,
             date: today,
-            time: "13:45:22",
+            time: "10:45:12",
           },
           {
-            type: "expense",
-            description: "Ingredients - veggies",
-            amount: 30.0,
+            id: 3,
+            category: "screens",
+            units: 1,
+            amount: 4200,
             date: today,
-            time: "09:10:05",
+            time: "14:20:05",
           },
           {
-            type: "expense",
-            description: "Transport - delivery",
-            amount: 15.0,
+            id: 4,
+            category: "engines",
+            units: 1,
+            amount: 15000,
             date: today,
-            time: "10:20:30",
-          },
-          {
-            type: "sale",
-            description: "Mobile Money - Carol",
-            amount: 75.25,
-            date: today,
-            time: "15:10:00",
-          },
-          {
-            type: "expense",
-            description: "Salaries - weekly",
-            amount: 200.0,
-            date: today,
-            time: "08:00:00",
+            time: "16:00:00",
           },
         ];
+        let nextId = 5;
 
-        // ----- RENDER TABLE (no description column) -----
-        let currentFilter = "all";
-
-        function renderTable(filter) {
+        // ----- RENDER TABLE -----
+        function renderExpenses() {
           const tbody = document.getElementById("tableBody");
           const empty = document.getElementById("emptyState");
 
-          let filtered =
-            filter === "all"
-              ? allRecords
-              : allRecords.filter((r) => r.type === filter);
+          const sorted = [...expenseRecords].sort((a, b) =>
+            b.time.localeCompare(a.time),
+          );
 
-          // Sort by time (newest first)
-          filtered = [...filtered].sort((a, b) => b.time.localeCompare(a.time));
-
-          if (filtered.length === 0) {
+          if (sorted.length === 0) {
             tbody.innerHTML = "";
             empty.style.display = "block";
             return;
@@ -597,77 +678,108 @@
           empty.style.display = "none";
 
           let html = "";
-          const typeLabels = { sale: "Sale", expense: "Expense" };
-          const typeClasses = {
-            sale: "type-sale",
-            expense: "type-expense",
-          };
-          const iconMap = {
-            sale: "",
-            expense: "",
-          };
-
-          filtered.forEach((r) => {
-            html += `<tr>
-          <td><span class="type-badge ${typeClasses[r.type]}"><i class="fas ${iconMap[r.type]}"></i> ${typeLabels[r.type]}</span></td>
+          sorted.forEach((r) => {
+            const label = CATEGORY_LABELS[r.category] || r.category;
+            html += `<tr data-id="${r.id}">
+          <td><span class="type-badge">${label}</span></td>
+          <td>${r.units}</td>
           <td><strong>${r.amount.toFixed(2)}</strong></td>
           <td>${r.date}</td>
           <td>${r.time}</td>
+          <td style="text-align:center;">
+            <button class="btn-remove" data-id="${r.id}" title="Remove expense"><i class="fas fa-trash-alt"></i></button>
+          </td>
         </tr>`;
           });
           tbody.innerHTML = html;
+
+          // attach remove events
+          document.querySelectorAll(".btn-remove").forEach((btn) => {
+            btn.addEventListener("click", function (e) {
+              e.stopPropagation();
+              const id = parseInt(this.dataset.id, 10);
+              removeExpenseById(id);
+            });
+          });
         }
 
-        // ----- UPDATE STATS (debt removed) -----
+        // ----- REMOVE -----
+        function removeExpenseById(id) {
+          const idx = expenseRecords.findIndex((r) => r.id === id);
+          if (idx === -1) return;
+          expenseRecords.splice(idx, 1);
+          renderExpenses();
+          updateStats();
+        }
+
+        // ----- UPDATE STATS -----
         function updateStats() {
           const today = todayStr();
-          const salesToday = allRecords
-            .filter((r) => r.type === "sale" && r.date === today)
+          const todayTotal = expenseRecords
+            .filter((r) => r.date === today)
             .reduce((sum, r) => sum + r.amount, 0);
-          const expToday = allRecords
-            .filter((r) => r.type === "expense" && r.date === today)
-            .reduce((sum, r) => sum + r.amount, 0);
+          const allTotal = expenseRecords.reduce((sum, r) => sum + r.amount, 0);
+          const count = expenseRecords.length;
 
-          document.getElementById("dashTotalSales").textContent =
-            salesToday.toFixed(2);
-          document.getElementById("dashTotalExpenses").textContent =
-            expToday.toFixed(2);
+          document.getElementById("dashTotalExpensesToday").textContent =
+            todayTotal.toFixed(2);
+          document.getElementById("dashTotalExpensesAll").textContent =
+            allTotal.toFixed(2);
+          document.getElementById("dashExpensesCount").textContent = count;
         }
 
-        // ----- TABS with color coding (debt tab removed) -----
-        document.querySelectorAll(".tab-btn").forEach((btn) => {
-          btn.addEventListener("click", function () {
-            // Remove all active classes from all tabs
-            document.querySelectorAll(".tab-btn").forEach((b) => {
-              b.classList.remove(
-                "active-tab",
-                "active-sales",
-                "active-expenses",
-                "active-debts",
-              );
-            });
+        // ----- ADD EXPENSE (amount auto-calculated from category price * units) -----
+        function addExpense() {
+          const category = document.getElementById("expenseCategory").value;
+          const unitsInput = document.getElementById("expenseUnits");
+          const units = parseFloat(unitsInput.value);
 
-            const filter = this.dataset.filter;
+          if (isNaN(units) || units <= 0) {
+            alert("Please enter a valid number of units (e.g. 1, 1.5, 2).");
+            return;
+          }
 
-            // Add the appropriate active class based on filter
-            if (filter === "all") {
-              this.classList.add("active-tab");
-            } else if (filter === "sale") {
-              this.classList.add("active-sales");
-            } else if (filter === "expense") {
-              this.classList.add("active-expenses");
-            }
+          const pricePerUnit = PRICE_MAP[category] || 0;
+          if (pricePerUnit === 0) {
+            alert("Price not defined for this category.");
+            return;
+          }
 
-            currentFilter = filter;
-            renderTable(currentFilter);
+          const amount = units * pricePerUnit;
+          const date = todayStr();
+          const now = new Date();
+          const time = now.toTimeString().slice(0, 8);
+
+          expenseRecords.push({
+            id: nextId++,
+            category: category,
+            units: units,
+            amount: amount,
+            date: date,
+            time: time,
           });
-        });
+
+          // reset units to 1, keep category as is
+          unitsInput.value = "1";
+
+          renderExpenses();
+          updateStats();
+        }
+
+        // ----- EVENT LISTENERS -----
+        document
+          .getElementById("addExpenseBtn")
+          .addEventListener("click", addExpense);
+        document
+          .getElementById("expenseUnits")
+          .addEventListener("keydown", (e) => {
+            if (e.key === "Enter") addExpense();
+          });
 
         // ----- INIT -----
-        renderTable("all");
+        renderExpenses();
         updateStats();
 
-        // Set user name
         document.getElementById("sidebarUserName").textContent = "Cashier";
         document.getElementById("dashUserName").textContent = "Cashier";
       })();

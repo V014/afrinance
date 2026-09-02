@@ -108,8 +108,18 @@
       .welcome-card h2 i {
         color: var(--admin-purple);
       }
+      .welcome-card .user-badge {
+        font-size: 0.85rem;
+        font-weight: 400;
+        opacity: 0.6;
+        margin-left: 0.5rem;
+      }
+      .welcome-card .user-badge strong {
+        color: var(--text-color);
+        opacity: 1;
+      }
 
-      /* ----- CREATE FORM ----- */
+      /* ----- EDIT FORM ----- */
       .form-card {
         background: var(--bg-panel);
         border-radius: var(--border-radius);
@@ -375,29 +385,47 @@
     <div class="main-content">
       <!-- BACK BUTTON -->
       <div class="back-bar">
-        <a href="manage.html" class="back-btn"
-          ><i class="fas fa-arrow-left"></i> Back</a
-        >
+        <a href="manage.php" class="back-btn"
+          ><i class="fas fa-arrow-left"></i> Back
+        </a>
       </div>
 
       <!-- WELCOME CARD (no time/day) -->
       <div class="welcome-card">
-        <h2><i class="fas fa-user-plus"></i> Create Admin Account</h2>
+        <h2>
+          <i class="fas fa-user-edit"></i> Edit Admin Account
+          <span class="user-badge"
+            >Editing: <strong id="editUserName">User</strong></span
+          >
+        </h2>
       </div>
 
-      <!-- CREATE FORM -->
+      <!-- EDIT FORM -->
       <div class="form-card">
         <div class="form-title">
-          <i class="fas fa-user-shield"></i> New Admin Account
+          <i class="fas fa-user-shield"></i> Edit Account Details
         </div>
         <div class="form-subtitle">
-          Fill in the details below to create a new admin account. All fields
-          marked with <span style="color: var(--expenses)">*</span> are
-          required.
+          Update the account information below. Fields marked with
+          <span style="color: var(--expenses)">*</span> are required.
+          <span
+            style="
+              display: block;
+              margin-top: 0.3rem;
+              opacity: 0.5;
+              font-size: 0.8rem;
+            "
+          >
+            <i class="fas fa-info-circle"></i> Leave password fields blank to
+            keep current password.
+          </span>
         </div>
 
-        <form id="createAdminForm">
+        <form id="editAdminForm">
           <div class="form-grid">
+            <!-- User ID (hidden) -->
+            <input type="hidden" id="userId" value="" />
+
             <!-- Full Name -->
             <div class="form-group">
               <label>Full Name <span class="required">*</span></label>
@@ -424,7 +452,6 @@
             <div class="form-group">
               <label>Role <span class="required">*</span></label>
               <select id="role" required>
-                <option value="">Select a role...</option>
                 <option value="cashier">Cashier</option>
                 <option value="accountant">Accountant</option>
                 <option value="admin-manager">Admin Manager</option>
@@ -435,7 +462,6 @@
             <div class="form-group branch-field" id="branchGroup">
               <label>Branch <span class="required">*</span></label>
               <select id="branch">
-                <option value="">Select a branch...</option>
                 <option value="safalawo">Safalawo</option>
                 <option value="zambia">Zambia</option>
                 <option value="fargo">Fargo</option>
@@ -452,27 +478,30 @@
               </select>
             </div>
 
-            <!-- Password -->
+            <!-- New Password -->
             <div class="form-group">
-              <label>Password <span class="required">*</span></label>
+              <label
+                >New Password
+                <span style="opacity: 0.4; font-weight: 400"
+                  >(optional)</span
+                ></label
+              >
               <input
                 type="password"
                 id="password"
-                placeholder="Min 8 characters"
-                required
+                placeholder="Leave blank to keep current"
                 minlength="8"
               />
-              <div class="helper-text">Must be at least 8 characters</div>
+              <div class="helper-text">Min 8 characters (only if changing)</div>
             </div>
 
             <!-- Confirm Password -->
             <div class="form-group">
-              <label>Confirm Password <span class="required">*</span></label>
+              <label>Confirm New Password</label>
               <input
                 type="password"
                 id="confirmPassword"
-                placeholder="Re-enter password"
-                required
+                placeholder="Re-enter new password"
               />
             </div>
 
@@ -509,9 +538,9 @@
           <!-- Form Actions -->
           <div class="form-actions">
             <button type="submit" class="btn-primary">
-              <i class="fas fa-check-circle"></i> Create Account
+              <i class="fas fa-save"></i> Update Account
             </button>
-            <!-- <a href="manage-admins.html" class="btn-secondary"
+            <!-- <a href="manage.php" class="btn-secondary"
               ><i class="fas fa-times"></i> Cancel</a
             > -->
             <button type="reset" class="btn-danger">
@@ -526,6 +555,168 @@
       (function () {
         "use strict";
 
+        // ----- SAMPLE DATA (mirroring manage.php) -----
+        const sampleAdmins = [
+          {
+            id: 1,
+            name: "Alice Mwale",
+            email: "alice@3maze.com",
+            role: "cashier",
+            status: "active",
+            lastLogin: "2026-08-05 14:23",
+            twoFA: true,
+            branch: "safalawo",
+            notes: "Senior cashier at Safalawo branch",
+          },
+          {
+            id: 2,
+            name: "Bob Phiri",
+            email: "bob@3maze.com",
+            role: "accountant",
+            status: "active",
+            lastLogin: "2026-08-04 09:10",
+            twoFA: false,
+            branch: null,
+            notes: "",
+          },
+          {
+            id: 3,
+            name: "Carol Banda",
+            email: "carol@3maze.com",
+            role: "admin-manager",
+            status: "inactive",
+            lastLogin: "2026-07-28 11:45",
+            twoFA: false,
+            branch: null,
+            notes: "On leave",
+          },
+          {
+            id: 4,
+            name: "David Zulu",
+            email: "david@3maze.com",
+            role: "cashier",
+            status: "active",
+            lastLogin: "2026-08-06 08:00",
+            twoFA: true,
+            branch: "zambia",
+            notes: "",
+          },
+          {
+            id: 5,
+            name: "Ester Tembo",
+            email: "ester@3maze.com",
+            role: "accountant",
+            status: "active",
+            lastLogin: "2026-08-03 16:20",
+            twoFA: false,
+            branch: null,
+            notes: "",
+          },
+          {
+            id: 6,
+            name: "Frank Kamanga",
+            email: "frank@3maze.com",
+            role: "admin-manager",
+            status: "inactive",
+            lastLogin: "2026-07-25 13:00",
+            twoFA: false,
+            branch: null,
+            notes: "Pending review",
+          },
+          {
+            id: 7,
+            name: "Grace Banda",
+            email: "grace@3maze.com",
+            role: "cashier",
+            status: "active",
+            lastLogin: "2026-08-06 07:30",
+            twoFA: true,
+            branch: "fargo",
+            notes: "",
+          },
+          {
+            id: 8,
+            name: "Henry Moyo",
+            email: "henry@3maze.com",
+            role: "accountant",
+            status: "active",
+            lastLogin: "2026-08-02 10:00",
+            twoFA: false,
+            branch: null,
+            notes: "",
+          },
+          {
+            id: 9,
+            name: "Ivy Nkhoma",
+            email: "ivy@3maze.com",
+            role: "admin-manager",
+            status: "active",
+            lastLogin: "2026-08-05 12:15",
+            twoFA: true,
+            branch: null,
+            notes: "Team lead",
+          },
+        ];
+
+        // ----- GET USER ID FROM URL -----
+        function getUserIdFromUrl() {
+          const params = new URLSearchParams(window.location.search);
+          return parseInt(params.get("id")) || null;
+        }
+
+        // ----- LOAD USER DATA -----
+        function loadUserData() {
+          const userId = getUserIdFromUrl();
+          if (!userId) {
+            document.getElementById("editUserName").textContent =
+              "User not found";
+            document.getElementById("formToast").className =
+              "toast-message error";
+            document.getElementById("formToast").textContent =
+              "❌ No user ID provided. Please go back and try again.";
+            return;
+          }
+
+          const user = sampleAdmins.find((a) => a.id === userId);
+          if (!user) {
+            document.getElementById("editUserName").textContent =
+              "User not found";
+            document.getElementById("formToast").className =
+              "toast-message error";
+            document.getElementById("formToast").textContent =
+              `❌ User with ID ${userId} not found.`;
+            return;
+          }
+
+          // Populate form with user data
+          document.getElementById("userId").value = user.id;
+          document.getElementById("editUserName").textContent = user.name;
+          document.getElementById("fullName").value = user.name;
+          document.getElementById("email").value = user.email;
+          document.getElementById("role").value = user.role;
+          document.getElementById("status").value = user.status;
+          document.getElementById("twoFA").checked = user.twoFA;
+          document.getElementById("notes").value = user.notes || "";
+
+          // Handle branch field for cashier
+          const branchGroup = document.getElementById("branchGroup");
+          const branchSelect = document.getElementById("branch");
+          if (user.role === "cashier") {
+            branchGroup.classList.add("visible");
+            branchSelect.setAttribute("required", "required");
+            if (user.branch) {
+              branchSelect.value = user.branch;
+            }
+          } else {
+            branchGroup.classList.remove("visible");
+            branchSelect.removeAttribute("required");
+          }
+
+          // Clear any previous toast messages
+          document.getElementById("formToast").className = "toast-message";
+          document.getElementById("formToast").textContent = "";
+        }
+
         // ----- TOGGLE BRANCH FIELD BASED ON ROLE -----
         const roleSelect = document.getElementById("role");
         const branchGroup = document.getElementById("branchGroup");
@@ -539,7 +730,7 @@
           } else {
             branchGroup.classList.remove("visible");
             branchSelect.removeAttribute("required");
-            branchSelect.value = "";
+            branchSelect.value = "safalawo"; // reset to default
           }
         }
 
@@ -547,11 +738,12 @@
 
         // ----- FORM SUBMISSION -----
         document
-          .getElementById("createAdminForm")
+          .getElementById("editAdminForm")
           .addEventListener("submit", function (e) {
             e.preventDefault();
             const toast = document.getElementById("formToast");
 
+            const userId = parseInt(document.getElementById("userId").value);
             const fullName = document.getElementById("fullName").value.trim();
             const email = document.getElementById("email").value.trim();
             const role = document.getElementById("role").value;
@@ -561,8 +753,10 @@
             const confirmPassword =
               document.getElementById("confirmPassword").value;
             const twoFA = document.getElementById("twoFA").checked;
+            const notes = document.getElementById("notes").value.trim();
 
-            if (!fullName || !email || !role || !password) {
+            // Validation
+            if (!fullName || !email || !role) {
               toast.className = "toast-message error";
               toast.textContent = "Please fill in all required fields.";
               return;
@@ -575,34 +769,61 @@
               return;
             }
 
-            if (password !== confirmPassword) {
+            // Password validation (only if both fields are filled)
+            if (password || confirmPassword) {
+              if (password !== confirmPassword) {
+                toast.className = "toast-message error";
+                toast.textContent = "Passwords do not match.";
+                return;
+              }
+              if (password.length < 8) {
+                toast.className = "toast-message error";
+                toast.textContent = "Password must be at least 8 characters.";
+                return;
+              }
+            }
+
+            // Find and update the user in the sample data
+            const userIndex = sampleAdmins.findIndex((a) => a.id === userId);
+            if (userIndex === -1) {
               toast.className = "toast-message error";
-              toast.textContent = "Passwords do not match.";
+              toast.textContent = "User not found in database.";
               return;
             }
 
-            if (password.length < 8) {
-              toast.className = "toast-message error";
-              toast.textContent = "Password must be at least 8 characters.";
-              return;
-            }
+            // Update user data
+            sampleAdmins[userIndex] = {
+              ...sampleAdmins[userIndex],
+              name: fullName,
+              email: email,
+              role: role,
+              status: status,
+              twoFA: twoFA,
+              branch: role === "cashier" ? branch : null,
+              notes: notes,
+              // Password would be updated in a real backend
+            };
 
-            const roleLabel = role === "cashier" ? `Cashier (${branch})` : role;
+            // Show success message
             toast.className = "toast-message success";
-            toast.textContent = `✅ Account for "${fullName}" (${roleLabel}) created successfully!`;
+            toast.textContent = `✅ Account for "${fullName}" updated successfully!`;
+
+            // Update the user name display
+            document.getElementById("editUserName").textContent = fullName;
 
             const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.innerHTML =
-              '<i class="fas fa-spinner fa-spin"></i> Creating...';
+              '<i class="fas fa-spinner fa-spin"></i> Updating...';
 
             setTimeout(() => {
-              this.reset();
-              branchGroup.classList.remove("visible");
-              branchSelect.removeAttribute("required");
               submitBtn.disabled = false;
               submitBtn.innerHTML =
-                '<i class="fas fa-check-circle"></i> Create Account';
+                '<i class="fas fa-save"></i> Update Account';
+
+              // Clear password fields
+              document.getElementById("password").value = "";
+              document.getElementById("confirmPassword").value = "";
 
               setTimeout(() => {
                 toast.className = "toast-message";
@@ -610,6 +831,9 @@
               }, 5000);
             }, 1500);
           });
+
+        // ----- INIT -----
+        loadUserData();
       })();
     </script>
   </body>

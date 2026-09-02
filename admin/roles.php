@@ -755,16 +755,16 @@
 
         <!-- <div class="nav-section">Management</div> -->
         <nav class="nav-links">
-          <a href="dashboard.html" data-page="dashboard"
+          <a href="dashboard.php" data-page="dashboard"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-          <a href="manage.html" data-page="admins"
+          <a href="manage.php" data-page="admins"
             ><i class="fas fa-user-cog"></i> Manage Admins</a
           >
-          <a href="roles.html" data-page="roles" class="active-link"
+          <a href="roles.php" data-page="roles" class="active-link"
             ><i class="fas fa-user-tag"></i> Manage Roles</a
           >
-          <a href="audit.html" data-page="audit"
+          <a href="audit.php" data-page="audit"
             ><i class="fas fa-clipboard-list"></i> Audit Log</a
           >
         </nav>
@@ -780,7 +780,7 @@
         </nav> -->
 
         <div class="logout-wrapper">
-          <a href="login.html" data-page="logout"
+          <a href="login.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
@@ -804,7 +804,7 @@
 
           <!-- ACTION BAR -->
           <div class="action-bar">
-            <a href="create-role.html" class="action-btn primary-btn">
+            <a href="create-role.php" class="action-btn primary-btn">
               <i class="fas fa-plus-circle"></i> Create New Role
             </a>
           </div>
