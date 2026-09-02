@@ -79,6 +79,7 @@
     color: var(--text-color);
     border: none;
     border-bottom: 1px solid var(--border);
+    border-radius: var(--border-radius);
     /* */
     padding: var(--control-padding);
     width: 100%;
