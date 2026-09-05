@@ -27,7 +27,7 @@
 
 ### users
 
-  user_id         PK
+  id         PK
   password
   username
   role            -- 'accountant', 'admin', 'employee', etc.
@@ -36,49 +36,46 @@
 
 ### Links users to the companies they can access (many-to-many)
 
-### user_company
-
-  user_company_id PK
-  user_id         FK -> users
-  company_id      FK -> profile
-  role_in_company  -- lets one user have different roles in different companies
-
 ### user_logs
 
-  user_log_id     PK
+  id     PK
   user_id         FK -> users
   logged_in_at
   logged_out_at
 
-### profile  (company)
+### profile  (branch)
 
-  company_id      PK
-  company_name
-  company_description
-  company_logo
-  privacy_policy
-  currency         -- e.g. MWK
+  branch_id      PK
+  name
+  description
+  location
   created_at
   updated_at
+
+  ### user_branch
+
+  user_branch_id PK
+  user_id         FK -> users
+  branch_id      FK -> profile
+  role_in_branch  -- lets one user have different roles in different companies
 
 ### assets  (branch / location / physical asset)
 
   asset_id        PK
-  company_id      FK -> profile
+  branch_id      FK -> profile
   asset_name
   asset_description
-  asset_location
-  asset_category   -- fixed asset / inventory / property
-  purchase_cost
-  current_value
-  acquisition_date
+  asset_category   -- fixed asset / leased
+  purchase_value
+  estimated_value
+  purchase_date
   created_at
   updated_at
 
 ### employees
 
   employee_id     PK
-  asset_id        FK -> assets       -- which branch they work at
+  branch_id        FK -> assets       -- which branch they work at
   user_id         FK -> users NULL   -- if employee also logs in
   first_name
   last_name
@@ -86,8 +83,6 @@
   gender
   marital_status
   religion
-  employee_role
-  base_salary
   bank_account_number   -- consider encrypting
   bank_name
   employment_type   -- full-time / contract
@@ -100,10 +95,8 @@
   attendance_id   PK
   employee_id     FK -> employees
   status          -- present / absent / late
-  location
   clock_in
   clock_out       NULL
-  marked_by       FK -> users NULL   -- self or admin
 
 ### transactions
 
@@ -123,7 +116,7 @@
 ### payroll_run
 
   payroll_run_id  PK
-  company_id      FK -> profile
+  branch_id      FK -> profile
   period
   payment_date
   status          -- draft / approved / paid
@@ -173,20 +166,20 @@ firestore-root/
 │     role: "owner"
 │     created_at, updated_at
 │
-├── companies/{companyId}
-│     company_name: "Afrinance Traders"
-│     company_mission: "..."
-│     company_logo: "url"
+├── companies/{branchId}
+│     branch_name: "Afrinance Traders"
+│     branch_mission: "..."
+│     branch_logo: "url"
 │     privacy_policy: "url"
 │     currency: "MWK"
 │     owners: ["userId1", "userId2"]     -- array for quick membership checks
 │     created_at, updated_at
 │
-│     └── members/{userId}                -- subcollection: who can access this company
-│           role_in_company: "admin"
+│     └── members/{userId}                -- subcollection: who can access this branch
+│           role_in_branch: "admin"
 │           added_at
 │
-│     └── assets/{assetId}                -- subcollection: assets always queried per company
+│     └── assets/{assetId}                -- subcollection: assets always queried per branch
 │           asset_name: "Blantyre Branch"
 │           asset_location: "..."
 │           category: "fixed_asset"
@@ -206,7 +199,7 @@ firestore-root/
 │                 transaction_datetime
 │                 updated_at
 │
-│     └── employees/{employeeId}          -- subcollection: employees per company
+│     └── employees/{employeeId}          -- subcollection: employees per branch
 │           asset_id: "assetId"
 │           asset_name: "Blantyre Branch"   -- denormalized
 │           first_name, last_name
@@ -237,7 +230,7 @@ firestore-root/
 │                       amount: 20000
 │                       repayment_datetime
 │
-│     └── payroll_runs/{payrollRunId}      -- subcollection: payroll per company
+│     └── payroll_runs/{payrollRunId}      -- subcollection: payroll per branch
 │           period: "2026-06"
 │           payment_date
 │           status: "approved"
