@@ -127,7 +127,7 @@
   earning_id      PK
   payroll_run_id  FK -> payroll_run
   employee_id     FK -> employees
-  description
+  remarks
   amount
 
 ### deductions
@@ -135,7 +135,7 @@
   deduction_id    PK
   payroll_run_id  FK -> payroll_run
   employee_id     FK -> employees
-  description
+  remarks
   amount
 
 ### loans
