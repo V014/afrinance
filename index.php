@@ -167,7 +167,7 @@
         <div class="text-center mb-6">
           <!-- IMAGE REPLACES THE ICON -->
           <div class="brand-image-wrapper">
-            <img class="brand-image" src="brand/logo-green.png" alt="Afrinance" onerror="this.style.display = 'none'"/>
+            <img class="brand-image" src="views/brand/logo-green.png" alt="Afrinance" onerror="this.style.display = 'none'"/>
           </div>
           <h1 style="font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem">
             Afrinance
