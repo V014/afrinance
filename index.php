@@ -177,13 +177,23 @@
           </p>
         </div>
 
-        <form id="loginForm" class="space-y-5">
+        <?php if (!empty($errors)): ?>
+          <div style="color: red;">
+              <?php foreach ($errors as $error): ?>
+                  <p><?= htmlspecialchars($error) ?></p>
+              <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+
+        <form id="loginForm" class="space-y-5" action="controls/login.php" method="POST">
           <div>
             <!-- <label for="loginUsername">Username</label> -->
             <input
               id="loginUsername"
               type="text"
               placeholder="Enter username"
+              name="username"
+              required
             />
           </div>
           <div>
@@ -192,6 +202,8 @@
               id="loginPassword"
               type="password"
               placeholder="Enter password"
+              name="password"
+              required
             />
           </div>
           <button type="submit" class="btn-primary">
