@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"">
     <!-- <link rel="stylesheet" href="css/index.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
     <title>Afrinance Setup</title>
 </head>
 <style>
@@ -138,6 +139,12 @@
     margin-top: 1rem;
   }
 
+  /* error message */
+  .error { color: red; margin-top: 10px; }
+
+  /* success message */
+  .success { color: green; margin-top: 10px; }
+
   /* ----- brand image (replaces icon) ----- */
   .brand-image {
     width: 100px;
@@ -177,19 +184,11 @@
           </p>
         </div>
 
-        <?php if (!empty($_SESSION['errors'])): ?>
-          <div style="color: red;">
-              <?php foreach ($_SESSION['errors'] as $error): ?>
-                  <p><?= htmlspecialchars($error) ?></p>
-              <?php endforeach; ?>
-          </div>
-        <?php endif; ?>
+        <!-- Error messages from PHP render here -->
+        <div id="error-container" class="error"></div>
 
-        <?php if (!empty($_SESSION['success'])): ?>
-          <div style="color: green;">
-              <p><?= $_SESSION['success'] ?></p>
-          </div>
-        <?php endif; ?>
+        <!-- Success messages from PHP render here -->
+        <div id="success-container" class="success"></div>
 
         <form id="loginForm" class="space-y-5" action="controls/setup.php" method="POST">
           <div>
