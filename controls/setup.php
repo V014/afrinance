@@ -3,9 +3,6 @@
 session_start();
 require_once 'connection.php'; // Includes your PDO connection script ($pdo)
 
-$errors  = [];
-$success = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1. Sanitize and collect user inputs
     $username = trim($_POST['username'] ?? '');
@@ -15,19 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 2. Validate input fields
     if (empty($username) || empty($password) || empty($confirm)) {
-        $errors[] = 'All fields are required.';
+        // store error in session variable to display on the form
+        $_SESSION['errors'] = 'All fields are required.';
     }
 
     if (strlen($password) < 8) {
-        $errors[] = 'Password must be at least 8 characters long.';
+        $_SESSION['errors'] = 'Password must be at least 8 characters long.';
     }
 
     if ($password !== $confirm) {
-        $errors[] = 'Passwords do not match.';
+        $_SESSION['errors'] = 'Passwords do not match.';
     }
 
     // 3. If validation passes, check for existing user
-    if (empty($errors)) {
+    if (empty($_SESSION['errors'])) {
         $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username OR role = :role LIMIT 1');
         $stmt->execute([
             'username' => $username,
@@ -35,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         if ($stmt->fetch()) {
-            $errors[] = 'Username or role is already registered.';
+            $_SESSION['errors'] = 'Username or role is already registered.';
         } else {
             // 4. Hash the password securely
             // PASSWORD_DEFAULT uses the strongest available algorithm (currently bcrypt/Argon2id depending on PHP version)
@@ -54,9 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             if ($created) {
-                $success = 'Registration successful! You can now <a href="../index.php">log in</a>.';
+                $_SESSION['success'] = 'Registration successful! You can now log in.';
+                // redirect to index.php
+                header("url=../index.php");
+                exit();
             } else {
-                $errors[] = 'An error occurred during registration. Please try again.';
+                $_SESSION['errors'] = 'An error occurred during registration. Please try again.';
+                // redirect to index.php
+                header("url=../index.php");
+                exit();
             }
         }
     }

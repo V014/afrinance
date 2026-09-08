@@ -145,7 +145,7 @@
     object-fit: cover;
     /* border-radius: 50%; */
     display: inline-block;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
     /* background: var(--bg-panel);
     border: 2px solid var(--accent-color); */
     padding: 4px;
@@ -177,17 +177,17 @@
           </p>
         </div>
 
-        <?php if (!empty($errors)): ?>
+        <?php if (!empty($_SESSION['errors'])): ?>
           <div style="color: red;">
-              <?php foreach ($errors as $error): ?>
+              <?php foreach ($_SESSION['errors'] as $error): ?>
                   <p><?= htmlspecialchars($error) ?></p>
               <?php endforeach; ?>
           </div>
         <?php endif; ?>
 
-        <?php if ($success): ?>
+        <?php if (!empty($_SESSION['success'])): ?>
           <div style="color: green;">
-              <p><?= $success ?></p>
+              <p><?= $_SESSION['success'] ?></p>
           </div>
         <?php endif; ?>
 
