@@ -14,14 +14,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($password) || empty($confirm)) {
         // store error in session variable to display on the form
         $_SESSION['errors'] = 'All fields are required.';
+        // redirect back to the setup page
+        header("HX-Redirect: setup.php");
+        exit();
     }
 
     if (strlen($password) < 8) {
         $_SESSION['errors'] = 'Password must be at least 8 characters long.';
+        // redirect back to the setup page
+        header("HX-Redirect: setup.php");
+        exit();
     }
 
     if ($password !== $confirm) {
         $_SESSION['errors'] = 'Passwords do not match.';
+        // redirect back to the setup page
+        header("HX-Redirect: setup.php");
+        exit();
     }
 
     // 3. If validation passes, check for existing user
@@ -54,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($created) {
                 $_SESSION['success'] = 'Registration successful! You can now log in.';
                 // redirect to index.php
-                header("url=../index.php");
+                header("HX-Redirect: ../index.php");
                 exit();
             } else {
                 $_SESSION['errors'] = 'An error occurred during registration. Please try again.';
                 // redirect to index.php
-                header("url=../index.php");
+                header("HX-Redirect: setup.php");
                 exit();
             }
         }

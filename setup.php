@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"">
     <!-- <link rel="stylesheet" href="css/index.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <link rel="stylesheet" href="css/all.min.css" />
+    <script src="js/htmx.org@2.0.0"></script>
     <title>Afrinance Setup</title>
 </head>
 <style>
@@ -142,9 +142,6 @@
   /* error message */
   .error { color: red; margin-top: 10px; }
 
-  /* success message */
-  .success { color: green; margin-top: 10px; }
-
   /* ----- brand image (replaces icon) ----- */
   .brand-image {
     width: 100px;
@@ -187,10 +184,7 @@
         <!-- Error messages from PHP render here -->
         <div id="error-container" class="error"></div>
 
-        <!-- Success messages from PHP render here -->
-        <div id="success-container" class="success"></div>
-
-        <form id="loginForm" class="space-y-5" action="controls/setup.php" method="POST">
+        <form id="loginForm" class="space-y-5" hx-post="controls/create_user.php" hx-target="#error-container" hx-swap="innerHTML">
           <div>
             <!-- <label for="loginUsername">Username</label> -->
             <input
