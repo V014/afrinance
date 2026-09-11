@@ -31,7 +31,7 @@
         <form
           id="setupForm"
           class="space-y-5"
-          hx-post="controls/initial_setup.php"
+          hx-post="controls/setup.php"
           hx-target="#setup-feedback"
           hx-swap="innerHTML"
         >

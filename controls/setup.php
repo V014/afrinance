@@ -39,7 +39,7 @@ try {
     $stmt->execute(['username' => $username, 'role' => $role]);
 
     if ($stmt->fetch()) {
-        setupError('Username or role is already registered.');
+        setupError('Username already registered.');
     }
 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);

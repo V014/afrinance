@@ -142,6 +142,7 @@ label {
     color: var(--accent-color); 
     margin-top: 10px; 
     margin-bottom: 10px; 
+    text-align: center;
 }
 
 /* ----- brand image (replaces icon) ----- */
