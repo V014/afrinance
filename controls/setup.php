@@ -1,7 +1,7 @@
 <?php
 require_once 'connection.php';
 
-function setupError(string $message): never
+function setupFeedback(string $message): never
 {
     echo '<p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>';
     exit;
@@ -19,27 +19,27 @@ $confirm = $_POST['confirm_password'] ?? '';
 $allowedRoles = ['Admin', 'Accountant', 'Operator'];
 
 if ($username === '' || $password === '' || $confirm === '' || $role === '') {
-    setupError('All fields are required.');
+    setupFeedback('All fields are required.');
 }
 
 if (!in_array($role, $allowedRoles, true)) {
-    setupError('Please select a valid role.');
+    setupFeedback('Please select a valid role.');
 }
 
 if (strlen($password) < 8) {
-    setupError('Password must be at least 8 characters long.');
+    setupFeedback('Password must be at least 8 characters long.');
 }
 
 if ($password !== $confirm) {
-    setupError('Passwords do not match.');
+    setupFeedback('Passwords do not match.');
 }
 
 try {
-    $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username OR role = :role LIMIT 1');
+    $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username && role = :role LIMIT 1');
     $stmt->execute(['username' => $username, 'role' => $role]);
 
     if ($stmt->fetch()) {
-        setupError('Username already registered.');
+        setupFeedback('Username already registered.');
     }
 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -54,9 +54,10 @@ try {
     ]);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    setupError('Account creation failed. Please check the database setup and try again.');
+    setupFeedback('Account creation failed. Please check the database setup and try again.');
 }
 
 header('HX-Redirect: index.php');
+setupFeedback('Now try to login.');
 exit;
 ?>
