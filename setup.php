@@ -15,7 +15,7 @@
         <div class="text-center mb-6">
           <!-- IMAGE REPLACES THE ICON -->
           <div class="brand-image-wrapper">
-            <img class="brand-image" src="views/brand/logo-green.png" alt="Afrinance" onerror="this.style.display = 'none'"/>
+            <img class="brand-image" src="brand/logo-green.png" alt="Afrinance" onerror="this.style.display = 'none'"/>
           </div>
           <h1 style="font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem">
             Afrinance Setup
@@ -26,9 +26,15 @@
         </div>
 
         <!-- Error messages from PHP render here -->
-        <div id="error-container" class="error"></div>
+        <div id="setup-feedback" class="error" role="status" aria-live="polite"></div>
 
-        <form id="loginForm" class="space-y-5" hx-post="controls/initial_setup.php" hx-target="#error-container" hx-swap="innerHTML">
+        <form
+          id="setupForm"
+          class="space-y-5"
+          hx-post="controls/initial_setup.php"
+          hx-target="#setup-feedback"
+          hx-swap="innerHTML"
+        >
           <div>
             <!-- <label for="loginUsername">Username</label> -->
             <input
@@ -37,7 +43,6 @@
               placeholder="Enter username"
               required
               name="username"
-              value="<?= htmlspecialchars($_POST['username'] ?? '') ?>"
             />
           </div>
           <div>
@@ -62,11 +67,11 @@
           </div>
           <div>
             <!-- <label for="Role">Role</label> -->
-            <select id="Role" name="role">
+            <select id="Role" name="role" required>
               <option value="" disabled selected>Select role</option>
-              <option value="admin">Admin</option>
-              <option value="accountant">Accountant</option>
-              <option value="operator">Operator</option>
+              <option value="Admin">Admin</option>
+              <option value="Accountant">Accountant</option>
+              <option value="Operator">Operator</option>
             </select>
           </div>
           <button type="submit" class="btn-primary">

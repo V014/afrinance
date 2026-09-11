@@ -1,77 +1,62 @@
 <?php
-// register.php
-session_start();
-require_once 'connection.php'; // Includes your PDO connection script ($pdo)
+require_once 'connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. Sanitize and collect user inputs
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
-    $role = $_POST['role'] ?? '';
-    $confirm  = $_POST['confirm_password'] ?? '';
-
-    // 2. Validate input fields
-    if (empty($username) || empty($password) || empty($confirm)) {
-        // store error in session variable to display on the form
-        $_SESSION['errors'] = 'All fields are required.';
-        // redirect back to the setup page
-        header("HX-Redirect: setup.php");
-        exit();
-    }
-
-    if (strlen($password) < 8) {
-        $_SESSION['errors'] = 'Password must be at least 8 characters long.';
-        // redirect back to the setup page
-        header("HX-Redirect: setup.php");
-        exit();
-    }
-
-    if ($password !== $confirm) {
-        $_SESSION['errors'] = 'Passwords do not match.';
-        // redirect back to the setup page
-        header("HX-Redirect: setup.php");
-        exit();
-    }
-
-    // 3. If validation passes, check for existing user
-    if (empty($_SESSION['errors'])) {
-        $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username OR role = :role LIMIT 1');
-        $stmt->execute([
-            'username' => $username,
-            'role'     => $role,
-        ]);
-
-        if ($stmt->fetch()) {
-            $_SESSION['errors'] = 'Username or role is already registered.';
-        } else {
-            // 4. Hash the password securely
-            // PASSWORD_DEFAULT uses the strongest available algorithm (currently bcrypt/Argon2id depending on PHP version)
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-            // 5. Insert new user using a prepared statement
-            $insertStmt = $pdo->prepare('
-                INSERT INTO users (username, role, password) 
-                VALUES (:username, :role, :password)
-            ');
-
-            $created = $insertStmt->execute([
-                'username' => $username,
-                'role'     => $role,
-                'password' => $passwordHash,
-            ]);
-
-            if ($created) {
-                $_SESSION['success'] = 'Registration successful! You can now log in.';
-                // redirect to index.php
-                header("HX-Redirect: ../index.php");
-                exit();
-            } else {
-                $_SESSION['errors'] = 'An error occurred during registration. Please try again.';
-                // redirect to index.php
-                header("HX-Redirect: setup.php");
-                exit();
-            }
-        }
-    }
+function setupError(string $message): never
+{
+    echo '<p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>';
+    exit;
 }
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    exit('Method Not Allowed');
+}
+
+$username = trim($_POST['username'] ?? '');
+$password = $_POST['password'] ?? '';
+$role = $_POST['role'] ?? '';
+$confirm = $_POST['confirm_password'] ?? '';
+$allowedRoles = ['Admin', 'Accountant', 'Operator'];
+
+if ($username === '' || $password === '' || $confirm === '' || $role === '') {
+    setupError('All fields are required.');
+}
+
+if (!in_array($role, $allowedRoles, true)) {
+    setupError('Please select a valid role.');
+}
+
+if (strlen($password) < 8) {
+    setupError('Password must be at least 8 characters long.');
+}
+
+if ($password !== $confirm) {
+    setupError('Passwords do not match.');
+}
+
+try {
+    $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username OR role = :role LIMIT 1');
+    $stmt->execute(['username' => $username, 'role' => $role]);
+
+    if ($stmt->fetch()) {
+        setupError('Username or role is already registered.');
+    }
+
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    $insertStmt = $pdo->prepare('
+        INSERT INTO users (username, role, password, created_at)
+        VALUES (:username, :role, :password, NOW())
+    ');
+    $insertStmt->execute([
+        'username' => $username,
+        'role' => $role,
+        'password' => $passwordHash,
+    ]);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    setupError('Account creation failed. Please check the database setup and try again.');
+}
+
+header('HX-Redirect: ../index.php');
+exit;
 ?>

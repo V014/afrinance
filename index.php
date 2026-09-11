@@ -15,7 +15,7 @@
         <div class="text-center mb-6">
           <!-- IMAGE REPLACES THE ICON -->
           <div class="brand-image-wrapper">
-            <img class="brand-image" src="views/brand/logo-green.png" alt="Afrinance" onerror="this.style.display = 'none'"/>
+            <img class="brand-image" src="brand/logo-green.png" alt="Afrinance" onerror="this.style.display = 'none'"/>
           </div>
           <h1 style="font-size: 1.8rem; font-weight: 700; margin-top: 0.25rem">
             Afrinance
@@ -25,15 +25,15 @@
           </p>
         </div>
 
-        <?php if (!empty($errors)): ?>
-          <div style="color: red;">
-              <?php foreach ($errors as $error): ?>
-                  <p><?= htmlspecialchars($error) ?></p>
-              <?php endforeach; ?>
-          </div>
-        <?php endif; ?>
+        <div id="login-feedback" class="error" role="status" aria-live="polite"></div>
 
-        <form id="loginForm" class="space-y-5" action="controls/login.php" method="POST">
+        <form
+          id="loginForm"
+          class="space-y-5"
+          hx-post="controls/login.php"
+          hx-target="#login-feedback"
+          hx-swap="innerHTML"
+        >
           <div>
             <!-- <label for="loginUsername">Username</label> -->
             <input
