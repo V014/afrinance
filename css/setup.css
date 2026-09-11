@@ -81,6 +81,15 @@ input:focus {
     outline: 2px solid var(--accent-color);
     outline-offset: 0px;
 }
+select {
+    width: 100%; 
+    padding: var(--control-padding); 
+    border-radius: var(--border-radius); 
+    border: none; 
+    background: var(--bg-color); 
+    color: var(--text-color); 
+    font-size: 1rem;
+}
 
 label {
     display: block;

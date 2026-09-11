@@ -28,7 +28,7 @@
         <!-- Error messages from PHP render here -->
         <div id="error-container" class="error"></div>
 
-        <form id="loginForm" class="space-y-5" hx-post="controls/create_user.php" hx-target="#error-container" hx-swap="innerHTML">
+        <form id="loginForm" class="space-y-5" hx-post="controls/initial_setup.php" hx-target="#error-container" hx-swap="innerHTML">
           <div>
             <!-- <label for="loginUsername">Username</label> -->
             <input
@@ -62,7 +62,7 @@
           </div>
           <div>
             <!-- <label for="Role">Role</label> -->
-            <select id="Role" style="width: 100%; padding: var(--control-padding); border-radius: var(--border-radius); border: none; background: var(--bg-color); color: var(--text-color); font-size: 1rem;" name="role">
+            <select id="Role" name="role">
               <option value="" disabled selected>Select role</option>
               <option value="admin">Admin</option>
               <option value="accountant">Accountant</option>
