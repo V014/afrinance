@@ -25,7 +25,7 @@
           </p>
         </div>
 
-        <div id="login-feedback" class="error" role="status" aria-live="polite"></div>
+        <div id="login-feedback" class="feedback" role="status" aria-live="polite"></div>
 
         <form
           id="loginForm"

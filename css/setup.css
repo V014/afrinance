@@ -137,8 +137,8 @@ label {
     margin-top: 1rem;
 }
 
-/* error message */
-.error { 
+/* feedback message */
+.feedback { 
     color: var(--accent-color); 
     margin-top: 10px; 
     margin-bottom: 10px; 

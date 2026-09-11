@@ -149,3 +149,11 @@ margin-top: 1.25rem;
     justify-content: center;
     margin-bottom: 0.5rem;
 }
+
+/* feedback message */
+.feedback { 
+    color: var(--accent-color); 
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+    text-align: center;
+}

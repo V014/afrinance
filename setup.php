@@ -26,7 +26,7 @@
         </div>
 
         <!-- Error messages from PHP render here -->
-        <div id="setup-feedback" class="error" role="status" aria-live="polite"></div>
+        <div id="setup-feedback" class="feedback" role="status" aria-live="polite"></div>
 
         <form
           id="setupForm"
