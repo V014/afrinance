@@ -34,10 +34,10 @@ $_SESSION['username'] = $user['username'];
 $_SESSION['role'] = $user['role'];
 
 $dashboard = match ($user['role']) {
-    'Admin' => '../admin/dashboard.php',
-    'Accountant' => '../accountant/dashboard.php',
-    'Operator' => '../employee/dashboard.php',
-    default => '../index.php',
+    'Admin' => 'admin/dashboard.php',
+    'Accountant' => 'accountant/dashboard.php',
+    'Operator' => 'employee/dashboard.php',
+    default => 'index.php',
 };
 
 header('HX-Redirect: ' . $dashboard);
