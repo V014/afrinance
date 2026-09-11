@@ -57,6 +57,6 @@ try {
     setupError('Account creation failed. Please check the database setup and try again.');
 }
 
-header('HX-Redirect: ../index.php');
+header('HX-Redirect: index.php');
 exit;
 ?>
