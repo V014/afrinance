@@ -3,7 +3,7 @@ session_start();
 
 // Block access if the user is not logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.html');
+    header('Location: ../index.php');
     exit;
 }
 ?>
@@ -21,6 +21,7 @@ if (!isset($_SESSION['user_id'])) {
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <script src="js/htmx.org@2.0.0.min.js"></script>
     <link rel="stylesheet" href="css/dashboard.css">
   </head>
   <body>
@@ -71,7 +72,7 @@ if (!isset($_SESSION['user_id'])) {
         </nav> -->
 
         <div class="logout-wrapper">
-          <a href="login.php" data-page="logout"
+          <a href="../controls/logout.php" data-page="logout"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </div>
