@@ -5,7 +5,7 @@ session_start();
 require_once 'connection.php';
 
 // create function that handles user feedback
-function loginError(string $message): never
+function loginFeedback(string $message): never
 {
     echo '<p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>';
     exit;
@@ -23,32 +23,42 @@ $password = $_POST['password'] ?? '';
 
 // double check if data is available in the variables
 if ($username === '' || $password === '') {
-    loginError('Please fill in both username and password.');
+    loginFeedback('Please fill in both username and password.');
 }
 
-// cross check database to see if queried user is available
-$stmt = $pdo->prepare('SELECT id, username, password, role FROM users WHERE username = :user LIMIT 1');
-$stmt->execute(['user' => $username]);
-$user = $stmt->fetch();
+try {
+    // cross check database to see if queried user is available
+    $stmt = $pdo->prepare('SELECT id, username, password, role FROM users WHERE username = :user LIMIT 1');
+    $stmt->execute(['user' => $username]);
+    $user = $stmt->fetch();
 
-// if password is incorrect, let the user know
-if (!$user || !password_verify($password, $user['password'])) {
-    loginError('Invalid login credentials.');
+    // if password is incorrect, let the user know
+    if (!$user || !password_verify($password, $user['password'])) {
+        loginFeedback('Invalid login credentials.');
+        exit;
+    }
+
+    // log the user entry
+    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Online")');
+    $insertStmt->execute(['user_id' => $user['id']]);
+
+    // refill sessions of already active
+    session_regenerate_id(true);
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['role'] = $user['role'];
+
+    // route user to correct dashboard
+    $dashboard = match ($user['role']) {
+        'Admin' => 'admin/dashboard.php',
+        'Accountant' => 'accountant/dashboard.php',
+        'Operator' => 'employee/dashboard.php',
+        default => 'index.php',
+    };
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    loginFeedback('Login failed. Please try again later.');
 }
-
-// refill sessions of already active
-session_regenerate_id(true);
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['username'] = $user['username'];
-$_SESSION['role'] = $user['role'];
-
-// route user to correct dashboard
-$dashboard = match ($user['role']) {
-    'Admin' => 'admin/dashboard.php',
-    'Accountant' => 'accountant/dashboard.php',
-    'Operator' => 'employee/dashboard.php',
-    default => 'index.php',
-};
 
 // switch the pages and exit the operation to save memory
 header('HX-Redirect: ' . $dashboard);
