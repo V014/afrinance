@@ -6,6 +6,12 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit;
 }
+
+// Include the database connection
+require_once '../controls/connection.php';
+
+// Include the dashboard controls
+require_once 'controls/dashboard.php';
 ?>
 
 <!doctype html>
@@ -117,7 +123,7 @@ if (!isset($_SESSION['user_id'])) {
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Total</span>
-                <span class="detail-value" id="statTotalAdmins">0</span>
+                <span class="detail-value" id="statTotalAdmins"><?php echo $getTotalAdmins['COUNT(user_id)']; ?></span>
               </div>
             </div>
 
@@ -127,8 +133,8 @@ if (!isset($_SESSION['user_id'])) {
                 <span class="stat-label">Roles</span>
               </div>
               <div class="stat-detail">
-                <span class="detail-label">Cashiers</span>
-                <span class="detail-value" id="statRoleCashier">0</span>
+                <span class="detail-label">Operators</span>
+                <span class="detail-value" id="statRoleCashier"><?php // echo getRoleCount('Operator'); ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Accountants</span>
@@ -382,7 +388,7 @@ if (!isset($_SESSION['user_id'])) {
           const inactive = admins.filter((a) => a.status === "inactive").length;
           document.getElementById("statActive").textContent = active;
           document.getElementById("statInactive").textContent = inactive;
-          document.getElementById("statTotalAdmins").textContent =
+          // document.getElementById("statTotalAdmins").textContent =
             admins.length;
 
           const cashier = admins.filter((a) => a.role === "cashier").length;
