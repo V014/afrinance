@@ -31,7 +31,7 @@ if (!isset($_SESSION['user_id'])) {
         <div class="brand">
           <div class="avatar">
             <img
-              src="1774245015_69c0d497743f0.jpeg"
+              src="img/1774245015_69c0d497743f0.jpeg"
               alt="User avatar"
               onerror="
                 this.parentElement.innerHTML =

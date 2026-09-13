@@ -1,11 +1,18 @@
 CREATE TABLE user_logs(
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    action VARCHAR(255) NOT NULL,
-    error_message TEXT,
+    action ENUM("Online","Offline") NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE user_errors(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    error_message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) 
+)
 
 CREATE TABLE employees(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

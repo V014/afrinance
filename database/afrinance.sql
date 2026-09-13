@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2026 at 12:25 PM
+-- Generation Time: Sep 13, 2026 at 08:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -224,6 +224,15 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `created_at`, `updated_at`) VALUES
+(1, 'void', '$2y$10$WzDcm0cptdX3luhvR4h5kOARjpojT7dwTQ0zS38rVm8byih/ttLa6', 'Admin', '2026-09-11 18:32:28', '2026-09-11 16:32:28'),
+(2, 'wanga', '$2y$10$0Z.yQx.yAgQ6oye0yqOdjeb97XLNYxGo/iQAuQFrFSLTbUOrR/oU.', 'Accountant', '2026-09-11 20:36:10', '2026-09-11 18:36:10'),
+(3, 'bzk', '$2y$10$rxn5XSyj.ueEOMKX6rDOVe.iYN6sBgGoVynkXN5w8Ykyk/6kvp6y2', 'Accountant', '2026-09-11 20:51:42', '2026-09-11 18:51:42');
+
 -- --------------------------------------------------------
 
 --
@@ -242,14 +251,26 @@ CREATE TABLE `user_branch` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_errors`
+--
+
+CREATE TABLE `user_errors` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `error_message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_logs`
 --
 
 CREATE TABLE `user_logs` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `action` varchar(255) NOT NULL,
-  `error_message` text DEFAULT NULL,
+  `status` enum('Online','Offline','','') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -351,6 +372,13 @@ ALTER TABLE `user_branch`
   ADD KEY `branch_id` (`branch_id`);
 
 --
+-- Indexes for table `user_errors`
+--
+ALTER TABLE `user_errors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `user_logs`
 --
 ALTER TABLE `user_logs`
@@ -431,12 +459,18 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_branch`
 --
 ALTER TABLE `user_branch`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_errors`
+--
+ALTER TABLE `user_errors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -518,6 +552,12 @@ ALTER TABLE `sales`
 ALTER TABLE `user_branch`
   ADD CONSTRAINT `user_branch_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `user_branch_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`);
+
+--
+-- Constraints for table `user_errors`
+--
+ALTER TABLE `user_errors`
+  ADD CONSTRAINT `user_errors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `user_logs`
