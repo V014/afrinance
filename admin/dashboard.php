@@ -41,7 +41,7 @@ if (!isset($_SESSION['user_id'])) {
           </div>
           <div class="user-info">
             <span id="sidebarUserName">Admin Manager</span>
-            <br /><small>System Admin</small>
+            <br /><small><?php echo $_SESSION['username']; ?></small>
           </div>
         </div>
 
@@ -89,7 +89,7 @@ if (!isset($_SESSION['user_id'])) {
                   class="fas fa-user-shield"
                   style="color: var(--admin-purple)"
                 ></i>
-                Admin Manager · <span id="dashUserName">System</span>
+                Overview · <span id="dashUserName">System</span>
               </h2>
             </div>
             <div class="welcome-center">
