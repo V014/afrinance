@@ -39,8 +39,12 @@ try {
     }
 
     // log the user entry
-    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Online")');
+    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, action) VALUES (:user_id, "Login")');
     $insertStmt->execute(['user_id' => $user['id']]);
+
+    // update user status
+    $updateStmt = $pdo->prepare('UPDATE `users` SET `status` = "Online" WHERE `users`.`id` = :user_id');
+    $updateStmt->execute(['user_id' => $_SESSION['user_id']]);
 
     // refill sessions of already active
     session_regenerate_id(true);

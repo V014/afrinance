@@ -44,13 +44,14 @@ try {
 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
     $insertStmt = $pdo->prepare('
-        INSERT INTO users (username, role, password, created_at)
-        VALUES (:username, :role, :password, NOW())
+        INSERT INTO users (username, role, password, status, created_at)
+        VALUES (:username, :role, :password, :status, NOW())
     ');
     $insertStmt->execute([
         'username' => $username,
         'role' => $role,
         'password' => $passwordHash,
+        'status' => "Offline",
     ]);
 } catch (PDOException $e) {
     error_log($e->getMessage());
