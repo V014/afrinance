@@ -58,6 +58,7 @@ try {
 } catch (PDOException $e) {
     error_log($e->getMessage());
     loginFeedback('Login failed. Please try again later.');
+    exit;
 }
 
 // switch the pages and exit the operation to save memory
