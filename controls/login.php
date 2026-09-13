@@ -44,7 +44,7 @@ try {
 
     // update user status
     $updateStmt = $pdo->prepare('UPDATE `users` SET `status` = "Online" WHERE `users`.`id` = :user_id');
-    $updateStmt->execute(['user_id' => $_SESSION['user_id']]);
+    $updateStmt->execute(['user_id' => $user['id']]);
 
     // refill sessions of already active
     session_regenerate_id(true);
