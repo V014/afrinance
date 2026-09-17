@@ -115,11 +115,11 @@ require_once 'controls/dashboard.php';
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Active</span>
-                <span class="detail-value" id="statActive">0</span>
+                <span class="detail-value" id="statActive"><?php echo $getTotalActiveAdmins['COUNT(user_id)']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Inactive</span>
-                <span class="detail-value" id="statInactive">0</span>
+                <span class="detail-value" id="statInactive"><?php echo $getTotalInactiveAdmins['COUNT(user_id)']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Total</span>
@@ -386,10 +386,9 @@ require_once 'controls/dashboard.php';
         function updateStats() {
           const active = admins.filter((a) => a.status === "active").length;
           const inactive = admins.filter((a) => a.status === "inactive").length;
-          document.getElementById("statActive").textContent = active;
-          document.getElementById("statInactive").textContent = inactive;
-          // document.getElementById("statTotalAdmins").textContent =
-            admins.length;
+          // document.getElementById("statActive").textContent = active;
+          // document.getElementById("statInactive").textContent = inactive;
+          // document.getElementById("statTotalAdmins").textContent = admins.length;
 
           const cashier = admins.filter((a) => a.role === "cashier").length;
           const accountant = admins.filter(

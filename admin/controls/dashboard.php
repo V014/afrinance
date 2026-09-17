@@ -30,4 +30,28 @@ try {
     dashboardFeedback('KPI query failed. Please try again later.');
     exit;
 }
+
+try {
+    // Count inactive admins
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role != "Operator" AND status = "Offline"');
+    $AdminStatusStmt->execute();
+    $getTotalInactiveAdmins = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Inactive Admins KPI query failed. Please try again later.');
+    exit;
+}
+
+try {
+    // Count active admins
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role != "Operator" AND status = "Online"');
+    $AdminStatusStmt->execute();
+    $getTotalActiveAdmins = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    exit;
+}
 ?>
