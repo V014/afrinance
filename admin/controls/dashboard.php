@@ -67,4 +67,16 @@ try {
     exit;
 }
 
+try {
+    // Count operators
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Operator"');
+    $AdminStatusStmt->execute();
+    $getTotalActiveOperators = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Operators KPI query failed. Please try again later...' . $e->getMessage());
+    exit;
+}
+
 ?>
