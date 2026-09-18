@@ -191,6 +191,7 @@ require_once 'controls/dashboard.php';
               <label for="filterName">Name</label>
               <input type="text" id="filterName" placeholder="Search name..." />
             </div>
+
             <div class="filter-group">
               <label for="filterEmail">Email</label>
               <input
