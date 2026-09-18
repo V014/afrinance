@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+// Block access if the user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../index.php');
+    exit;
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -30,7 +42,7 @@
           </div>
           <div class="user-info">
             <span id="sidebarUserName">Accountant</span>
-            <br /><small>Wanga Kanjala</small>
+            <br /><small><?php echo $_SESSION['username']; ?></small>
           </div>
         </div>
 
