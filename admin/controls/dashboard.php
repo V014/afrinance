@@ -63,7 +63,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Accountants KPI query failed. Please try again later...' . $e->getMessage());
+    dashboardFeedback('Accountants KPI query failed. Please try again later...');
     exit;
 }
 
@@ -75,7 +75,19 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Operators KPI query failed. Please try again later...' . $e->getMessage());
+    dashboardFeedback('Operators KPI query failed. Please try again later...');
+    exit;
+}
+
+try {
+    // Count all managers
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role != "Admin"');
+    $AdminStatusStmt->execute();
+    $getTotalManagers = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
     exit;
 }
 

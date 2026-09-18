@@ -142,7 +142,7 @@ require_once 'controls/dashboard.php';
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Admin Managers</span>
-                <span class="detail-value" id="statRoleAdminManager">0</span>
+                <span class="detail-value" id="statRoleAdminManager"><?php echo $getTotalManagers['COUNT(id)']; ?></span>
               </div>
             </div>
 
@@ -399,8 +399,7 @@ require_once 'controls/dashboard.php';
           ).length;
           // document.getElementById("statRoleCashier").textContent = cashier;
           // document.getElementById("statRoleAccountant").textContent = accountant;
-          document.getElementById("statRoleAdminManager").textContent =
-            adminManager;
+          // document.getElementById("statRoleAdminManager").textContent = adminManager;
 
           const now = new Date();
           const sevenDays = new Date(now);
