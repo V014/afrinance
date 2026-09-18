@@ -117,4 +117,17 @@ try {
     exit;
 }
 
+try {
+    // show last login of admin
+    $AdminStatusStmt = $pdo->prepare('SELECT MAX(created_at) FROM user_logs WHERE user_id = :user_id');
+    $AdminStatusStmt->bindParam(':user_id', $_SESSION['user_id']);
+    $AdminStatusStmt->execute();
+    $getLastLogin = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    exit;
+}
+
 ?>

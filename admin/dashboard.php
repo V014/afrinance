@@ -161,7 +161,7 @@ require_once 'controls/dashboard.php';
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Last login</span>
-                <span class="detail-value" id="statLastLogin">--</span>
+                <span class="detail-value" id="statLastLogin"><?php echo $getLastLogin['MAX(created_at)']; ?></span>
               </div>
             </div>
 
@@ -417,12 +417,14 @@ require_once 'controls/dashboard.php';
           // document.getElementById("statRecent7").textContent = recent7;
           // document.getElementById("statRecent30").textContent = recent30;
 
+          /*
           const sorted = [...admins].sort(
             (a, b) => new Date(b.lastLogin) - new Date(a.lastLogin),
           );
           document.getElementById("statLastLogin").textContent = sorted.length
             ? sorted[0].lastLogin
             : "--";
+          */
           document.getElementById("stat2fa").textContent = admins.filter(
             (a) => a.twoFA,
           ).length;
