@@ -6,7 +6,7 @@ function dashboardFeedback(string $message): never
     exit;
 }
 
-// fill in the KPI's
+// [fill in the KPI's]
 try {
     // cross check database to see if queried KPIs
     $stmt = $pdo->prepare('SELECT username, password, role FROM users WHERE id = :user_id LIMIT 1');
@@ -84,6 +84,19 @@ try {
     $AdminStatusStmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role != "Admin"');
     $AdminStatusStmt->execute();
     $getTotalManagers = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    exit;
+}
+
+try {
+    // Count admin activity in last 7 days
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs WHERE user_id = :user_id AND created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
+    $AdminStatusStmt->bindParam(':user_id', $_SESSION['user_id']);
+    $AdminStatusStmt->execute();
+    $getActivityIn7Days = $AdminStatusStmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());

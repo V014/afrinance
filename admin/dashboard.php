@@ -153,7 +153,7 @@ require_once 'controls/dashboard.php';
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Last 7 days</span>
-                <span class="detail-value" id="statRecent7">0</span>
+                <span class="detail-value" id="statRecent7"><?php echo $getActivityIn7Days['COUNT(user_id)']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Last 30 days</span>
@@ -414,7 +414,7 @@ require_once 'controls/dashboard.php';
             const d = new Date(a.lastLogin.split(" ")[0]);
             return d >= thirtyDays;
           }).length;
-          document.getElementById("statRecent7").textContent = recent7;
+          // document.getElementById("statRecent7").textContent = recent7;
           document.getElementById("statRecent30").textContent = recent30;
 
           const sorted = [...admins].sort(
