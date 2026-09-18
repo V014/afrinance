@@ -104,4 +104,17 @@ try {
     exit;
 }
 
+try {
+    // Count admin activity in last 30 days
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs WHERE user_id = :user_id AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
+    $AdminStatusStmt->bindParam(':user_id', $_SESSION['user_id']);
+    $AdminStatusStmt->execute();
+    $getActivityIn30Days = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    exit;
+}
+
 ?>
