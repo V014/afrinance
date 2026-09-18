@@ -21,7 +21,7 @@ try {
 
 try {
     // Count total admins
-    $AdminCountStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role != "Operator"');
+    $AdminCountStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin"');
     $AdminCountStmt->execute();
     $getTotalAdmins = $AdminCountStmt->fetch();
     
@@ -33,7 +33,7 @@ try {
 
 try {
     // Count inactive admins
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role != "Operator" AND status = "Offline"');
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Offline"');
     $AdminStatusStmt->execute();
     $getTotalInactiveAdmins = $AdminStatusStmt->fetch();
     
@@ -45,7 +45,7 @@ try {
 
 try {
     // Count active admins
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role != "Operator" AND status = "Online"');
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Online"');
     $AdminStatusStmt->execute();
     $getTotalActiveAdmins = $AdminStatusStmt->fetch();
     
@@ -54,4 +54,17 @@ try {
     dashboardFeedback('Active Admins KPI query failed. Please try again later.');
     exit;
 }
+
+try {
+    // Count accountants
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Accountant"');
+    $AdminStatusStmt->execute();
+    $getTotalAccountants = $AdminStatusStmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    dashboardFeedback('Accountants KPI query failed. Please try again later...' . $e->getMessage());
+    exit;
+}
+
 ?>

@@ -138,7 +138,7 @@ require_once 'controls/dashboard.php';
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Accountants</span>
-                <span class="detail-value" id="statRoleAccountant">0</span>
+                <span class="detail-value" id="statRoleAccountant"><?php echo $getTotalAccountants['COUNT(id)']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Admin Managers</span>
@@ -398,8 +398,7 @@ require_once 'controls/dashboard.php';
             (a) => a.role === "admin-manager",
           ).length;
           document.getElementById("statRoleCashier").textContent = cashier;
-          document.getElementById("statRoleAccountant").textContent =
-            accountant;
+          // document.getElementById("statRoleAccountant").textContent = accountant;
           document.getElementById("statRoleAdminManager").textContent =
             adminManager;
 
