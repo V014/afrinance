@@ -8,7 +8,7 @@ function dashboardFeedback(string $message): never
 
 // [fill in the KPI's]
 try {
-    // cross check database to see if queried KPIs
+    // cross check database to see if queried KPIs are functional
     $stmt = $pdo->prepare('SELECT username, password, role FROM users WHERE id = :user_id LIMIT 1');
     $stmt->execute(['user_id' => $_SESSION['user_id']]);
     $user = $stmt->fetch();
@@ -21,7 +21,7 @@ try {
 
 try {
     // Count total admins
-    $AdminCountStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin"');
+    $AdminCountStmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin"');
     $AdminCountStmt->execute();
     $getTotalAdmins = $AdminCountStmt->fetch();
     
@@ -33,7 +33,7 @@ try {
 
 try {
     // Count inactive admins
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Offline"');
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Offline"');
     $AdminStatusStmt->execute();
     $getTotalInactiveAdmins = $AdminStatusStmt->fetch();
     
@@ -45,7 +45,7 @@ try {
 
 try {
     // Count active admins
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Online"');
+    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Online"');
     $AdminStatusStmt->execute();
     $getTotalActiveAdmins = $AdminStatusStmt->fetch();
     
