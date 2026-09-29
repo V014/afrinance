@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2026 at 08:41 AM
+-- Generation Time: Sep 29, 2026 at 02:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -220,18 +220,10 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('Admin','Accountant','Operator','') NOT NULL,
+  `status` enum('Online','Offline','','') NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'void', '$2y$10$WzDcm0cptdX3luhvR4h5kOARjpojT7dwTQ0zS38rVm8byih/ttLa6', 'Admin', '2026-09-11 18:32:28', '2026-09-11 16:32:28'),
-(2, 'wanga', '$2y$10$0Z.yQx.yAgQ6oye0yqOdjeb97XLNYxGo/iQAuQFrFSLTbUOrR/oU.', 'Accountant', '2026-09-11 20:36:10', '2026-09-11 18:36:10'),
-(3, 'bzk', '$2y$10$rxn5XSyj.ueEOMKX6rDOVe.iYN6sBgGoVynkXN5w8Ykyk/6kvp6y2', 'Accountant', '2026-09-11 20:51:42', '2026-09-11 18:51:42');
 
 -- --------------------------------------------------------
 
@@ -459,7 +451,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_branch`

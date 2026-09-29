@@ -115,15 +115,15 @@ require_once 'controls/dashboard.php';
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Active</span>
-                <span class="detail-value" id="statActive"><?php echo $getTotalActiveAdmins['COUNT(total)']; ?></span>
+                <span class="detail-value" id="statActive"><?php echo $getTotalActiveAdmins['total']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Inactive</span>
-                <span class="detail-value" id="statInactive"><?php echo $getTotalInactiveAdmins['COUNT(total)']; ?></span>
+                <span class="detail-value" id="statInactive"><?php echo $getTotalInactiveAdmins['total']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Total</span>
-                <span class="detail-value" id="statTotalAdmins"><?php echo $getTotalAdmins['COUNT(total)']; ?></span>
+                <span class="detail-value" id="statTotalAdmins"><?php echo $getTotalAdmins['total']; ?></span>
               </div>
             </div>
 
