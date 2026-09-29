@@ -1,14 +1,25 @@
+CREATE TABLE users(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    2FA_secret VARCHAR(255),
+    role ENUM("Admin","Accountant","Operator") NOT NULL,
+    status ENUM("Online","Offline") NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+);
+
 CREATE TABLE user_logs(
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    action ENUM("Login","Logout") NOT NULL,
+    status ENUM("Online","Offline") NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE user_errors(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id INT,
     error_message TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) 
