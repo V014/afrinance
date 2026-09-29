@@ -15,118 +15,118 @@ try {
 
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to query KPIs. Please try again later.');
     exit;
 }
 
 try {
     // Count total admins
-    $AdminCountStmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin"');
-    $AdminCountStmt->execute();
-    $getTotalAdmins = $AdminCountStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin"');
+    $Stmt->execute();
+    $getTotalAdmins = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to count total admins. Please try again later.');
     exit;
 }
 
 try {
     // Count inactive admins
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Offline"');
-    $AdminStatusStmt->execute();
-    $getTotalInactiveAdmins = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Offline"');
+    $Stmt->execute();
+    $getTotalInactiveAdmins = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Inactive Admins KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to count inactive admins. Please try again later.');
     exit;
 }
 
 try {
     // Count active admins
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Online"');
-    $AdminStatusStmt->execute();
-    $getTotalActiveAdmins = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Online"');
+    $Stmt->execute();
+    $getTotalActiveAdmins = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to count active admins. Please try again later.');
     exit;
 }
 
 try {
     // Count accountants
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Accountant"');
-    $AdminStatusStmt->execute();
-    $getTotalAccountants = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Accountant"');
+    $Stmt->execute();
+    $getTotalAccountants = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Accountants KPI query failed. Please try again later...');
+    dashboardFeedback('Failed to count accountants. Please try again later...');
     exit;
 }
 
 try {
     // Count operators
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Operator"');
-    $AdminStatusStmt->execute();
-    $getTotalActiveOperators = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Operator"');
+    $Stmt->execute();
+    $getTotalActiveOperators = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Operators KPI query failed. Please try again later...');
+    dashboardFeedback('Failed to count operators. Please try again later...');
     exit;
 }
 
 try {
     // Count all managers
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role != "Admin"');
-    $AdminStatusStmt->execute();
-    $getTotalManagers = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role != "Admin"');
+    $Stmt->execute();
+    $getTotalManagers = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to count managers. Please try again later.');
     exit;
 }
 
 try {
     // Count admin activity in last 7 days
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs WHERE user_id = :user_id AND created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
-    $AdminStatusStmt->bindParam(':user_id', $_SESSION['user_id']);
-    $AdminStatusStmt->execute();
-    $getActivityIn7Days = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs WHERE user_id = :user_id AND created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)');
+    $Stmt->bindParam(':user_id', $_SESSION['user_id']);
+    $Stmt->execute();
+    $getActivityIn7Days = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to count admin activity in last 7 days. Please try again later.');
     exit;
 }
 
 try {
     // Count admin activity in last 30 days
-    $AdminStatusStmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs WHERE user_id = :user_id AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
-    $AdminStatusStmt->bindParam(':user_id', $_SESSION['user_id']);
-    $AdminStatusStmt->execute();
-    $getActivityIn30Days = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT COUNT(user_id) FROM user_logs WHERE user_id = :user_id AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)');
+    $Stmt->bindParam(':user_id', $_SESSION['user_id']);
+    $Stmt->execute();
+    $getActivityIn30Days = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to count admin activity in last 30 days. Please try again later.');
     exit;
 }
 
 try {
     // show last login of admin
-    $AdminStatusStmt = $pdo->prepare('SELECT MAX(created_at) FROM user_logs WHERE user_id = :user_id');
-    $AdminStatusStmt->bindParam(':user_id', $_SESSION['user_id']);
-    $AdminStatusStmt->execute();
-    $getLastLogin = $AdminStatusStmt->fetch();
+    $Stmt = $pdo->prepare('SELECT MAX(created_at) FROM user_logs WHERE user_id = :user_id');
+    $Stmt->bindParam(':user_id', $_SESSION['user_id']);
+    $Stmt->execute();
+    $getLastLogin = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    dashboardFeedback('Active Admins KPI query failed. Please try again later.');
+    dashboardFeedback('Failed to show last login of admin. Please try again later.');
     exit;
 }
 
