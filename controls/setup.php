@@ -56,6 +56,8 @@ try {
 } catch (PDOException $e) {
     error_log($e->getMessage());
     setupFeedback('Account creation failed. Please check the database setup and try again.');
+    $insertStmt = $pdo->prepaer('
+        INSERT INTO user_errors (')
 }
 
 header('HX-Redirect: index.php');
