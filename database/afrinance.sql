@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2026 at 02:33 PM
+-- Generation Time: Sep 29, 2026 at 05:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -219,11 +219,19 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `2FA` varchar(255) DEFAULT NULL,
   `role` enum('Admin','Accountant','Operator','') NOT NULL,
   `status` enum('Online','Offline','','') NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `2FA`, `role`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'void', '$2y$10$e0guG/4ZxfFm5EOSowRYteyWKoPYZRyv8/NefH9DSAEAbnklCd54.', NULL, 'Admin', 'Online', '2026-09-29 15:46:30', '2026-09-29 13:46:30');
 
 -- --------------------------------------------------------
 
@@ -265,6 +273,13 @@ CREATE TABLE `user_logs` (
   `status` enum('Online','Offline','','') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_logs`
+--
+
+INSERT INTO `user_logs` (`id`, `user_id`, `status`, `created_at`) VALUES
+(1, 1, 'Online', '2026-09-29 13:46:30');
 
 --
 -- Indexes for dumped tables
@@ -451,7 +466,7 @@ ALTER TABLE `sales`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_branch`
@@ -469,7 +484,7 @@ ALTER TABLE `user_errors`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
