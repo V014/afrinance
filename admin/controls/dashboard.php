@@ -1,4 +1,5 @@
 <?php 
+include_once 'utilities.php';
 // create function that handles user feedback
 function dashboardFeedback(string $message): never
 {
@@ -33,24 +34,26 @@ try {
 
 try {
     // Count inactive admins
-    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Offline"');
+    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs ul INNER JOIN users u ON ul.user_id = u.id WHERE u.role = "Admin" AND u.status = "Offline"');
     $Stmt->execute();
     $getTotalInactiveAdmins = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count inactive admins: " . $e->getMessage());
     dashboardFeedback('Failed to count inactive admins. Please try again later.');
     exit;
 }
 
 try {
     // Count active admins
-    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin" AND status = "Online"');
+    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs ul INNER JOIN users u ON ul.user_id = u.id WHERE u.role = "Admin" AND u.status = "Online"');
     $Stmt->execute();
     $getTotalActiveAdmins = $Stmt->fetch();
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count active admins: " . $e->getMessage());
     dashboardFeedback('Failed to count active admins. Please try again later.');
     exit;
 }
