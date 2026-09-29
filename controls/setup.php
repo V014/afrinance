@@ -35,7 +35,8 @@ if ($password !== $confirm) {
 }
 
 try {
-    $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username && role = :role LIMIT 1');
+    // check if the username already exists for the given role
+    $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username AND role = :role LIMIT 1');
     $stmt->execute(['username' => $username, 'role' => $role]);
 
     if ($stmt->fetch()) {
@@ -47,12 +48,34 @@ try {
         INSERT INTO users (username, role, password, status, created_at)
         VALUES (:username, :role, :password, :status, NOW())
     ');
+
     $insertStmt->execute([
         'username' => $username,
         'role' => $role,
         'password' => $passwordHash,
-        'status' => "Offline",
+        'status' => "Online",
     ]);
+
+    // Login the user after successful registration
+    $userId = $pdo->lastInsertId();
+
+    // log the user entry
+    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Online")');
+    $insertStmt->execute(['user_id' => $userId]);
+
+    // refill sessions of already active
+    session_regenerate_id(true);
+    $_SESSION['user_id'] = $userId;
+    $_SESSION['username'] = $username;
+    $_SESSION['role'] = $role;
+
+    // route user to correct dashboard
+    $dashboard = match ($role) {
+        'Admin' => 'admin/dashboard.php',
+        'Accountant' => 'accountant/dashboard.php',
+        'Operator' => 'employee/dashboard.php',
+        default => 'index.php',
+    };
 } catch (PDOException $e) {
     error_log($e->getMessage());
     // Log the error to the user_errors table
@@ -71,7 +94,6 @@ try {
     setupFeedback('Account creation failed. Please check the database setup and try again.');
 }
 
-header('HX-Redirect: index.php');
-setupFeedback('Now try to login.');
+header('HX-Redirect: ' . $dashboard);
 exit;
 ?>

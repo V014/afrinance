@@ -39,7 +39,7 @@ try {
     }
 
     // log the user entry
-    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, action) VALUES (:user_id, "Login")');
+    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Online")');
     $insertStmt->execute(['user_id' => $user['id']]);
 
     // update user status
@@ -61,7 +61,20 @@ try {
     };
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    loginFeedback('Login failed. Please try again later.');
+    // Log the error to the user_errors table
+    try{
+        $insertStmt = $pdo->prepare('
+        INSERT INTO user_errors (user_id, error_message, created_at)
+        VALUES (:user_id, :error_message, NOW())
+        ');
+        $insertStmt->execute([
+            'user_id' => NULL,
+            'error_message' => "Setup Error: " . $e->getMessage(),
+        ]);
+    } catch (PDOException $er) {
+        setupFeedback('Login failed and error logging failed. Please check the database setup and try again.' . $e->getMessage());
+    }
+    loginFeedback('Login failed. Please try again later.' . $e->getMessage());
     exit;
 }
 
