@@ -16,6 +16,7 @@ try {
 
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to query KPIs: " . $e->getMessage());
     dashboardFeedback('Failed to query KPIs. Please try again later.');
     exit;
 }
@@ -28,6 +29,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count total admins: " . $e->getMessage());
     dashboardFeedback('Failed to count total admins. Please try again later.');
     exit;
 }
@@ -66,6 +68,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count accountants: " . $e->getMessage());
     dashboardFeedback('Failed to count accountants. Please try again later...');
     exit;
 }
@@ -78,6 +81,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count operators: " . $e->getMessage());
     dashboardFeedback('Failed to count operators. Please try again later...');
     exit;
 }
@@ -90,6 +94,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count managers: " . $e->getMessage());
     dashboardFeedback('Failed to count managers. Please try again later.');
     exit;
 }
@@ -103,6 +108,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count admin activity in last 7 days: " . $e->getMessage());
     dashboardFeedback('Failed to count admin activity in last 7 days. Please try again later.');
     exit;
 }
@@ -116,6 +122,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to count admin activity in last 30 days: " . $e->getMessage());
     dashboardFeedback('Failed to count admin activity in last 30 days. Please try again later.');
     exit;
 }
@@ -129,6 +136,7 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
+    logError($pdo, "Failed to show last login of admin: " . $e->getMessage());
     dashboardFeedback('Failed to show last login of admin. Please try again later.');
     exit;
 }
