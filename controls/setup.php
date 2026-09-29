@@ -55,9 +55,20 @@ try {
     ]);
 } catch (PDOException $e) {
     error_log($e->getMessage());
+    // Log the error to the user_errors table
+    try{
+        $insertStmt = $pdo->prepare('
+        INSERT INTO user_errors (user_id, error_message, created_at)
+        VALUES (:user_id, :error_message, NOW())
+        ');
+        $insertStmt->execute([
+            'user_id' => NULL,
+            'error_message' => "Setup Error: " . $e->getMessage(),
+        ]);
+    } catch (PDOException $er) {
+        setupFeedback('Account creation failed and error logging failed. Please check the database setup and try again.' . $e->getMessage());
+    }
     setupFeedback('Account creation failed. Please check the database setup and try again.');
-    $insertStmt = $pdo->prepaer('
-        INSERT INTO user_errors (')
 }
 
 header('HX-Redirect: index.php');
