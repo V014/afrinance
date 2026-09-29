@@ -1,10 +1,10 @@
 <?php
-session_start();
+  session_start();
 
-// Block access if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../index.php');
-    exit;
+  // Block access if the user is not logged in
+  if (!isset($_SESSION['user_id'])) {
+      header('Location: ../index.php');
+      exit;
 }
 
 // Include the database connection

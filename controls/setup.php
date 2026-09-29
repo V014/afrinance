@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'connection.php';
 
 function setupFeedback(string $message): never
