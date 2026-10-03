@@ -23,7 +23,7 @@ try {
 
 try {
     // Count total admins
-    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs INNER JOIN users ON user_logs.id = users.id WHERE users.role = "Admin"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin"');
     $Stmt->execute();
     $getTotalAdmins = $Stmt->fetch();
     
@@ -36,7 +36,7 @@ try {
 
 try {
     // Count inactive admins
-    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs ul INNER JOIN users u ON ul.user_id = u.id WHERE u.role = "Admin" AND u.status = "Offline"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin" AND status = "Offline"');
     $Stmt->execute();
     $getTotalInactiveAdmins = $Stmt->fetch();
     
