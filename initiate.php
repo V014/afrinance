@@ -28,11 +28,12 @@
         <!-- Error messages from PHP render here -->
         <div id="initiate-feedback" class="feedback" role="status" aria-live="polite"></div>
         <!-- Steps -->
-        <div class="steps-container">
-            <ol class="steps">
-                <li class="step active">Step 1: Create Database</li>
-                <li class="step">Step 2: Setup Admin User</li>
-            </ol>
+        <div class="progress-bar-container">
+            <ul class="progress-bar">
+                <li class="complete">Installation</li>
+                <li class="active">Database</li>
+                <li>Admin</li>
+            </ul>
         </div>
         <form
           id="initiateForm"
