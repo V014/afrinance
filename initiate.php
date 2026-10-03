@@ -27,7 +27,7 @@
 
         <!-- Error messages from PHP render here -->
         <div id="initiate-feedback" class="feedback" role="status" aria-live="polite"></div>
-        <!-- Steps -->
+        <!-- Progress bar -->
         <div class="progress-bar-container">
             <ul class="progress-bar">
                 <li class="complete">Installation</li>

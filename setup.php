@@ -27,7 +27,14 @@
 
         <!-- Error messages from PHP render here -->
         <div id="setup-feedback" class="feedback" role="status" aria-live="polite"></div>
-
+        <!-- Progress bar -->
+        <div class="progress-bar-container">
+            <ul class="progress-bar">
+                <li class="complete">Installation</li>
+                <li class="complete">Database</li>
+                <li class="active">Admin</li>
+            </ul>
+        </div>
         <form
           id="setupForm"
           class="space-y-5"
