@@ -49,7 +49,7 @@ try {
 
 try {
     // Count active admins
-    $Stmt = $pdo->prepare('SELECT COUNT(user_id) AS total FROM user_logs ul INNER JOIN users u ON ul.user_id = u.id WHERE u.role = "Admin" AND u.status = "Online"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin" AND status = "Online"');
     $Stmt->execute();
     $getTotalActiveAdmins = $Stmt->fetch();
     
