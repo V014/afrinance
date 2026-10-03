@@ -229,14 +229,15 @@ require_once 'controls/dashboard.php';
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Email</th>
+                  <th>Contact</th>
                   <th>Role</th>
                   <th>Status</th>
                   <th>Last Login</th>
                   <th>2FA</th>
                 </tr>
               </thead>
-              <tbody id=""><?php  ?></tbody>
+              <!-- Fetch list of users -->
+              <tbody id=""><?php foreach ($getUsers as $user) { echo "<tr><td>" . $user['id'] . "</td><td>" . $user['username'] . "</td><td>" . $user['contact'] . "</td><td>" . $user['role'] . "</td><td>" . $user['status'] . "</td><td>" . $user['last_login'] . "</td><td>" . ($user['has_2fa'] ? 'Yes' : 'No') . "</td></tr>"; } ?></tbody>
               <!-- <tbody id="tableBody"></tbody> -->
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
