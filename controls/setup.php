@@ -36,6 +36,11 @@ if ($password !== $confirm) {
 }
 
 try {
+    $userCount = (int) $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
+    if ($userCount > 0) {
+        setupFeedback('Initial setup is already complete. Please log in.');
+    }
+
     // check if the username already exists for the given role
     $stmt = $pdo->prepare('SELECT id FROM users WHERE username = :username AND role = :role LIMIT 1');
     $stmt->execute(['username' => $username, 'role' => $role]);
