@@ -236,7 +236,8 @@ require_once 'controls/dashboard.php';
                   <th>2FA</th>
                 </tr>
               </thead>
-              <tbody id="tableBody"></tbody>
+              <tbody id=""><?php  ?></tbody>
+              <!-- <tbody id="tableBody"></tbody> -->
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
               No admin accounts found

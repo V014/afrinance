@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2026 at 05:57 PM
+-- Generation Time: Oct 01, 2026 at 02:06 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.5.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -219,9 +219,10 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `2FA` varchar(255) DEFAULT NULL,
+  `2FA_secret` varchar(255) DEFAULT NULL,
   `role` enum('Admin','Accountant','Operator','') NOT NULL,
   `status` enum('Online','Offline','','') NOT NULL,
+  `contact` varchar(10) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -230,8 +231,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `2FA`, `role`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'void', '$2y$10$e0guG/4ZxfFm5EOSowRYteyWKoPYZRyv8/NefH9DSAEAbnklCd54.', NULL, 'Admin', 'Online', '2026-09-29 15:46:30', '2026-09-29 13:46:30');
+INSERT INTO `users` (`id`, `username`, `password`, `2FA_secret`, `role`, `status`, `contact`, `created_at`, `updated_at`) VALUES
+(1, 'void', '$2y$10$e0guG/4ZxfFm5EOSowRYteyWKoPYZRyv8/NefH9DSAEAbnklCd54.', NULL, 'Admin', 'Offline', '0996335639', '2026-09-29 15:46:30', '2026-09-30 19:06:44');
 
 -- --------------------------------------------------------
 
@@ -279,7 +280,11 @@ CREATE TABLE `user_logs` (
 --
 
 INSERT INTO `user_logs` (`id`, `user_id`, `status`, `created_at`) VALUES
-(1, 1, 'Online', '2026-09-29 13:46:30');
+(1, 1, 'Online', '2026-09-29 13:46:30'),
+(2, 1, 'Online', '2026-09-30 07:13:52'),
+(3, 1, 'Online', '2026-09-30 07:46:11'),
+(4, 1, 'Online', '2026-09-30 07:56:50'),
+(5, 1, 'Offline', '2026-09-30 19:06:44');
 
 --
 -- Indexes for dumped tables
@@ -484,7 +489,7 @@ ALTER TABLE `user_errors`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

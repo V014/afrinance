@@ -11,7 +11,7 @@
 
     try {
         // log the user exit
-        $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, action) VALUES (:user_id, "Logout")');
+        $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Offline")');
         $insertStmt->execute(['user_id' => $_SESSION['user_id']]);
 
         // update user status

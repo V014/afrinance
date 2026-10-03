@@ -141,4 +141,20 @@ try {
     exit;
 }
 
+try {
+    // show user and user_log table
+    $Stmt = $pdo->prepare('SELECT u.id, u.username, u.role, u.status, u.contact, MAX(ul.created_at) AS last_login, u.2FA_secret AS 2FA FROM users u LEFT JOIN user_logs ul ON u.id = ul.user_id
+                            GROUP BY u.id, u.username, u.role, u.status, u.contact, u.2FA_secret
+                            ORDER BY last_login DESC
+                            LIMIT 10;');
+    $Stmt->execute();
+    $getUsers = $Stmt->fetchAll();
+
+} catch(PDOException $e) {
+    error_log($e->getMessage());
+    logError($pdo, "Failed to show users: " . $e->getMessage());
+    dashboardFeedback('Failed to show users. Please try again later.');
+    exit;
+}
+
 ?>
