@@ -324,13 +324,13 @@ font-size: 0.7rem;
 font-weight: 600;
 background: var(--bg-color);
 }
-.role-cashier {
+.role-Operator {
 color: var(--sales);
 }
-.role-accountant {
+.role-Accountant {
 color: var(--debt);
 }
-.role-admin-manager {
+.role-Admin {
 color: var(--admin-purple);
 }
 
