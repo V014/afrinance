@@ -243,7 +243,7 @@ require_once 'controls/dashboard.php';
                                       <td>" . $user['username'] . "</td>
                                       <td>" . $user['contact'] . "</td>
                                       <td>" . $user['role'] . "</td>
-                                      <td><span class='status-badge'>" . $user['status'] . "</spand></td>
+                                      <td><span class='status-badge status-" . $user['status'] . "'>" . $user['status'] . "</span></td>
                                       <td>" . $user['last_login'] . "</td>
                                       <td>" . ($user['has_2fa'] ? 'Yes' : 'No') . "</td>
                                     </tr>"; 

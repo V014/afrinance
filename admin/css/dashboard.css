@@ -342,10 +342,10 @@ font-size: 0.7rem;
 font-weight: 600;
 background: var(--bg-color);
 }
-.status-active {
+.status-Active {
 color: var(--accent-color);
 }
-.status-inactive {
+.status-Inactive {
 color: var(--expenses);
 }
 
