@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2026 at 10:34 PM
+-- Generation Time: Oct 04, 2026 at 04:00 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.4.1
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -221,7 +221,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `2FA_secret` varchar(255) DEFAULT NULL,
   `role` enum('Admin','Accountant','Operator','') NOT NULL,
-  `status` enum('Online','Offline','','') NOT NULL,
+  `status` enum('Active','Inactive','','') NOT NULL,
   `contact` varchar(10) NOT NULL DEFAULT '',
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -264,7 +264,7 @@ CREATE TABLE `user_errors` (
 CREATE TABLE `user_logs` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `status` enum('Online','Offline','','') NOT NULL,
+  `status` enum('Active','Inactive','','') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

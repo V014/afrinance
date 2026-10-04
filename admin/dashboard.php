@@ -237,7 +237,19 @@ require_once 'controls/dashboard.php';
                 </tr>
               </thead>
               <!-- Fetch list of users -->
-              <tbody id=""><?php foreach ($getUsers as $user) { echo "<tr><td>" . $user['id'] . "</td><td>" . $user['username'] . "</td><td>" . $user['contact'] . "</td><td>" . $user['role'] . "</td><td>" . $user['status'] . "</td><td>" . $user['last_login'] . "</td><td>" . ($user['has_2fa'] ? 'Yes' : 'No') . "</td></tr>"; } ?></tbody>
+              <tbody id=""><?php foreach ($getUsers as $user) 
+                            { echo "<tr>
+                                      <td>" . $user['id'] . "</td>
+                                      <td>" . $user['username'] . "</td>
+                                      <td>" . $user['contact'] . "</td>
+                                      <td>" . $user['role'] . "</td>
+                                      <td><span class='status-badge'>" . $user['status'] . "</spand></td>
+                                      <td>" . $user['last_login'] . "</td>
+                                      <td>" . ($user['has_2fa'] ? 'Yes' : 'No') . "</td>
+                                    </tr>"; 
+                              } 
+                            ?>
+              </tbody>
               <!-- <tbody id="tableBody"></tbody> -->
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
