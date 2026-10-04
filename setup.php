@@ -72,14 +72,19 @@
               name="confirm_password"
             />
           </div>
-          <!-- <div>
-            <select id="Role" name="role" required>
-              <option value="" disabled selected>Select role</option>
-              <option value="Admin">Admin</option>
-              <option value="Accountant">Accountant</option>
-              <option value="Operator">Operator</option>
-            </select>
-          </div> -->
+          <div>
+            <input
+              id="conact"
+              type="text"
+              placeholder="Phone number"
+              required
+              name="contact"
+              maxlength=10
+              minlength=10
+              pattern="^(\+265|0)(1|31|[89]\d)\d{6,7}$"
+              title="Enter a valid Malawian phone number (e.g., 0912345678 or +265912345678)."
+            />
+          </div>
           <button type="submit" class="btn-primary">
             <i class="fas fa-sign-in-alt"></i> Create User
           </button>

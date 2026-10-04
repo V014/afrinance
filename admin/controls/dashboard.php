@@ -36,7 +36,7 @@ try {
 
 try {
     // Count inactive admins
-    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin" AND status = "Offline"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin" AND status = "Inactive"');
     $Stmt->execute();
     $getTotalInactiveAdmins = $Stmt->fetch();
     
@@ -49,7 +49,7 @@ try {
 
 try {
     // Count active admins
-    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin" AND status = "Online"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin" AND status = "Active"');
     $Stmt->execute();
     $getTotalActiveAdmins = $Stmt->fetch();
     

@@ -17,9 +17,9 @@ $username = trim($_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
 $role = 'Admin'; // Default role for the first user
 $confirm = $_POST['confirm_password'] ?? '';
-// $allowedRoles = ['Admin', 'Accountant', 'Operator'];
+$contact = $_POST['contact'] ?? '';
 
-if ($username === '' || $password === '' || $confirm === '' || $role === '') {
+if ($username === '' || $password === '' || $confirm === '' || $role === '' || $contact === '') {
     setupFeedback('All fields are required.');
 }
 
@@ -51,8 +51,8 @@ try {
 
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
     $insertStmt = $pdo->prepare('
-        INSERT INTO users (username, role, password, status, created_at)
-        VALUES (:username, :role, :password, :status, NOW())
+        INSERT INTO users (username, role, password, status, contact, created_at)
+        VALUES (:username, :role, :password, :status, :contact, NOW())
     ');
 
     $insertStmt->execute([
@@ -60,6 +60,7 @@ try {
         'role' => $role,
         'password' => $passwordHash,
         'status' => "Active",
+        'contact' => $contact,
     ]);
 
     // Login the user after successful registration
