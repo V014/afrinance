@@ -72,15 +72,14 @@
               name="confirm_password"
             />
           </div>
-          <div>
-            <!-- <label for="Role">Role</label> -->
+          <!-- <div>
             <select id="Role" name="role" required>
               <option value="" disabled selected>Select role</option>
               <option value="Admin">Admin</option>
               <option value="Accountant">Accountant</option>
               <option value="Operator">Operator</option>
             </select>
-          </div>
+          </div> -->
           <button type="submit" class="btn-primary">
             <i class="fas fa-sign-in-alt"></i> Create User
           </button>

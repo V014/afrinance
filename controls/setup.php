@@ -15,17 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $username = trim($_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
-$role = $_POST['role'] ?? '';
+$role = 'Admin'; // Default role for the first user
 $confirm = $_POST['confirm_password'] ?? '';
-$allowedRoles = ['Admin', 'Accountant', 'Operator'];
+// $allowedRoles = ['Admin', 'Accountant', 'Operator'];
 
 if ($username === '' || $password === '' || $confirm === '' || $role === '') {
     setupFeedback('All fields are required.');
 }
 
-if (!in_array($role, $allowedRoles, true)) {
-    setupFeedback('Please select a valid role.');
-}
+// if (!in_array($role, $allowedRoles, true)) {
+//     setupFeedback('Please select a valid role.');
+// }
 
 if (strlen($password) < 8) {
     setupFeedback('Password must be at least 8 characters long.');
@@ -78,8 +78,8 @@ try {
     // route user to correct dashboard
     $dashboard = match ($role) {
         'Admin' => 'admin/dashboard.php',
-        'Accountant' => 'accountant/dashboard.php',
-        'Operator' => 'employee/dashboard.php',
+        // 'Accountant' => 'accountant/dashboard.php',
+        // 'Operator' => 'employee/dashboard.php',
         default => 'index.php',
     };
 } catch (PDOException $e) {
