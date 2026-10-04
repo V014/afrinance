@@ -35,6 +35,10 @@
                 <li class="active">Admin</li>
             </ul>
         </div>
+        <!-- Status message / checklist -->
+        <div id="password-feedback" class="password-feedback">
+          <span id="length-rule" class="length-rule">✕ Minimum 8 character password</span>
+        </div>
         <form
           id="setupForm"
           class="space-y-5"
@@ -55,11 +59,13 @@
           <div>
             <!-- <label for="loginPassword">Password</label> -->
             <input
-              id="loginPassword"
+              id="password"
               type="password"
               placeholder="Enter password"
               required
               name="password"
+              minlength=8
+              title="You must have at least 8 characters"
             />
           </div>
           <div>
@@ -70,12 +76,14 @@
               placeholder="Confirm password"
               required
               name="confirm_password"
+              minlength=8
+              title="You must have at least 8 characters"
             />
           </div>
           <div>
             <input
-              id="conact"
-              type="text"
+              id="contact"
+              type="tel"
               placeholder="Phone number"
               required
               name="contact"
@@ -83,6 +91,7 @@
               minlength=10
               pattern="^(\+265|0)(1|31|[89]\d)\d{6,7}$"
               title="Enter a valid Malawian phone number (e.g., 0912345678 or +265912345678)."
+              oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
             />
           </div>
           <button type="submit" class="btn-primary">
@@ -95,4 +104,5 @@
     </div>
     
 </body>
+<script src="js/password_limit.js"></script>
 </html>

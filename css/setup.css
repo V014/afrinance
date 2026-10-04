@@ -232,3 +232,14 @@ label {
     justify-content: center;
     margin-bottom: 0.5rem;
 }
+
+.password-feedback {
+    margin-top: 8px; 
+    font-size: 0.9em;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.length-rule {
+    color: #e74c3c;
+}
