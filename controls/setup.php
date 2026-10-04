@@ -59,14 +59,14 @@ try {
         'username' => $username,
         'role' => $role,
         'password' => $passwordHash,
-        'status' => "Online",
+        'status' => "Active",
     ]);
 
     // Login the user after successful registration
     $userId = $pdo->lastInsertId();
 
     // log the user entry
-    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Online")');
+    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Active")');
     $insertStmt->execute(['user_id' => $userId]);
 
     // refill sessions of already active

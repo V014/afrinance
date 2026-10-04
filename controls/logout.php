@@ -11,11 +11,11 @@
 
     try {
         // log the user exit
-        $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Offline")');
+        $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Inactive")');
         $insertStmt->execute(['user_id' => $_SESSION['user_id']]);
 
         // update user status
-        $updateStmt = $pdo->prepare('UPDATE `users` SET `status` = "Offline" WHERE `users`.`id` = :user_id');
+        $updateStmt = $pdo->prepare('UPDATE `users` SET `status` = "Inactive" WHERE `users`.`id` = :user_id');
         $updateStmt->execute(['user_id' => $_SESSION['user_id']]);
 
     } catch (PDOException $e) {
