@@ -11,6 +11,9 @@
 require_once '../controls/connection.php';
 
 // Include the dashboard controls
+require_once 'controls/dashboard.php';
+
+// Include the dashboard controls
 require_once 'controls/manage.php';
 ?>
 
@@ -117,20 +120,20 @@ require_once 'controls/manage.php';
           <!-- STATS MINI -->
           <div class="stats-mini">
             <div class="stat-mini">
-              <div class="stat-number" id="miniTotal">0</div>
+              <div class="stat-number"><?php echo $getTotalActiveAdmins['total']; ?></div>
               <div class="stat-label">Total Admins</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="miniActive">0</div>
+              <div class="stat-number"><?php echo $getTotalAdmins['total']; ?></div>
               <div class="stat-label">Active</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="miniCashier">0</div>
-              <div class="stat-label">Cashiers</div>
+              <div class="stat-number">0</div>
+              <div class="stat-label">Operators</div>
             </div>
             <div class="stat-mini">
               <div class="stat-number" id="miniAdminManager">0</div>
-              <div class="stat-label">Admin Managers</div>
+              <div class="stat-label">Accountants</div>
             </div>
           </div>
 
