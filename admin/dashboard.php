@@ -134,15 +134,15 @@ require_once 'controls/dashboard.php';
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Operators</span>
-                <span class="detail-value" id="statRoleCashier"><?php echo $getTotalActiveOperators['COUNT(id)']; ?></span>
+                <span class="detail-value" id="statRoleCashier"><?php echo $getTotalActiveOperators['total']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Accountants</span>
-                <span class="detail-value" id="statRoleAccountant"><?php echo $getTotalAccountants['COUNT(id)']; ?></span>
+                <span class="detail-value" id="statRoleAccountant"><?php echo $getTotalAccountants['total']; ?></span>
               </div>
               <div class="stat-detail">
                 <span class="detail-label">Admin Managers</span>
-                <span class="detail-value" id="statRoleAdminManager"><?php echo $getTotalManagers['COUNT(id)']; ?></span>
+                <span class="detail-value" id="statRoleAdminManager"><?php echo $getTotalManagers['total']; ?></span>
               </div>
             </div>
 
