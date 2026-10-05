@@ -198,6 +198,14 @@ require_once 'controls/manage.php';
                                       <td><span class='status-badge status-" . $user['status'] . "'>" . $user['status'] . "</span></td>
                                       <td>" . $user['last_login'] . "</td>
                                       <td>" . ($user['has_2fa'] ? '<i class="fas fa-check-circle twoFA-true"></i>' : '<i class="fas fa-times-circle twoFA-false"></i>') . "</td>
+                                      <td class='action-icons'>
+                                        <a href='" . $user['id'] . "' class='edit' data-id='" . $user['id'] . "' title='Edit'>
+                                          <i class='fas fa-edit'></i>
+                                        </a>
+                                        <a href='" . $user['id'] . "' class='delete' data-id='" . $user['id'] . "' title='Delete'>
+                                          <i class='fas fa-trash-alt'></i>
+                                        </a>
+                                      </td>
                                     </tr>"; 
                               } 
                             ?>
