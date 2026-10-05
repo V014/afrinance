@@ -30,7 +30,7 @@ require_once 'controls/manage.php';
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <script src="js/htmx.org@2.0.0.min.js"></script>
+    <script src="../js/htmx.org@2.0.0.min.js"></script>
     <link rel="stylesheet" href="css/manage.css">
   </head>
   <body>

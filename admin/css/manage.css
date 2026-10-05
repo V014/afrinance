@@ -416,13 +416,13 @@ font-size: 0.7rem;
 font-weight: 600;
 background: var(--bg-color);
 }
-.role-cashier {
+.role-Operator {
 color: var(--sales);
 }
-.role-accountant {
+.role-Accountant {
 color: var(--debt);
 }
-.role-admin-manager {
+.role-Admin {
 color: var(--admin-purple);
 }
 
@@ -434,10 +434,10 @@ font-size: 0.7rem;
 font-weight: 600;
 background: var(--bg-color);
 }
-.status-active {
+.status-Active {
 color: var(--accent-color);
 }
-.status-inactive {
+.status-Inactive {
 color: var(--expenses);
 }
 
@@ -462,6 +462,14 @@ color: var(--expenses);
 text-align: center;
 padding: 2rem;
 opacity: 0.5;
+}
+
+.twoFA-true {
+    color:var(--accent-color);
+}
+
+.twoFA-false {
+    color:var(--expenses);
 }
 
 /* ----- PAGINATION ----- */
