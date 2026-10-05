@@ -180,7 +180,7 @@ require_once 'controls/manage.php';
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Email</th>
+                  <th>Conact</th>
                   <th>Role</th>
                   <th>Status</th>
                   <th>Last Login</th>
@@ -188,7 +188,21 @@ require_once 'controls/manage.php';
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody id="tableBody"></tbody>
+              <!-- Fetch list of users -->
+              <tbody id=""><?php foreach ($getUsers as $user) 
+                            { echo "<tr>
+                                      <td>" . $user['id'] . "</td>
+                                      <td>" . $user['username'] . "</td>
+                                      <td>" . $user['contact'] . "</td>
+                                      <td><span class='role-badge role-" . $user['role'] . "'>" . $user['role'] . "</span></td>
+                                      <td><span class='status-badge status-" . $user['status'] . "'>" . $user['status'] . "</span></td>
+                                      <td>" . $user['last_login'] . "</td>
+                                      <td>" . ($user['has_2fa'] ? '<i class="fas fa-check-circle twoFA-true"></i>' : '<i class="fas fa-times-circle twoFA-false"></i>') . "</td>
+                                    </tr>"; 
+                              } 
+                            ?>
+              </tbody>
+              <!-- <tbody id="tableBody"></tbody> -->
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
               No admin accounts found
