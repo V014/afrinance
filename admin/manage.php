@@ -132,7 +132,7 @@ require_once 'controls/manage.php';
               <div class="stat-label">Operators</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="miniAdminManager">0</div>
+              <div class="stat-number"><?php echo $getTotalAccountants['total']; ?></div>
               <div class="stat-label">Accountants</div>
             </div>
           </div>

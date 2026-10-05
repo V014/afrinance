@@ -88,7 +88,7 @@ try {
 
 try {
     // Count all managers
-    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role != "Admin"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Admin"');
     $Stmt->execute();
     $getTotalManagers = $Stmt->fetch();
     
