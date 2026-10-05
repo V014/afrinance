@@ -62,7 +62,7 @@ try {
 
 try {
     // Count accountants
-    $Stmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Accountant"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Accountant"');
     $Stmt->execute();
     $getTotalAccountants = $Stmt->fetch();
     
@@ -75,7 +75,7 @@ try {
 
 try {
     // Count operators
-    $Stmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role = "Operator"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role = "Operator"');
     $Stmt->execute();
     $getTotalActiveOperators = $Stmt->fetch();
     
@@ -88,7 +88,7 @@ try {
 
 try {
     // Count all managers
-    $Stmt = $pdo->prepare('SELECT COUNT(id) FROM users WHERE role != "Admin"');
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM users WHERE role != "Admin"');
     $Stmt->execute();
     $getTotalManagers = $Stmt->fetch();
     

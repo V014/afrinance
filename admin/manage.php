@@ -128,7 +128,7 @@ require_once 'controls/manage.php';
               <div class="stat-label">Active</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number">0</div>
+              <div class="stat-number"><?php echo $getTotalActiveOperators['total']; ?></div>
               <div class="stat-label">Operators</div>
             </div>
             <div class="stat-mini">
