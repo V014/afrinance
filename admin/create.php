@@ -40,16 +40,16 @@ require_once "controls/create.php";
 
       <!-- WELCOME CARD (no time/day) -->
       <div class="welcome-card">
-        <h2><i class="fas fa-user-plus"></i> Create Admin Account</h2>
+        <h2><i class="fas fa-user-plus"></i> Create User Account</h2>
       </div>
 
       <!-- CREATE FORM -->
       <div class="form-card">
         <div class="form-title">
-          <i class="fas fa-user-shield"></i> New Admin Account
+          <i class="fas fa-user-shield"></i> New User Account
         </div>
         <div class="form-subtitle">
-          Fill in the details below to create a new admin account. All fields
+          Fill in the details below to create a new user account. All fields
           marked with <span style="color: var(--expenses)">*</span> are
           required.
         </div>
@@ -73,8 +73,14 @@ require_once "controls/create.php";
               <input
                 type="tel"
                 id="contact"
-                placeholder="jane@3maze.com"
+                placeholder="e.g. 0912345678"
                 required
+                name="contact"
+                maxlength=10
+                minlength=10
+                pattern="^(\+265|0)(1|31|[89]\d)\d{6,7}$"
+                title="Enter a valid Malawian phone number (e.g., 0912345678 or +265912345678)."
+                oninput="this.value = this.value.replace(/[^0-9+]/g, '')"
               />
             </div>
 
@@ -83,7 +89,7 @@ require_once "controls/create.php";
               <label>Role <span class="required">*</span></label>
               <select id="role" required>
                 <option value="">Select a role...</option>
-                <option value="cashier">Cashier</option>
+                <option value="cashier">Operator</option>
                 <option value="accountant">Accountant</option>
                 <option value="admin-manager">Admin Manager</option>
               </select>

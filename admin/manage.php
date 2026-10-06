@@ -12,9 +12,6 @@ require_once '../controls/connection.php';
 
 // Include the dashboard controls
 require_once 'controls/dashboard.php';
-
-// Include the dashboard controls
-require_once 'controls/manage.php';
 ?>
 
 <!doctype html>
