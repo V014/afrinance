@@ -1,3 +1,19 @@
+<?php
+  session_start();
+
+  // Block access if the user is not logged in
+  if (!isset($_SESSION['user_id'])) {
+      header('Location: ../index.php');
+      exit;
+}
+
+// Include the database connection
+require_once '../controls/connection.php';
+
+// Include the create page
+require_once "controls/create.php";
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -40,23 +56,23 @@
 
         <form id="createAdminForm">
           <div class="form-grid">
-            <!-- Full Name -->
+            <!-- Username -->
             <div class="form-group">
-              <label>Full Name <span class="required">*</span></label>
+              <label>Username <span class="required">*</span></label>
               <input
                 type="text"
-                id="fullName"
+                id="userame"
                 placeholder="e.g. Jane Doe"
                 required
               />
             </div>
 
-            <!-- Email -->
+            <!-- Contact -->
             <div class="form-group">
-              <label>Email Address <span class="required">*</span></label>
+              <label>Contact <span class="required">*</span></label>
               <input
-                type="email"
-                id="email"
+                type="tel"
+                id="contact"
                 placeholder="jane@3maze.com"
                 required
               />
