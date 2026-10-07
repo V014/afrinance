@@ -198,10 +198,10 @@ require_once 'controls/branches.php';
                                       <td>" . $branch['name'] . "</td>
                                       <td>" . $branch['description'] . "</td>
                                       <td>
-                                        <span class='role-badge role-Admin'>
+                                        <span class='role-badge'>
                                             <a href='https://www.google.com/maps/search/?api=1&query=" . $branch['location'] . "' 
                                             target='_blank'
-                                            style='text-decoration:none;'>View on Map
+                                            style='text-decoration:none; color:var(--admin-purple)'>View on Map
                                             </a>
                                         </span>
                                       </td>
