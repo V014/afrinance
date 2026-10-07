@@ -135,7 +135,7 @@ require_once 'controls/branches.php';
               <div class="stat-label">Inactive Branches</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number"><?php echo $getTotalAccountants['total']; ?></div>
+              <div class="stat-number">80%</div>
               <div class="stat-label">Up time</div>
             </div>
           </div>
