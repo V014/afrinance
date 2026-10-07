@@ -12,6 +12,9 @@ require_once '../controls/connection.php';
 
 // Include the dashboard controls
 require_once 'controls/dashboard.php';
+
+// Include the dashboard controls
+require_once 'controls/branches.php';
 ?>
 
 <!doctype html>
@@ -102,7 +105,7 @@ require_once 'controls/dashboard.php';
             <div class="welcome-left">
               <h2>
                 <i
-                  class="fas fa-users-cog"
+                  class="fas fa-shop"
                   style="color: var(--admin-purple)"
                 ></i>
                 Manage Branches
@@ -120,7 +123,7 @@ require_once 'controls/dashboard.php';
           <!-- STATS MINI -->
           <div class="stats-mini">
             <div class="stat-mini">
-              <div class="stat-number"><?php echo $getTotalActiveAdmins['total']; ?></div>
+              <div class="stat-number"><?php echo $getTotalBranches['total']; ?></div>
               <div class="stat-label">Total Branches</div>
             </div>
             <div class="stat-mini">
