@@ -1,18 +1,20 @@
 <?php
-// Utility functions for the admin dashboard
-// Log the error to the user_errors table
-function logError($pdo, $errorMessage) {
+// Log the user activty
+function userLog($pdo, $action, $target, $details, $status) {
     try {
         $insertStmt = $pdo->prepare('
-            INSERT INTO user_errors (user_id, error_message, created_at)
-            VALUES (:user_id, :error_message, NOW())
+            INSERT INTO user_logs (user_id, action, target, details, status, created_at)
+            VALUES (:user_id, :action, :target, :details, :status, NOW())
         ');
         $insertStmt->execute([
-            'user_id' => NULL,
-            'error_message' => $errorMessage,
+            'user_id' => $_SESSION['user_id'],
+            'action' => $action,
+            'target' => $target,
+            'details' => $details,
+            'status' => $status,
         ]);
     } catch (PDOException $e) {
-        error_log("Failed to log error: " . $e->getMessage());
+        alert("Failed to log error: " . $e->getMessage());
     }
 }
 ?>
