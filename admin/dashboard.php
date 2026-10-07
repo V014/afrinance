@@ -284,7 +284,6 @@ require_once 'controls/dashboard.php';
         </div>
       </main>
     </div>
-
     <script src="js/dashboard.js"></script>
   </body>
 </html>
