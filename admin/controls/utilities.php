@@ -1,4 +1,5 @@
 <?php
+// Get name of browser
 // Log the user activty
 function userLog($pdo, $action, $target, $details, $status) {
     try {

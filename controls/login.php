@@ -59,22 +59,12 @@ try {
         'Operator' => 'employee/dashboard.php',
         default => 'index.php',
     };
+
+    // log the successful setup
+    userLog($pdo,'Login','System','Successful login','Success');
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    // Log the error to the user_errors table
-    try{
-        $insertStmt = $pdo->prepare('
-        INSERT INTO user_errors (user_id, error_message, created_at)
-        VALUES (:user_id, :error_message, NOW())
-        ');
-        $insertStmt->execute([
-            'user_id' => NULL,
-            'error_message' => "Setup Error: " . $e->getMessage(),
-        ]);
-    } catch (PDOException $er) {
-        setupFeedback('Login failed and error logging failed. Please check the database setup and try again.' . $e->getMessage());
-    }
-    loginFeedback('Login failed. Please try again later.' . $e->getMessage());
+    alert('Login after setup failed. Please try again later.' . $e->getMessage());
     exit;
 }
 
