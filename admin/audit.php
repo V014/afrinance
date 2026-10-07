@@ -1,3 +1,16 @@
+<?php
+  session_start();
+
+  // Block access if the user is not logged in
+  if (!isset($_SESSION['user_id'])) {
+      header('Location: ../index.php');
+      exit;
+}
+
+// Include the database connection
+require_once '../controls/connection.php';
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
