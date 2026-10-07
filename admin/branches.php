@@ -183,29 +183,29 @@ require_once 'controls/branches.php';
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Conact</th>
-                  <th>Role</th>
+                  <th>Description</th>
+                  <th>Location</th>
                   <th>Status</th>
-                  <th>Last Login</th>
-                  <th>2FA</th>
+                  <th>Created at</th>
+                  <th>Updated at</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <!-- Fetch list of users -->
-              <tbody id=""><?php foreach ($getUsers as $user) 
+              <tbody id=""><?php foreach ($getBranches as $branch) 
                             { echo "<tr>
-                                      <td>" . $user['id'] . "</td>
-                                      <td>" . $user['username'] . "</td>
-                                      <td>" . $user['contact'] . "</td>
-                                      <td><span class='role-badge role-" . $user['role'] . "'>" . $user['role'] . "</span></td>
-                                      <td><span class='status-badge status-" . $user['status'] . "'>" . $user['status'] . "</span></td>
-                                      <td>" . $user['last_login'] . "</td>
-                                      <td>" . ($user['has_2fa'] ? '<i class="fas fa-check-circle twoFA-true"></i>' : '<i class="fas fa-times-circle twoFA-false"></i>') . "</td>
+                                      <td>" . $branch['id'] . "</td>
+                                      <td>" . $branch['name'] . "</td>
+                                      <td>" . $branch['description'] . "</td>
+                                      <td>" . $branch['location'] . "</td>
+                                      <td><span class='status-badge status-" . $branch['status'] . "'>" . $branch['status'] . "</span></td>
+                                      <td>" . $branch['created_at'] . "</td>
+                                      <td>" . $branch['updated_at'] . "</td>
                                       <td class='action-icons'>
-                                        <a href='" . $user['id'] . "' class='edit' data-id='" . $user['id'] . "' title='Edit'>
+                                        <a href='" . $branch['id'] . "' class='edit' data-id='" . $branch['id'] . "' title='Edit'>
                                           <i class='fas fa-edit'></i>
                                         </a>
-                                        <a href='" . $user['id'] . "' class='delete' data-id='" . $user['id'] . "' title='Delete'>
+                                        <a href='" . $branch['id'] . "' class='delete' data-id='" . $branch['id'] . "' title='Delete'>
                                           <i class='fas fa-trash-alt'></i>
                                         </a>
                                       </td>

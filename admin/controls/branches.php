@@ -51,4 +51,17 @@ try {
     dashboardFeedback('Failed to count total inactive branches. Please try again later.');
     exit;
 }
+
+try {
+    // show branches table
+    $Stmt = $pdo->prepare('SELECT id, name, description, location, status, created_at, updated_at FROM branch;');
+    $Stmt->execute();
+    $getBranches = $Stmt->fetchAll();
+
+} catch(PDOException $e) {
+    error_log($e->getMessage());
+    logError($pdo, "Failed to show branches: " . $e->getMessage());
+    dashboardFeedback('Failed to show branches. Please try again later.');
+    exit;
+}
 ?>
