@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once 'connection.php';
+    require_once 'utilities.php';
 
     // create function that handles user feedback
     function logoutFeedback(string $message): never
@@ -11,8 +12,7 @@
 
     try {
         // log the user exit
-        $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Inactive")');
-        $insertStmt->execute(['user_id' => $_SESSION['user_id']]);
+        userLog($pdo, 'Logout', 'System', 'User logged out', 'Success');
 
         // update user status
         $updateStmt = $pdo->prepare('UPDATE `users` SET `status` = "Inactive" WHERE `users`.`id` = :user_id');
@@ -20,7 +20,7 @@
 
     } catch (PDOException $e) {
         error_log($e->getMessage());
-        // logoutFeedback('Logout failed. Please try again later.');
+        alert('Logout failed. Please try again later.');
         exit;
     }
 
