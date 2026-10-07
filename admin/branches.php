@@ -127,7 +127,7 @@ require_once 'controls/branches.php';
               <div class="stat-label">Total Branches</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number"><?php echo $getTotalAdmins['total']; ?></div>
+              <div class="stat-number"><?php echo $getTotalActiveBranches['total']; ?></div>
               <div class="stat-label">Active Branches</div>
             </div>
             <div class="stat-mini">

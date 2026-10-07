@@ -21,8 +21,21 @@ try {
     
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    logError($pdo, "Failed to count total admins: " . $e->getMessage());
-    dashboardFeedback('Failed to count total admins. Please try again later.');
+    logError($pdo, "Failed to count total branches: " . $e->getMessage());
+    dashboardFeedback('Failed to count total branches. Please try again later.');
+    exit;
+}
+
+try {
+    // Count total active branches
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM branch WHERE status = "Active"');
+    $Stmt->execute();
+    $getTotalActiveBranches = $Stmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    logError($pdo, "Failed to count total active branches: " . $e->getMessage());
+    dashboardFeedback('Failed to count total active branches. Please try again later.');
     exit;
 }
 ?>
