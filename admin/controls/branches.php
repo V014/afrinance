@@ -38,4 +38,17 @@ try {
     dashboardFeedback('Failed to count total active branches. Please try again later.');
     exit;
 }
+
+try {
+    // Count total inactive branches
+    $Stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM branch WHERE status = "inactive"');
+    $Stmt->execute();
+    $getTotalInactiveBranches = $Stmt->fetch();
+    
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    logError($pdo, "Failed to count total inactive branches: " . $e->getMessage());
+    dashboardFeedback('Failed to count total inactive branches. Please try again later.');
+    exit;
+}
 ?>
