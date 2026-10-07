@@ -105,7 +105,7 @@ require_once 'controls/dashboard.php';
                   class="fas fa-users-cog"
                   style="color: var(--admin-purple)"
                 ></i>
-                Manage Admins
+                Manage Branches
               </h2>
             </div>
           </div>
@@ -113,7 +113,7 @@ require_once 'controls/dashboard.php';
           <!-- ACTION BAR (Create only) -->
           <div class="action-bar">
             <a href="create.php" class="action-btn primary-btn">
-              <i class="fas fa-user-plus"></i> Create New Account
+              <i class="fas fa-user-plus"></i> Create New Branch
             </a>
           </div>
 
@@ -121,19 +121,19 @@ require_once 'controls/dashboard.php';
           <div class="stats-mini">
             <div class="stat-mini">
               <div class="stat-number"><?php echo $getTotalActiveAdmins['total']; ?></div>
-              <div class="stat-label">Total Admins</div>
+              <div class="stat-label">Total Branches</div>
             </div>
             <div class="stat-mini">
               <div class="stat-number"><?php echo $getTotalAdmins['total']; ?></div>
-              <div class="stat-label">Active</div>
+              <div class="stat-label">Active Branches</div>
             </div>
             <div class="stat-mini">
               <div class="stat-number"><?php echo $getTotalActiveOperators['total']; ?></div>
-              <div class="stat-label">Operators</div>
+              <div class="stat-label">Inactive Branches</div>
             </div>
             <div class="stat-mini">
               <div class="stat-number"><?php echo $getTotalAccountants['total']; ?></div>
-              <div class="stat-label">Accountants</div>
+              <div class="stat-label">Up time</div>
             </div>
           </div>
 
