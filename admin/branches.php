@@ -197,7 +197,14 @@ require_once 'controls/branches.php';
                                       <td>" . $branch['id'] . "</td>
                                       <td>" . $branch['name'] . "</td>
                                       <td>" . $branch['description'] . "</td>
-                                      <td>" . $branch['location'] . "</td>
+                                      <td>
+                                        <span class='role-badge role-Admin'>
+                                            <a href='https://www.google.com/maps/search/?api=1&query=" . $branch['location'] . "' 
+                                            target='_blank'
+                                            style='text-decoration:none;'>View on Map
+                                            </a>
+                                        </span>
+                                      </td>
                                       <td><span class='status-badge status-" . $branch['status'] . "'>" . $branch['status'] . "</span></td>
                                       <td>" . $branch['created_at'] . "</td>
                                       <td>" . $branch['updated_at'] . "</td>
@@ -216,7 +223,7 @@ require_once 'controls/branches.php';
               <!-- <tbody id="tableBody"></tbody> -->
             </table>
             <div id="emptyState" class="empty-state" style="display: none">
-              No admin accounts found
+              No branches found
             </div>
           </div>
 
@@ -254,7 +261,7 @@ require_once 'controls/branches.php';
         <h3>Confirm Deletion</h3>
         <p class="modal-sub">
           Are you sure you want to delete
-          <strong id="deleteUserName">User</strong>? <br />This action cannot be
+          <strong id="deleteUserName"><?php echo $branch['name']; ?></strong>? <br />This action cannot be
           undone.
         </p>
         <div class="form-group">
