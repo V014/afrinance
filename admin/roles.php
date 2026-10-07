@@ -40,7 +40,10 @@
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
           <a href="manage.php" data-page="admins"
-            ><i class="fas fa-user-cog"></i> Manage Admins</a
+            ><i class="fas fa-user-cog"></i> Manage Accounts</a
+          >
+          <a href="branches.php" data-page="branches"
+            ><i class="fas fa-shop"></i> Manage Branches</a
           >
           <a href="roles.php" data-page="roles" class="active-link"
             ><i class="fas fa-user-tag"></i> Manage Roles</a

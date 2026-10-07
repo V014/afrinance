@@ -22,7 +22,7 @@ require_once 'controls/dashboard.php';
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
     />
-    <title>Afrinance</title>
+    <title>Afrinance Branches</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -56,10 +56,10 @@ require_once 'controls/dashboard.php';
           <a href="dashboard.php" data-page="dashboard"
             ><i class="fas fa-th-large"></i> Dashboard</a
           >
-          <a href="manage.php" data-page="admins" class="active-link"
+          <a href="manage.php" data-page="admins""
             ><i class="fas fa-user-cog"></i> Manage Accounts</a
           >
-          <a href="branches.php" data-page="branches"
+          <a href="branches.php" data-page="branches" class="active-link"
             ><i class="fas fa-shop"></i> Manage Branches</a
           >
           <a href="roles.php" data-page="roles"
