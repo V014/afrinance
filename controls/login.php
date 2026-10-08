@@ -3,6 +3,7 @@
 // start session class and connect to the database
 session_start();
 require_once 'connection.php';
+require_once 'utilities.php';
 
 // create function that handles user feedback
 function loginFeedback(string $message): never
@@ -34,13 +35,14 @@ try {
 
     // if password is incorrect, let the user know
     if (!$user || !password_verify($password, $user['password'])) {
+        // log the failed attempt
+        userLog($pdo,'Login','System','Failed login, wrong credentials ','Failure');
         loginFeedback('Invalid login credentials.');
         exit;
     }
 
-    // log the user entry
-    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Active")');
-    $insertStmt->execute(['user_id' => $user['id']]);
+    // log the successful login
+    userLog($pdo,'Login','System','Successful login','Success');
 
     // update user status
     $updateStmt = $pdo->prepare('UPDATE `users` SET `status` = "Active" WHERE `users`.`id` = :user_id');
@@ -60,8 +62,6 @@ try {
         default => 'index.php',
     };
 
-    // log the successful setup
-    userLog($pdo,'Login','System','Successful login','Success');
 } catch (PDOException $e) {
     error_log($e->getMessage());
     alert('Login after setup failed. Please try again later.' . $e->getMessage());
