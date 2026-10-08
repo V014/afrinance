@@ -74,6 +74,32 @@ try {
     exit;
 }
 
+try {
+    // count total logins
+    $stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM user_logs WHERE action="Login"');
+    $stmt->execute();
+    $getTotalLogins = $stmt->fetch();
+
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query total logins: " . $e->getMessage(), "Failure");
+    dashboardFeedback('Failed to query total logins. Please try again later.');
+    exit;
+}
+
+try {
+    // count total logouts
+    $stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM user_logs WHERE action="Logout"');
+    $stmt->execute();
+    $getTotalLogouts = $stmt->fetch();
+
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query total logouts: " . $e->getMessage(), "Failure");
+    dashboardFeedback('Failed to query total logouts. Please try again later.');
+    exit;
+}
+
 // read table data
 try {
     // show logs table

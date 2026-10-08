@@ -131,6 +131,14 @@ require_once 'controls/audit.php';
               <div class="stat-number"><?php echo $getTotalDeletes['total']; ?></div>
               <div class="stat-label">Deletes</div>
             </div>
+            <div class="stat-mini">
+              <div class="stat-number"><?php echo $getTotalLogins['total']; ?></div>
+              <div class="stat-label">Logins</div>
+            </div>
+            <div class="stat-mini">
+              <div class="stat-number"><?php echo $getTotalLogouts['total']; ?></div>
+              <div class="stat-label">Logouts</div>
+            </div>
           </div>
 
           <!-- ACTION BAR (Export only) -->
