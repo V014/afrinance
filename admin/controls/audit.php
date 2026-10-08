@@ -60,4 +60,17 @@ try {
     dashboardFeedback('Failed to query total updates. Please try again later.');
     exit;
 }
+
+try {
+    // count total deletes
+    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE action="Delete"');
+    $stmt->execute();
+    $getTotalUpdates = $stmt->fetch();
+
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query total deletes: " . $e->getMessage(), "Failure");
+    dashboardFeedback('Failed to query total deletes. Please try again later.');
+    exit;
+}
 ?>
