@@ -11,7 +11,7 @@ function dashboardFeedback(string $message): never
 // [fill in the KPI's]
 try {
     // count total events
-    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs');
+    $stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM user_logs');
     $stmt->execute();
     $getTotalEvents = $stmt->fetch();
 
@@ -24,7 +24,7 @@ try {
 
 try {
     // count total events from today
-    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE DATE(created_at) = CURDATE()');
+    $stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM user_logs WHERE DATE(created_at) = CURDATE()');
     $stmt->execute();
     $getTodaysEvents = $stmt->fetch();
 
@@ -37,7 +37,7 @@ try {
 
 try {
     // count total creates
-    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE action="Create"');
+    $stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM user_logs WHERE action="Create"');
     $stmt->execute();
     $getTotalCreates = $stmt->fetch();
 
@@ -50,7 +50,7 @@ try {
 
 try {
     // count total updated
-    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE action="Update"');
+    $stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM user_logs WHERE action="Update"');
     $stmt->execute();
     $getTotalUpdates = $stmt->fetch();
 
@@ -63,9 +63,9 @@ try {
 
 try {
     // count total deletes
-    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE action="Delete"');
+    $stmt = $pdo->prepare('SELECT COUNT(id) AS total FROM user_logs WHERE action="Delete"');
     $stmt->execute();
-    $getTotalUpdates = $stmt->fetch();
+    $getTotalDeletes = $stmt->fetch();
 
 }   catch(PDOException $e){
     error_log($e->getMessage());

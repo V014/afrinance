@@ -112,23 +112,23 @@ require_once 'controls/audit.php';
           <!-- STATS MINI -->
           <div class="stats-mini">
             <div class="stat-mini">
-              <div class="stat-number" id="statTotal">0</div>
+              <div class="stat-number"><?php echo $getTotalEvents['total']; ?></div>
               <div class="stat-label">Total Events</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="statToday">0</div>
+              <div class="stat-number"><?php echo $getTodaysEvents['total']; ?></div>
               <div class="stat-label">Today</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="statCreate">0</div>
+              <div class="stat-number"><?php echo $getTotalCreates['total']; ?></div>
               <div class="stat-label">Creates</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="statUpdate">0</div>
+              <div class="stat-number"><?php echo $getTotalUpdates['total']; ?></div>
               <div class="stat-label">Updates</div>
             </div>
             <div class="stat-mini">
-              <div class="stat-number" id="statDelete">0</div>
+              <div class="stat-number"><?php echo $getTotalDeletes['total']; ?></div>
               <div class="stat-label">Deletes</div>
             </div>
           </div>
