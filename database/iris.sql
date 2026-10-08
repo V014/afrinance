@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2026 at 05:53 PM
+-- Generation Time: Oct 08, 2026 at 09:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Iris`
+-- Database: `iris`
 --
 
 -- --------------------------------------------------------
@@ -48,7 +48,7 @@ CREATE TABLE `assets` (
 
 CREATE TABLE `attendance` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
   `status` enum('Present','Absent','Late','Leave') DEFAULT NULL,
   `clock_int` datetime NOT NULL,
   `clock_out` datetime NOT NULL
@@ -57,15 +57,15 @@ CREATE TABLE `attendance` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `branch`
+-- Table structure for table `branches`
 --
 
-CREATE TABLE `branch` (
+CREATE TABLE `branches` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `location` varchar(255) NOT NULL,
-  `status` enum('Active','Inactive','','') NOT NULL,
+  `status` enum('Active','Inactive') NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -106,7 +106,6 @@ CREATE TABLE `earnings` (
 
 CREATE TABLE `employees` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
@@ -221,26 +220,11 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `2FA_secret` varchar(255) DEFAULT NULL,
-  `role` enum('Admin','Accountant','Operator','') NOT NULL,
-  `status` enum('Active','Inactive','Suspended') NOT NULL,
-  `contact` varchar(10) NOT NULL DEFAULT '',
-  `last_seen` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `created_at` datetime NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_branch`
---
-
-CREATE TABLE `user_branch` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `role` enum('Cashier','Manager','Accountant') NOT NULL,
-  `created_at` datetime NOT NULL,
+  `role` enum('Admin','Accountant','Manager') NOT NULL,
+  `status` enum('Active','Inactive','Terminated') NOT NULL,
+  `contact` varchar(10) DEFAULT NULL,
+  `last_seen` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -254,9 +238,9 @@ CREATE TABLE `user_logs` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `action` enum('Create','Read','Update','Delete','Login','Logout') NOT NULL,
-  `target` enum('System','Admin Account','SystemSettings','') NOT NULL,
+  `target` enum('System','System settings','User account') NOT NULL,
   `details` varchar(255) NOT NULL,
-  `status` enum('Success','Failure','','') NOT NULL,
+  `status` enum('Success','Failure') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -276,12 +260,12 @@ ALTER TABLE `assets`
 --
 ALTER TABLE `attendance`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `employee_id` (`employee_id`);
 
 --
--- Indexes for table `branch`
+-- Indexes for table `branches`
 --
-ALTER TABLE `branch`
+ALTER TABLE `branches`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -303,7 +287,6 @@ ALTER TABLE `earnings`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
   ADD KEY `branch_id` (`branch_id`);
 
 --
@@ -347,15 +330,8 @@ ALTER TABLE `sales`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_branch`
---
-ALTER TABLE `user_branch`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `branch_id` (`branch_id`);
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `user_logs`
@@ -381,9 +357,9 @@ ALTER TABLE `attendance`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `branch`
+-- AUTO_INCREMENT for table `branches`
 --
-ALTER TABLE `branch`
+ALTER TABLE `branches`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -441,12 +417,6 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user_branch`
---
-ALTER TABLE `user_branch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
@@ -460,13 +430,13 @@ ALTER TABLE `user_logs`
 -- Constraints for table `assets`
 --
 ALTER TABLE `assets`
-  ADD CONSTRAINT `assets_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`);
+  ADD CONSTRAINT `assets_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`);
 
 --
 -- Constraints for table `attendance`
 --
 ALTER TABLE `attendance`
-  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`);
 
 --
 -- Constraints for table `deductions`
@@ -484,14 +454,13 @@ ALTER TABLE `earnings`
 -- Constraints for table `employees`
 --
 ALTER TABLE `employees`
-  ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`);
+  ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`);
 
 --
 -- Constraints for table `expenses`
 --
 ALTER TABLE `expenses`
-  ADD CONSTRAINT `expenses_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  ADD CONSTRAINT `expenses_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`),
   ADD CONSTRAINT `expenses_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`);
 
 --
@@ -510,21 +479,14 @@ ALTER TABLE `loan_repayments`
 -- Constraints for table `payroll`
 --
 ALTER TABLE `payroll`
-  ADD CONSTRAINT `payroll_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`);
+  ADD CONSTRAINT `payroll_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`);
 
 --
 -- Constraints for table `sales`
 --
 ALTER TABLE `sales`
-  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`),
+  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`),
   ADD CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`);
-
---
--- Constraints for table `user_branch`
---
-ALTER TABLE `user_branch`
-  ADD CONSTRAINT `user_branch_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `user_branch_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`);
 
 --
 -- Constraints for table `user_logs`
