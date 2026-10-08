@@ -17,7 +17,7 @@ try {
 
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    logError($pdo, "Failed to query all events: " . $e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query all events: " . $e->getMessage(), "Failure");
     dashboardFeedback('Failed to query all events. Please try again later.');
     exit;
 }
@@ -30,7 +30,7 @@ try {
 
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    logError($pdo, "Failed to query todays events: " . $e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query todays events: " . $e->getMessage(), "Failure");
     dashboardFeedback('Failed to query todays events. Please try again later.');
     exit;
 }
@@ -43,8 +43,21 @@ try {
 
 }   catch(PDOException $e){
     error_log($e->getMessage());
-    logError($pdo, "Failed to query total creates: " . $e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query total creates: " . $e->getMessage(), "Failure");
     dashboardFeedback('Failed to query total create. Please try again later.');
+    exit;
+}
+
+try {
+    // count total updated
+    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE action="Update"');
+    $stmt->execute();
+    $getTotalUpdates = $stmt->fetch();
+
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query total updates: " . $e->getMessage(), "Failure");
+    dashboardFeedback('Failed to query total updates. Please try again later.');
     exit;
 }
 ?>
