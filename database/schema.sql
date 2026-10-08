@@ -1,5 +1,5 @@
 CREATE TABLE users(
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     2FA_secret VARCHAR(255),
@@ -8,11 +8,11 @@ CREATE TABLE users(
     contact VARCHAR(10),
     last_seen DATETIME,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE user_logs(
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     action ENUM("Create","Read","Update","Delete","Login","Logout") NOT NULL,
     target ENUM("System","System settings","User account") NOT NULL,
@@ -22,28 +22,29 @@ CREATE TABLE user_logs(
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE `branch` (
-    `id` int(11) NOT NULL,
-    `name` varchar(255) NOT NULL,
-    `description` text DEFAULT NULL,
-    `location` varchar(255) NOT NULL,
-    `status` enum('Active','Inactive') NOT NULL,
-    `created_at` datetime NOT NULL,
-    `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-)
+CREATE TABLE branches (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    description text DEFAULT NULL,
+    location varchar(255) NOT NULL,
+    status enum('Active','Inactive') NOT NULL,
+    created_at datetime NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT current_timestamp()
+);
 
-CREATE TABLE `assets` (
-    `id` int(11) NOT NULL,
-    `branch_id` int(11) NOT NULL,
-    `name` varchar(255) NOT NULL,
-    `description` varchar(255) DEFAULT NULL,
-    `category` enum('Fixed','Leased') DEFAULT NULL,
-    `purchase_value` int(11) DEFAULT NULL,
-    `purchase_date` datetime DEFAULT NULL,
-    `estimated_value` int(11) DEFAULT NULL,
-    `created_at` datetime NOT NULL,
-    `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-)
+CREATE TABLE assets (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    branch_id int NOT NULL,
+    name varchar(255) NOT NULL,
+    description varchar(255) DEFAULT NULL,
+    category enum('Fixed','Leased') DEFAULT NULL,
+    purchase_value int(11) DEFAULT NULL,
+    purchase_date datetime DEFAULT NULL,
+    estimated_value int(11) DEFAULT NULL,
+    created_at datetime NOT NULL,
+    updated_at timestamp NOT NULL DEFAULT current_timestamp(),
+    FOREIGN KEY (branch_id) REFERENCES branches(id)
+);
 
 CREATE TABLE employees(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -60,9 +61,8 @@ CREATE TABLE employees(
     hired_at DATETIME NOT NULL,
     terminated_at DATETIME,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (branch_id) REFERENCES branch(id)
-)
+    FOREIGN KEY (branch_id) REFERENCES branches(id)
+);
 
 CREATE TABLE attendance(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -71,7 +71,7 @@ CREATE TABLE attendance(
     clock_int DATETIME NOT NULL,
     clock_out DATETIME NOT NULL,
     FOREIGN KEY (employee_id) REFERENCES employees(id)
-)
+);
 
 CREATE TABLE sales(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -87,9 +87,9 @@ CREATE TABLE sales(
     remarks TEXT,
     created_at DATETIME NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (branch_id) REFERENCES branch(id),
+    FOREIGN KEY (branch_id) REFERENCES branches(id),
     FOREIGN KEY (employee_id) REFERENCES employees(id)
-)
+);
 
 CREATE TABLE expenses(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -101,9 +101,9 @@ CREATE TABLE expenses(
     amount INT NOT NULL,
     created_at DATE NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (branch_id) REFERENCES branch(id),
+    FOREIGN KEY (branch_id) REFERENCES branches(id),
     FOREIGN KEY (employee_id) REFERENCES employees(id)
-)
+);
 
 CREATE TABLE payroll(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -113,8 +113,8 @@ CREATE TABLE payroll(
     description ENUM("Salary","Bonus","Pension","Termination"),
     created_at DATETIME NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (branch_id) REFERENCES branch(id)
-)
+    FOREIGN KEY (branch_id) REFERENCES branches(id)
+);
 
 CREATE TABLE earnings(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -123,7 +123,7 @@ CREATE TABLE earnings(
     remarks TEXT,
     amount INT NOT NULL,
     FOREIGN KEY (payroll_id) REFERENCES payroll(id)
-)
+);
 
 CREATE TABLE deductions(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -132,7 +132,7 @@ CREATE TABLE deductions(
     remarks TEXT,
     amount INT NOT NULL,
     FOREIGN KEY (payroll_id) REFERENCES payroll(id)
-)
+);
 
 CREATE TABLE loans(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -145,7 +145,7 @@ CREATE TABLE loans(
     created_at DATETIME NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (employee_id) REFERENCES employees(id)
-)
+);
 
 CREATE TABLE loan_repayments(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -154,4 +154,4 @@ CREATE TABLE loan_repayments(
     created_at DATETIME NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (loan_id) REFERENCES loans(id)
-)
+);
