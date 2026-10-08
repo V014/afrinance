@@ -9,6 +9,9 @@
 
 // Include the database connection
 require_once '../controls/connection.php';
+
+// Include the audit control file
+require_once 'controls/audit.php';
 ?>
 
 <!doctype html>

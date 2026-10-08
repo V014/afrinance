@@ -1,4 +1,5 @@
 <?php 
+// Include utilities page
 include_once '../controls/utilities.php';
 // create function that handles user feedback
 function dashboardFeedback(string $message): never
