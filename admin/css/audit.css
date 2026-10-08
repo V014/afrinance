@@ -423,19 +423,19 @@ tr:last-child td {
     font-weight: 600;
     background: var(--bg-color);
 }
-.action-create {
+.action-Create {
     color: var(--audit-create);
 }
-.action-update {
+.action-Update {
     color: var(--audit-update);
 }
-.action-delete {
+.action-Delete {
     color: var(--audit-delete);
 }
-.action-login {
+.action-Login {
     color: var(--audit-login);
 }
-.action-logout {
+.action-Logout {
     color: var(--audit-logout);
 }
 
@@ -447,10 +447,10 @@ tr:last-child td {
     font-weight: 600;
     background: var(--bg-color);
 }
-.status-success {
+.status-Success {
     color: var(--accent-color);
 }
-.status-failure {
+.status-Failure {
     color: var(--expenses);
 }
 

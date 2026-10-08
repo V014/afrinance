@@ -77,7 +77,8 @@ try {
 // read table data
 try {
     // show logs table
-    $Stmt = $pdo->prepare('SELECT id, action, target, details, status, created_at FROM user_logs');
+    $Stmt = $pdo->prepare('SELECT l.id, u.username, l.action, l.target, l.details, l.status, l.created_at 
+                            FROM user_logs l LEFT JOIN users u ON l.user_id = u.id');
     $Stmt->execute();
     $getUserLogs = $Stmt->fetchAll();
 

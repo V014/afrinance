@@ -189,15 +189,15 @@ require_once 'controls/audit.php';
                 </tr>
               </thead>
               <!-- Fetch list of logs -->
-              <tbody id=""><?php foreach ($getUsers as $user) 
+              <tbody id=""><?php foreach ($getUserLogs as $logs) 
                             { echo "<tr>
-                                      <td>" . $user['id'] . "</td>
-                                      <td>" . $user['username'] . "</td>
-                                      <td>" . $user['contact'] . "</td>
-                                      <td><span class='role-badge role-" . $user['role'] . "'>" . $user['role'] . "</span></td>
-                                      <td><span class='status-badge status-" . $user['status'] . "'>" . $user['status'] . "</span></td>
-                                      <td>" . $user['last_login'] . "</td>
-                                      <td>" . ($user['has_2fa'] ? '<i class="fas fa-check-circle twoFA-true"></i>' : '<i class="fas fa-times-circle twoFA-false"></i>') . "</td>
+                                      <td>" . $logs['id'] . "</td>
+                                      <td>" . $logs['username'] . "</td>
+                                      <td><span class='action-badge action-" . $logs['action'] . "'>" . $logs['action'] . "</span></td>
+                                      <td>" . $logs['target'] . "</td>
+                                      <td>" . $logs['details'] . "</td>
+                                      <td><span class='status-badge status-" . $logs['status'] . "'>" . $logs['status'] . "</span></td>
+                                      <td>" . $logs['created_at'] . "</td>
                                     </tr>"; 
                               } 
                             ?>
