@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2026 at 04:00 PM
+-- Generation Time: Oct 08, 2026 at 05:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,6 +65,7 @@ CREATE TABLE `branch` (
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `location` varchar(255) NOT NULL,
+  `status` enum('Active','Inactive','','') NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -221,8 +222,9 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `2FA_secret` varchar(255) DEFAULT NULL,
   `role` enum('Admin','Accountant','Operator','') NOT NULL,
-  `status` enum('Active','Inactive','','') NOT NULL,
+  `status` enum('Active','Inactive','Suspended') NOT NULL,
   `contact` varchar(10) NOT NULL DEFAULT '',
+  `last_seen` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_at` datetime NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -245,26 +247,16 @@ CREATE TABLE `user_branch` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_errors`
---
-
-CREATE TABLE `user_errors` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `error_message` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `user_logs`
 --
 
 CREATE TABLE `user_logs` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `status` enum('Active','Inactive','','') NOT NULL,
+  `action` enum('Create','Read','Update','Delete','Login','Logout') NOT NULL,
+  `target` enum('System','Admin Account','SystemSettings','') NOT NULL,
+  `details` varchar(255) NOT NULL,
+  `status` enum('Success','Failure','','') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -366,13 +358,6 @@ ALTER TABLE `user_branch`
   ADD KEY `branch_id` (`branch_id`);
 
 --
--- Indexes for table `user_errors`
---
-ALTER TABLE `user_errors`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- Indexes for table `user_logs`
 --
 ALTER TABLE `user_logs`
@@ -462,12 +447,6 @@ ALTER TABLE `user_branch`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user_errors`
---
-ALTER TABLE `user_errors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
@@ -546,12 +525,6 @@ ALTER TABLE `sales`
 ALTER TABLE `user_branch`
   ADD CONSTRAINT `user_branch_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `user_branch_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`);
-
---
--- Constraints for table `user_errors`
---
-ALTER TABLE `user_errors`
-  ADD CONSTRAINT `user_errors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `user_logs`
