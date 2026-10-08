@@ -3,8 +3,10 @@ CREATE TABLE users(
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     2FA_secret VARCHAR(255),
-    role ENUM("Admin","Accountant","Operator") NOT NULL,
-    status ENUM("Online","Offline") NOT NULL,
+    role ENUM("Admin","Accountant","Manager") NOT NULL,
+    status ENUM("Active","Inactive","Terminated") NOT NULL,
+    contact VARCHAR(10),
+    last_seen DATETIME,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
@@ -12,22 +14,39 @@ CREATE TABLE users(
 CREATE TABLE user_logs(
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    status ENUM("Online","Offline") NOT NULL,
+    action ENUM("Create","Read","Update","Delete","Login","Logout") NOT NULL,
+    target ENUM("System","System settings","User account") NOT NULL,
+    details VARCHAR(255) NOT NULL,
+    status ENUM("Success","Failure") NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE user_errors(
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    error_message TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) 
+CREATE TABLE `branch` (
+    `id` int(11) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` text DEFAULT NULL,
+    `location` varchar(255) NOT NULL,
+    `status` enum('Active','Inactive') NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+)
+
+CREATE TABLE `assets` (
+    `id` int(11) NOT NULL,
+    `branch_id` int(11) NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `description` varchar(255) DEFAULT NULL,
+    `category` enum('Fixed','Leased') DEFAULT NULL,
+    `purchase_value` int(11) DEFAULT NULL,
+    `purchase_date` datetime DEFAULT NULL,
+    `estimated_value` int(11) DEFAULT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 )
 
 CREATE TABLE employees(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
     branch_id INT NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
@@ -47,11 +66,11 @@ CREATE TABLE employees(
 
 CREATE TABLE attendance(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    employee_id INT NOT NULL,
     status ENUM("Present","Absent","Late","Leave"),
     clock_int DATETIME NOT NULL,
     clock_out DATETIME NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (employee_id) REFERENCES employees(id)
 )
 
 CREATE TABLE sales(
