@@ -73,4 +73,18 @@ try {
     dashboardFeedback('Failed to query total deletes. Please try again later.');
     exit;
 }
+
+// read table data
+try {
+    // show logs table
+    $Stmt = $pdo->prepare('SELECT id, action, target, details, status, created_at FROM user_logs');
+    $Stmt->execute();
+    $getUserLogs = $Stmt->fetchAll();
+
+} catch(PDOException $e) {
+    error_log($e->getMessage());
+    userLog($pdo,"Read","System", "Failed to query user logs table: " . $e->getMessage(), "Failure");
+    dashboardFeedback('Failed to show users. Please try again later.');
+    exit;
+}
 ?>

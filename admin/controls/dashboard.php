@@ -142,6 +142,7 @@ try {
     exit;
 }
 
+// read table data
 try {
     // show user and user_log table
     $Stmt = $pdo->prepare('SELECT u.id, u.username, u.role, u.status, u.contact, 
@@ -161,5 +162,4 @@ try {
     dashboardFeedback('Failed to show users. Please try again later.');
     exit;
 }
-
 ?>
