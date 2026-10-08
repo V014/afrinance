@@ -7,6 +7,7 @@ function dashboardFeedback(string $message): never
     echo '<p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p>';
     exit;
 }
+
 // [fill in the KPI's]
 try {
     // count total events
@@ -18,6 +19,32 @@ try {
     error_log($e->getMessage());
     logError($pdo, "Failed to query all events: " . $e->getMessage());
     dashboardFeedback('Failed to query all events. Please try again later.');
+    exit;
+}
+
+try {
+    // count total events from today
+    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE DATE(created_at) = CURDATE()');
+    $stmt->execute();
+    $getTodaysEvents = $stmt->fetch();
+
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    logError($pdo, "Failed to query todays events: " . $e->getMessage());
+    dashboardFeedback('Failed to query todays events. Please try again later.');
+    exit;
+}
+
+try {
+    // count total creates
+    $stmt = $pdo->prepare('SELECT COUNT(id) FROM user_logs WHERE action="Create"');
+    $stmt->execute();
+    $getTotalCreates = $stmt->fetch();
+
+}   catch(PDOException $e){
+    error_log($e->getMessage());
+    logError($pdo, "Failed to query total creates: " . $e->getMessage());
+    dashboardFeedback('Failed to query total create. Please try again later.');
     exit;
 }
 ?>
