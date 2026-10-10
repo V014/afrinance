@@ -19,15 +19,15 @@ try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $server = new mysqli($host, $user, $pass);
     $server->set_charset('utf8mb4');
-    $server->query('CREATE DATABASE IF NOT EXISTS `afrinance` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci');
+    $server->query('CREATE DATABASE IF NOT EXISTS `iris` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci');
     $server->close();
 
-    $database = new mysqli($host, $user, $pass, 'afrinance');
+    $database = new mysqli($host, $user, $pass, 'iris');
     $database->set_charset('utf8mb4');
 
     $tableCheck = $database->query("SHOW TABLES LIKE 'users'");
     if ($tableCheck->num_rows === 0) {
-        $schemaPath = dirname(__DIR__) . '/database/afrinance.sql';
+        $schemaPath = dirname(__DIR__) . '/database/iris.sql';
         $schema = file_get_contents($schemaPath);
         if ($schema === false) {
             initiateFeedback('Could not read the database schema.');
