@@ -3,7 +3,7 @@
 
     // 1. Database Configuration Parameters
     $host    = 'localhost';
-    $db      = 'afrinance';
+    $db      = 'iris';
     $user    = 'root';
     $pass    = '';
     $charset = 'utf8mb4';
