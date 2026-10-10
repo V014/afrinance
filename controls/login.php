@@ -64,6 +64,8 @@ try {
 
 } catch (PDOException $e) {
     error_log($e->getMessage());
+    // log the user exit
+    userLog($pdo, 'Login', 'System', 'Failed login', 'Failure');
     alert('Login after setup failed. Please try again later.' . $e->getMessage());
     exit;
 }
