@@ -12,14 +12,12 @@
 
     try {
         // log the user exit
-        userLog($pdo, 'Logout', 'System', 'User logged out', 'Success');
-
-        // update user status
-        $updateStmt = $pdo->prepare('UPDATE `users` SET `status` = "Inactive" WHERE `users`.`id` = :user_id');
-        $updateStmt->execute(['user_id' => $_SESSION['user_id']]);
+        userLog($pdo, 'Logout', 'System', 'Successful login', 'Success');
 
     } catch (PDOException $e) {
         error_log($e->getMessage());
+        // log the user exit
+        userLog($pdo, 'Logout', 'System', 'Failed dashboard logout', 'Failure');
         alert('Logout failed. Please try again later.');
         exit;
     }
