@@ -16,3 +16,6 @@
 * Manage user logs
 * Generate user log PDF
 * View Key Performance Indicators
+* Record sales and expenses
+* Generate financial analysis
+* Approve petty cash adjustments
