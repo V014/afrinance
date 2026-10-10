@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'connection.php';
+require_once 'utilities.php';
 
 function setupFeedback(string $message): never
 {
@@ -67,8 +68,7 @@ try {
     $userId = $pdo->lastInsertId();
 
     // log the user entry
-    $insertStmt = $pdo->prepare('INSERT INTO user_logs (user_id, status) VALUES (:user_id, "Active")');
-    $insertStmt->execute(['user_id' => $userId]);
+    userLog($pdo,'Login','System','Successful login','Success');
 
     // refill sessions of already active
     session_regenerate_id(true);
@@ -86,19 +86,8 @@ try {
 } catch (PDOException $e) {
     error_log($e->getMessage());
     // Log the error to the user_errors table
-    try{
-        $insertStmt = $pdo->prepare('
-        INSERT INTO user_errors (user_id, error_message, created_at)
-        VALUES (:user_id, :error_message, NOW())
-        ');
-        $insertStmt->execute([
-            'user_id' => NULL,
-            'error_message' => "Setup Error: " . $e->getMessage(),
-        ]);
-    } catch (PDOException $er) {
-        setupFeedback('Account creation failed and error logging failed. Please check the database setup and try again.' . $e->getMessage());
-    }
-    setupFeedback('Account creation failed. Please check the database setup and try again.');
+    userLog($pdo,'Login','System','Failed login','Failure');
+    setupFeedback('Account creation failed. Please check the database setup and try again later.');
 }
 
 header('HX-Redirect: ' . $dashboard);
