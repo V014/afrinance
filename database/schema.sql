@@ -32,19 +32,19 @@ CREATE TABLE branches (
     updated_at timestamp NOT NULL DEFAULT current_timestamp()
 );
 
-CREATE TABLE assets (
-    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    branch_id int NOT NULL,
-    name varchar(255) NOT NULL,
-    description varchar(255) DEFAULT NULL,
-    category enum('Fixed','Leased') DEFAULT NULL,
-    purchase_value int(11) DEFAULT NULL,
-    purchase_date datetime DEFAULT NULL,
-    estimated_value int(11) DEFAULT NULL,
-    created_at datetime NOT NULL,
-    updated_at timestamp NOT NULL DEFAULT current_timestamp(),
-    FOREIGN KEY (branch_id) REFERENCES branches(id)
-);
+-- CREATE TABLE assets (
+--     id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     branch_id int NOT NULL,
+--     name varchar(255) NOT NULL,
+--     description varchar(255) DEFAULT NULL,
+--     category enum('Fixed','Leased') DEFAULT NULL,
+--     purchase_value int(11) DEFAULT NULL,
+--     purchase_date datetime DEFAULT NULL,
+--     estimated_value int(11) DEFAULT NULL,
+--     created_at datetime NOT NULL,
+--     updated_at timestamp NOT NULL DEFAULT current_timestamp(),
+--     FOREIGN KEY (branch_id) REFERENCES branches(id)
+-- );
 
 CREATE TABLE employees(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -105,53 +105,53 @@ CREATE TABLE expenses(
     FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 
-CREATE TABLE payroll(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    branch_id INT,
-    period DATE NOT NULL,
-    payment_date DATE NOT NULL,
-    description ENUM("Salary","Bonus","Pension","Termination"),
-    created_at DATETIME NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (branch_id) REFERENCES branches(id)
-);
+-- CREATE TABLE payroll(
+--     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     branch_id INT,
+--     period DATE NOT NULL,
+--     payment_date DATE NOT NULL,
+--     description ENUM("Salary","Bonus","Pension","Termination"),
+--     created_at DATETIME NOT NULL,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (branch_id) REFERENCES branches(id)
+-- );
 
-CREATE TABLE earnings(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    payroll_id INT NOT NULL,
-    employee_id INT NOT NULL,
-    remarks TEXT,
-    amount INT NOT NULL,
-    FOREIGN KEY (payroll_id) REFERENCES payroll(id)
-);
+-- CREATE TABLE earnings(
+--     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     payroll_id INT NOT NULL,
+--     employee_id INT NOT NULL,
+--     remarks TEXT,
+--     amount INT NOT NULL,
+--     FOREIGN KEY (payroll_id) REFERENCES payroll(id)
+-- );
 
-CREATE TABLE deductions(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    payroll_id INT NOT NULL,
-    employee_id INT NOT NULL,
-    remarks TEXT,
-    amount INT NOT NULL,
-    FOREIGN KEY (payroll_id) REFERENCES payroll(id)
-);
+-- CREATE TABLE deductions(
+--     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     payroll_id INT NOT NULL,
+--     employee_id INT NOT NULL,
+--     remarks TEXT,
+--     amount INT NOT NULL,
+--     FOREIGN KEY (payroll_id) REFERENCES payroll(id)
+-- );
 
-CREATE TABLE loans(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    employee_id INT NOT NULL,
-    payback_period ENUM("Monthly","Quarterly","Annually") NOT NULL,
-    amount INT NOT NULL,
-    interest_rate INT NOT NULL,
-    balance INT NOT NULL,
-    status ENUM("Active","Paid","Defaulted"),
-    created_at DATETIME NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (employee_id) REFERENCES employees(id)
-);
+-- CREATE TABLE loans(
+--     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     employee_id INT NOT NULL,
+--     payback_period ENUM("Monthly","Quarterly","Annually") NOT NULL,
+--     amount INT NOT NULL,
+--     interest_rate INT NOT NULL,
+--     balance INT NOT NULL,
+--     status ENUM("Active","Paid","Defaulted"),
+--     created_at DATETIME NOT NULL,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (employee_id) REFERENCES employees(id)
+-- );
 
-CREATE TABLE loan_repayments(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    loan_id INT NOT NULL,
-    amount INT NOT NULL,
-    created_at DATETIME NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (loan_id) REFERENCES loans(id)
-);
+-- CREATE TABLE loan_repayments(
+--     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     loan_id INT NOT NULL,
+--     amount INT NOT NULL,
+--     created_at DATETIME NOT NULL,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (loan_id) REFERENCES loans(id)
+-- );
